@@ -16,6 +16,8 @@ module.exports = function(sequelize, DataTypes) {
     Household.hasMany(models.Chore, {
       onDelete: "cascade"
     });
+
+    Household.hasMany(models.User, {});
   };
 
   return Household;
