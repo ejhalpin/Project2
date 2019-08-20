@@ -2,25 +2,20 @@
 //==============================================================
 var db = require("../models");
 var crypto = require("crypto");
-var mailer = require("nodemailer");
+var sgMail = require("@sendgrid/mail");
 var moment = require("moment");
 require("dotenv").config();
 //==============================================================
 
 //Configure the mailer
 //==============================================================
-let transporter = mailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "householdmanager2019@gmail.com",
-    pass: "aijfufkbybgnjfif"
-  }
-});
+sgMail.setApiKey("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");
 
-const mailConfig = {
-  from: "no-reply@householdmanagement.com",
+var message = {
   to: "null@null.com",
+  from: "no-reply@householdmanager.com",
   subject: "Please verify your email",
+  text: "dummy text",
   html: ""
 };
 //==============================================================
@@ -97,19 +92,19 @@ module.exports = function(app) {
             userObject.tempToken +
             "'>click here to confirm your email</a>";
           //add the email address and html to the mail config object
-          mailConfig.to = userObject.email;
-          mailConfig.html = html;
+          message.to = userObject.email;
+          message.html = html;
           //send the confirmation email to the user
           //send the email link
-          transporter
-            .sendMail(mailConfig)
-            .then(messageId => {
-              response.data.push(messageId);
+          sgMail
+            .send(message)
+            .then(data => {
+              response.data.push(data);
               res.json(response);
             })
             .catch(err => {
-              response.status = 409;
-              response.reason = "message failed to send: " + err;
+              response.status = 500;
+              response.reason = "Server Error " + err;
               return res.json(response);
             });
         });
@@ -258,14 +253,12 @@ module.exports = function(app) {
             userObject.tempToken +
             "'>click here to confirm your email</a>";
           //add the email address and html to the mail config object
-          mailConfig.to = data.email;
-          mailConfig.html = html;
+          message.to = data.email;
+          message.html = html;
           //send the confirmation email to the user
           //send the email link
-          transporter.sendMail(mailConfig).then(messageId => {
-            response.data.push(messageId);
-            res.json(response);
-          });
+          sgMail.send(message);
+          res.json(response);
         });
       })
       .catch(err => {
