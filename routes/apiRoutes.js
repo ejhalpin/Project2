@@ -1,6 +1,7 @@
 //Pull in dependencies
 //==============================================================
 var db = require("../models");
+var moment = require("moment");
 //==============================================================
 
 //==============================================================
@@ -20,6 +21,14 @@ var db = require("../models");
 //Build the api routes within a function and export the function
 //==============================================================
 module.exports = function(app) {
+  // Define an api route that will seed the database with a household of n members and a chores list that is randomly generated
+  app.get("/dev/seed/:n", (req, res) => {
+    //n defines the number of household members
+    var n = req.params.n;
+    seedDB(n).then(data => {
+      res.json(data);
+    });
+  });
   //define an api route to return all data from a table (users, households, chores, posts)
   app.get("/api/:type", (req, res) => {
     //define the default response object
@@ -212,3 +221,50 @@ module.exports = function(app) {
     }
   });
 };
+
+// Private functions for use with the api routes
+//==============================================================
+async function seedDB(n) {
+  //make n users
+  var users = [];
+  for (var i = 0; i < n; i++) {
+    users.push({
+      name: "user_" + i.toString(),
+      email: "user" + i.toString() + "@mail.com",
+      token: i.toString() + "acde" + (i + 1).toString(),
+      emailConfirmed: Math.random() < 0.5,
+      tempToken: "temptoken_" + i.toString(),
+      expiration: moment()
+        .subtract(1, "d")
+        .toString()
+    });
+  }
+  //push the users to the db in bulk
+  await db.User.bulkCreate(users);
+  //make a household
+  var household = await db.Household.create({
+    name: "thisHouse",
+    size: n
+  });
+  //now associate the users with the household
+  for (var i = 0; i < n; i++) {
+    await db.User.update({ HouseholdId: household.id }, { where: { name: users[i].name } });
+  }
+  //now create 50 chores and assign each to a random user
+  var freqs = ["dialy", "monthly", "weekly", "yearly"];
+  var chores = [];
+  for (var i = 0; i < 50; i++) {
+    chores.push({
+      name: "chore_" + i.toString(),
+      frequency: freqs[Math.floor(Math.random() * freqs.length)],
+      assignedTo: users[Math.floor(Math.random() * n)].name,
+      isComplete: Math.random() < 0.5,
+      HouseholdId: household.id
+    });
+  }
+  await db.Chore.bulkCreate(chores);
+  var data = await db.Household.findAll({ include: [db.User, db.Chore] });
+  return new Promise(resolve => {
+    resolve(data);
+  });
+}
