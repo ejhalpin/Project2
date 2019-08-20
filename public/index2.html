@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>Chores Checklist</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- Header Text. -->
+
+    <div class="row header">
+      <div class="col-sm-2">Logo goes here</div>
+      <div class="col-sm-3"></div>
+      <div class="col-sm-1">Families</div>
+      <div class="col-sm-2" id="chores">My Chores</div>
+      <div class="col-sm-1" id="forum">Forum</div>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-2" id="login-header">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="loginButton"
+          data-toggle="modal"
+          data-target="#loginModal"
+        >
+          Login
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="loginModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Sign in</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="username">Username</label>
+            <input id="username" placeholder="Username" /> <br />
+            <label for="password">Password</label>
+            <input id="password" placeholder="*******" /> <br />
+            <p>Create New Account</p>
+            <button id="submitLogin" class="btn btn-primary">Login</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div class="jumbotron row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10 content-div">
+            <h1>Welcome to Family Chore Planner Thingy</h1>
+            <br />
+            <h2>What is Family Chore Planner Thingy?</h2>
+            <br />
+            <p>
+              Family Chore Planner Thingy (working title) is a website deisgned to help families and
+              work groups delegate tasks among their members. Users will be able to create groups,
+              set up objectives, create and assign tasks amongst themselves, and also chat with
+              staff and other users through our forums. Guests are only able to browse the forums.
+              Membership is completely free of charge. Sign up now and get started!
+            </p>
+            <button class="btn btn-primary" id="get-started">Get Started!</button>
+            <button class="btn btn-primary" id="forumRedirect">Browse the Forums</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </body>
+</html>
+
+<script>
+  //Forums Page layout
+  function forum() {
+    $(".content-div").empty();
+    $(".content-div").append("<h1>Family App Forums</h1>");
+    var searchDiv = $("<div class='form-group'></div>");
+    var searchBar = $("<input id='searchField' placeholder='Search the Forums'></input>");
+    searchDiv.append(searchBar);
+    searchDiv.append("<button class='btn btn-primary' id='forumSearch'>Search");
+    $(".content-div").append(searchDiv);
+    $(".content-div").append("<div class='row threadHolder'></div>");
+  }
+  //Thread table creater
+  // function threadTableMaker() {
+  //   var threadTable = $("<table class='table table-dark' id='threads'>");
+  //   threadTable.append(
+  //     "<thead><tr><th scope='col'>Thread ID</th><th scope='col'>Title</th><th scope='col'>Author</th></thead>"
+  //   );
+  //   threadTable.append(
+  //     "<tbody><tr><th scope='row'>1</th><td id='thread1'>Forum Rules</td><td>Moderator</td></tr></tbody></table>"
+  //   );
+  //   $(".content-div").append(threadTable);
+  // }
+
+  function threadMaker() {
+    var threadContainer = $("<div id='thread-container'>");
+    threadContainer.append(
+      "<div class='thread' id='rulesThread'><h4>Forum Rules</h4><p>By Admin</p></div>"
+    );
+    $(".content-div").append(threadContainer);
+    $("#rulesThread").on("click", function() {
+      $(".content-div").empty();
+      var threadContainer = $("<div id='thread-container'>");
+      threadContainer.append(
+        "<div class='thread thread-opened' id='thread1'><h4>Forum Rules</h4><ul><li>Don't be a Jerk.</li><li>Keep it family friendly.</li></ul><br><br><p>-Admin</p>"
+      );
+      $(".content-div").append(threadContainer);
+    });
+  }
+
+  $("#rulesThread").on("click", function() {
+    $(".content-div").empty();
+    var threadContainer = $("<div id='thread-container'>");
+    threadContainer.append(
+      "<div class='thread-open' id='thread1'><h4>Forum Rules</h4><ul><li>Don't be a Jerk.</li><li>Keep it family friendly.</li></ul><br><br>"
+    );
+    threadContainer.append("<p>-Admin</p>");
+    $(".content-div").append(threadContainer);
+  });
+  //On Click Redirects to Forums Page
+  $("#forum").on("click", function() {
+    forum();
+    threadMaker();
+  });
+
+  $("#forumRedirect").on("click", function() {
+    forum();
+    threadMaker();
+  });
+
+  //Chores
+  $("#chores").on("click", function() {
+    $(".content-div").empty();
+    $(".content-div").append(
+      "<p>This feature is for registered users only. The chores feature allows a user to access a list of tasks assigned to them from their family/work groups. Membership is free, so sign up now to begin using this awesome feature! Check out the sample down below."
+    );
+    $(".content-div").append(
+      "<select id='exampleChoresDropdown'><option value='all'>All Groups</option><option value='mom'>Mom</option>"
+    );
+    var choresDiv = $("<div id='chores-div'></div>");
+    $(".content-div").append(choresDiv);
+    choresDiv.append("<p>Assigned by Mom from Family Group<p>");
+    var sampleChoresList = $("<ol>");
+    sampleChoresList.append(
+      "<li>Clean your room <form><input type='radio' name='task1' value='Completed'>Completed</input><br><input type='radio' name='task1' value='incomplete'>Incomplete</form></li>"
+    );
+    sampleChoresList.append(
+      "<li>Walk the dog <form><input type='radio' name='task2' value='Completed'>Completed</input><br><input type='radio' name='task2' value='incomplete'>Incomplete</form></li>"
+    );
+    sampleChoresList.append(
+      "<li>Take out the trash <form><input type='radio' name='task3' value='Completed'>Completed</input><br><input type='radio' name='task3' value='incomplete'>Incomplete</input></form></li>"
+    );
+    sampleChoresList.append(
+      "<button class='btn btn-primary' id='chores-update'>Submit Changes</button>"
+    );
+    choresDiv.append(sampleChoresList);
+  });
+</script>
