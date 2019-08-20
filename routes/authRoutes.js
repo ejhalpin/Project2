@@ -9,7 +9,7 @@ require("dotenv").config();
 
 //Configure the mailer
 //==============================================================
-sgMail.setApiKey("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");
+sgMail.setApiKey(process.env.SG_MAIL_KEY);
 
 var message = {
   to: "null@null.com",
