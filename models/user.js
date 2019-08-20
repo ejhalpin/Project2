@@ -8,7 +8,10 @@ module.exports = function(sequelize, DataTypes) {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     token: DataTypes.STRING,
-    emailConfirmed: DataTypes.BOOLEAN,
+    emailConfirmed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     tempToken: DataTypes.STRING,
     expiration: DataTypes.STRING
   });
