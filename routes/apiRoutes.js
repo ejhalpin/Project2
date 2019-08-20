@@ -23,12 +23,71 @@ var moment = require("moment");
 module.exports = function(app) {
   // Define an api route that will seed the database with a household of n members and a chores list that is randomly generated
   app.get("/dev/seed/:n", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
     //n defines the number of household members
     var n = req.params.n;
-    seedDB(n).then(data => {
-      res.json(data);
-    });
+    seedDB(n)
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error: " + err;
+        res.json(response);
+      });
   });
+
+  // Define an api route to return all users and chores for a given household
+  app.get("/api/household/:HouseholdId", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    //query the database and leverage our associations
+    db.Household.findOne({
+      where: { id: req.params.HouseholdId },
+      include: [db.User, db.Chore]
+    })
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error: " + err;
+        res.json(response);
+      });
+  });
+
+  // Define an api route to return all chores for a user
+  app.get("/api/chores/:uname", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    //query the db for all chores where assignedTo = uname
+    db.Chore.findAll({ where: { assignedTo: req.params.uname } })
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error: " + err;
+        res.json(response);
+      });
+  });
+
   //define an api route to return all data from a table (users, households, chores, posts)
   app.get("/api/:type", (req, res) => {
     //define the default response object
@@ -221,6 +280,7 @@ module.exports = function(app) {
     }
   });
 };
+//==============================================================
 
 // Private functions for use with the api routes
 //==============================================================
@@ -268,3 +328,4 @@ async function seedDB(n) {
     resolve(data);
   });
 }
+//==============================================================
