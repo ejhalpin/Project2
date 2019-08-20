@@ -208,7 +208,7 @@ module.exports = function(app) {
       });
   });
 
-  //an endpoint for sending additional email verifications
+  //an endpoint for sending additional email verifications - should this be a PUT????
   app.get("/:id/confirm", (req, res) => {
     //define the default response object
     var response = {

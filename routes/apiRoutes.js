@@ -16,6 +16,7 @@ var db = require("../models");
  * }
  */
 //==============================================================
+
 //Build the api routes within a function and export the function
 //==============================================================
 module.exports = function(app) {
@@ -127,7 +128,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data = data;
+          return res.json(response);
         });
         break;
       case "households":
@@ -160,6 +162,7 @@ module.exports = function(app) {
     }
   });
 
+  // Update a db entry from a table
   app.put("/api/:type/:id", (req, res) => {
     //define the default response object
     var response = {
