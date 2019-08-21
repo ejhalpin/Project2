@@ -5,13 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- local stylesheet -->
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css" /> -->
+
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Handlee|Pontano+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
     <title>Family Management</title>
+
+    <!-- Styling -->
+    <style>
+      body {
+        background-image: url("../images/pencils.jpg");
+        background-size: cover;
+        background-repeat: repeat;
+        background-attachment: fixed;
+      }
+      h1 {
+        font-size: 5rem;
+        font-weight: 300;
+        color: rgb(24, 17, 3);
+        font-family: "Handlee", cursive;
+        text-align: left;
+        margin-top: 0.5rem;
+        /* margin-right: 7rem; */
+      }
+
+      #teamName {
+        font-family: "Pontano Sans", sans-serif;
+        font-size: 18px;
+      }
+
+      input[type="text"] {
+        display: flex;
+        margin: auto;
+        width: 130px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: white;
+        padding: 6px 10px;
+        -webkit-transition: width 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out;
+      }
+      input[type="text"]:focus {
+        width: 50%;
+      }
+    </style>
   </head>
   <body>
-    <h1>Family App</h1>
+    <div class="container-fluid">
+      <h1><span class="fab fa-forumbee"></span>Busy Bee</h1>
+      <div class="header">
+        <form id="form">
+          <input
+            type="text"
+            name="search"
+            autocomplete="off"
+            placeholder="&#xF002; Search.."
+            style="font-family:Arial, FontAwesome"
+            id="input"
+          />
+        </form>
+      </div>
+      <br />
+      <div class="card" style="width: 350px; padding: 40px; margin: auto">
+        <form id="loginForm">
+          <input id="inputEmail" type="email" placeholder="Email" /><br /><br />
+          <input id="inputPassword" type="password" placeholder="Password" />
+          <br /><br />
+          <button id="loginButton" type="submit" class="btn btn-primary" style="width: 50%">
+            Login
+          </button>
+        </form>
+      </div>
+      <div class="footer-margin">
+        <footer class="fixed-bottom text-center">
+          <p ID="teamName" style="text-align: center; margin-top: 20px">
+            &copy; Eugene Haplin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
+          </p>
+        </footer>
+      </div>
+    </div>
 
     <script src="assets/js/logic.js"></script>
   </body>
