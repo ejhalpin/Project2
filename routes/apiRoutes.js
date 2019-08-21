@@ -1,10 +1,10 @@
 //Pull in dependencies
-//==============================================================
+//============================================================================================================================
 var db = require("../models");
 var moment = require("moment");
-//==============================================================
+//============================================================================================================================
 
-//==============================================================
+//============================================================================================================================
 /*DEVELOPER NOTE:
  * IT IS THE GOAL OF THE DEVELOPER THAT THE API BE WELL BEHAVED,
  * WHICH SHOULD BE TAKEN TO MEAN THAT THE API WILL ENDEAVOR TO
@@ -16,13 +16,13 @@ var moment = require("moment");
  *   data: <any db data that is generated>
  * }
  */
-//==============================================================
+//============================================================================================================================
 
 //Build the api routes within a function and export the function
-//==============================================================
+//============================================================================================================================
 module.exports = function(app) {
   // *** READ *** //
-  //============================================================================================================================
+  //==========================================================================================================================
   // Define an api route to return all users and chores for a given household
   app.get("/api/household/:HouseholdId", (req, res) => {
     //define the default response object
@@ -69,7 +69,7 @@ module.exports = function(app) {
   });
 
   // Define an api route to retreive all posts of a given category OR all posts if a category is not specified
-  // The returned response object contains an array of posts with an additional key of responses: [], an array 
+  // The returned response object contains an array of posts with an additional key of responses: [], an array
   // of response posts linked to the original post
   app.get("/api/posts/:category?", (req, res) => {
     //define the default response object
@@ -127,10 +127,10 @@ module.exports = function(app) {
         res.json(response);
       });
   });
-  //============================================================================================================================
+  //==========================================================================================================================
 
   // *** CREATE *** //
-  //============================================================================================================================
+  //==========================================================================================================================
   // USERS CANNOT BE CREATED THROUGH THE API. THEY MUST BE AUTHENTICATED. USE AUTH ROUTES INSTEAD.
 
   // Define an api route to create a new post
@@ -196,188 +196,13 @@ module.exports = function(app) {
         res.json(response);
       });
   });
-  //============================================================================================================================
+  //==========================================================================================================================
 
   // *** UPDATE *** //
-  //============================================================================================================================
-
-  //============================================================================================================================
-
-  // *** DELETE *** //
-  //============================================================================================================================
-
-  //============================================================================================================================
-
-  // *** DEV *** //
-  //============================================================================================================================
-  // Define an api route that will seed the database with a household of n members and a chores list that is randomly generated
-  // NEW! The route will also create stock forum posts of varying length and flag some as replies to others.
-  app.get("/dev/seed/:n", (req, res) => {
-    //define the default response object
-    var response = {
-      status: 200,
-      reason: "success",
-      data: []
-    };
-    //n defines the number of household members
-    var n = req.params.n;
-    seedDB(n)
-      .then(data => {
-        response.data = data;
-        res.json(response);
-      })
-      .catch(err => {
-        response.status = 500;
-        response.reason = "Error: " + err;
-        res.json(response);
-      });
-  });
-  //============================================================================================================================
-
-  //THE BELOW ROUTES ARE DEPRECIATED AND WILL BE REMOVED BEFORE DEPLOY
-  //define an api route to return all data from a table (users, households, chores, posts)
-  app.get("/api/:type", (req, res) => {
-    //define the default response object
-    var response = {
-      status: 200,
-      reason: "success",
-      data: []
-    };
-    switch (req.params.type) {
-      case "users":
-        db.User.findAll({})
-          .then(data => {
-            response.data = data;
-            return res.json(response);
-          })
-          .catch(err => {
-            response.status = 500;
-            response.reason = "Error fetching data from the database: " + err;
-            return res.json(response);
-          });
-        break;
-      case "households":
-        db.Household.findAll({})
-          .then(data => {
-            response.data = data;
-            return res.json(response);
-          })
-          .catch(err => {
-            response.status = 500;
-            response.reason = "Error fetching data from the database: " + err;
-            return res.json(response);
-          });
-        break;
-      case "chores":
-        db.Chore.findAll({})
-          .then(data => {
-            response.data = data;
-            return res.json(response);
-          })
-          .catch(err => {
-            response.status = 500;
-            response.reason = "Error fetching data from the database: " + err;
-            return res.json(response);
-          });
-        break;
-      case "posts":
-        db.Post.findAll({})
-          .then(data => {
-            response.data = data;
-            return res.json(response);
-          })
-          .catch(err => {
-            response.status = 500;
-            response.reason = "Error fetching data from the database: " + err;
-            return res.json(response);
-          });
-        break;
-    }
-  });
-
-  // Create a new db entry
-  app.post("/api/:type", (req, res) => {
-    //define the default response object
-    var response = {
-      status: 200,
-      reason: "success",
-      data: []
-    };
-    console.log(req.body);
-    switch (req.params.type) {
-      case "users":
-        response.status = 400;
-        response.reason = "you cannot create an unauthenticated user. use /auth/signup";
-        res.json(response);
-        break;
-      case "households":
-        db.Household.create(req.body).then(data => {
-          return res.json(data);
-        });
-        break;
-      case "chores":
-        db.Chore.create(req.body).then(data => {
-          return res.json(data);
-        });
-        break;
-      case "posts":
-        db.Post.create(req.body).then(data => {
-          return res.json(data);
-        });
-        break;
-    }
-  });
-
-  // Delete a db entry from a table
-  app.delete("/api/:type/:id", (req, res) => {
-    //define the default response object
-    var response = {
-      status: 200,
-      reason: "success",
-      data: []
-    };
-    switch (req.params.type) {
-      case "users":
-        db.User.destroy({
-          where: {
-            id: req.params.id
-          }
-        }).then(data => {
-          response.data = data;
-          return res.json(response);
-        });
-        break;
-      case "households":
-        db.Household.destroy({
-          where: {
-            id: req.params.id
-          }
-        }).then(data => {
-          return res.json(data);
-        });
-        break;
-      case "chores":
-        db.Chore.destroy({
-          where: {
-            id: req.params.id
-          }
-        }).then(data => {
-          return res.json(data);
-        });
-        break;
-      case "posts":
-        db.Post.destroy({
-          where: {
-            id: req.params.id
-          }
-        }).then(data => {
-          return res.json(data);
-        });
-        break;
-    }
-  });
-
-  // Update a db entry from a table
+  //==========================================================================================================================
+  // Define a general api route for updating a db entry
+  // This route expects a type (users, households, chores, or posts), as well as the id from the db
+  // This route should be used for linking posts and replies, updating user name or household, editing a post, editing a chore
   app.put("/api/:type/:id", (req, res) => {
     //define the default response object
     var response = {
@@ -426,11 +251,92 @@ module.exports = function(app) {
         break;
     }
   });
+  //==========================================================================================================================
+
+  // *** DELETE *** //
+  //==========================================================================================================================
+  // Define a general api route for deleting a db entry
+  // This route expects a type (users, households, chores, or posts), as well as the id from the db
+  // This route should be used for destroying db entries (no recovery)
+  app.delete("/api/:type/:id", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    switch (req.params.type) {
+      case "users":
+        db.User.destroy({
+          where: {
+            id: req.params.id
+          }
+        }).then(data => {
+          response.data = data;
+          return res.json(response);
+        });
+        break;
+      case "households":
+        db.Household.destroy({
+          where: {
+            id: req.params.id
+          }
+        }).then(data => {
+          return res.json(data);
+        });
+        break;
+      case "chores":
+        db.Chore.destroy({
+          where: {
+            id: req.params.id
+          }
+        }).then(data => {
+          return res.json(data);
+        });
+        break;
+      case "posts":
+        db.Post.destroy({
+          where: {
+            id: req.params.id
+          }
+        }).then(data => {
+          return res.json(data);
+        });
+        break;
+    }
+  });
+  //==========================================================================================================================
+
+  // *** DEV *** //
+  //==========================================================================================================================
+  // Define an api route that will seed the database with a household of n members and a chores list that is randomly generated
+  // NEW! The route will also create stock forum posts of varying length and flag some as replies to others.
+  app.get("/dev/seed/:n", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    //n defines the number of household members
+    var n = req.params.n;
+    seedDB(n)
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error: " + err;
+        res.json(response);
+      });
+  });
+  //==========================================================================================================================
 };
-//==============================================================
+//============================================================================================================================
 
 // Private variables and functions
-//==============================================================
+//============================================================================================================================
 function linkPostsAndResponses(data) {
   var posts = [];
   var responses = [];
@@ -455,7 +361,7 @@ function linkPostsAndResponses(data) {
 }
 
 // FOR DEV PURPOSES ONLY - DELETE BEFORE DEPLOY
-//=======================================================================================
+//============================================================================================================================
 var lorem =
   "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti veniam id dolorum eius explicabo est amet reiciendis " +
   "dicta deserunt qui perferendis cupiditate quos modi accusamus, repellat ullam quidem? Nobis adipisci exercitationem quo! " +
@@ -542,4 +448,4 @@ async function seedDB(n) {
     resolve(data);
   });
 }
-//==============================================================
+//============================================================================================================================
