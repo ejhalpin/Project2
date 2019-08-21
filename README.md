@@ -47,6 +47,8 @@
     - name
     - frequency
     - assignedTo
+    - assignedWhen
+    - htmlTarget
     - isComplete
     - HouseholdId (foreign key)
   - Associations
@@ -57,6 +59,8 @@
     - id
     - title
     - body
+    - category
+    - isReply
     - linkedTo
     - isFlagged
     - UserId (foreign key)
@@ -74,4 +78,18 @@
 
 ## The RESTful API
 
-Our `express` server endeavors to return a status of `200 (OK)` for all CRUD operations, independent (_and in spite_) of server side errors. This places error handling firmly in the hands of the front end logic. Our server also strongly opposes redirects, again placing considerable burden on the front end to be flexible in its views.
+Our `express` server endeavors to return a status of `200 (OK)` for all CRUD operations, independent (_and in spite_) of server side errors. This places error handling firmly in the hands of the front end logic.
+
+### Routes
+
+Server routing is handled through three separate routing scripts, namely:
+
+1. htmlRoutes.js
+2. apiRoutes.js
+3. authRoutes.js
+
+**htmlRoutes**
+
+**apiRoutes** handle data flow to and from the linked MySQL Database. These routes accept ajax verbs (get, post, put, delete) and carry out the corresponding operation on the database. Each api route will return a standardized object with keys [status, reason, data] to the client independent of the success or failure of the CRUD operation. If the operation encountered an error, that error will be sent back to the client machine with a global status of `200`, but the object status will be either `409` for invalid data or `500` for package errors.
+
+**authRoutes** operate exactly as the apiRoutes, but are meant to handle user authentication. The routes contain operations that require the `crypto, @sendgrid/mail, and moment` packages. These routes could easily be dovetailed with the apir routes, but have been defined in their own script file to reduce clutter.
