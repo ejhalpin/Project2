@@ -5,9 +5,14 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Chore = sequelize.define("Chore", {
-    name: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     frequency: DataTypes.STRING,
     assignedTo: DataTypes.STRING,
+    assignedWhen: DataTypes.STRING,
+    htmlTarget: DataTypes.STRING,
     isComplete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false

@@ -19,9 +19,18 @@ module.exports = function(sequelize, DataTypes) {
       len: [1]
     },
     category: DataTypes.STRING,
-    isReply: DataTypes.BOOLEAN,
-    linkedTo: DataTypes.STRING,
-    isFlagged: DataTypes.BOOLEAN
+    isReply: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    linkedTo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    isFlagged: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   });
 
   Post.associate = function(models) {
