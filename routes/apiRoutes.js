@@ -88,6 +88,63 @@ module.exports = function(app) {
       });
   });
 
+  // Define an api route to retreive all posts of a given category
+  app.get("/api/posts/:category?", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    if (req.params.category) {
+      //get the posts of a given category from the db
+      db.Post.findAll({ where: { category: req.params.category } })
+        .then(data => {
+          response.data = data;
+          return res.json(response);
+        })
+        .catch(err => {
+          response.status = 500;
+          response.reason =
+            "Error fetching Posts of category: " + req.params.category + " -> " + err;
+          res.json(response);
+        });
+    }
+    //ohterwise return all posts
+    db.Post.findAll({})
+      .then(data => {
+        response.data = data;
+        res.json(data);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error fetching Posts: " + err;
+        res.json(response);
+      });
+  });
+
+  // Define an api route to retreive all posts by a given user
+  app.get("/api/post-by-user/:name", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    //query the db for all posts by a user
+    db.User.findOne({ where: { name: req.params.name }, include: [db.Post] })
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error fetching Posts: " + err;
+        res.json(response);
+      });
+  });
+
+  //THE BELOW ROUTES ARE DEPRECIATED AND WILL BE REMOVED BEFORE DEPLOY
   //define an api route to return all data from a table (users, households, chores, posts)
   app.get("/api/:type", (req, res) => {
     //define the default response object

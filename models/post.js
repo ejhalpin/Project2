@@ -18,6 +18,8 @@ module.exports = function(sequelize, DataTypes) {
       //The body cannot be an empty string
       len: [1]
     },
+    category: DataTypes.STRING,
+    isReply: DataTypes.BOOLEAN,
     linkedTo: DataTypes.STRING,
     isFlagged: DataTypes.BOOLEAN
   });
