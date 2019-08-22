@@ -21,14 +21,22 @@
   justify-content: space-around;
 }
 
-#week-label,
-#week-month-label {
-  padding: 5px;
-}
-
-#week-label-box {
+#week-label-box,
+#month-label-box,
+#year-label-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* td {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.year-day:hover {
+  color: rgb(255, 60, 0);
 }
