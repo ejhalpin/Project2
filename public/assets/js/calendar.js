@@ -147,9 +147,19 @@ function buildYearView(now) {
       week.append("<td></td>");
     }
     body.append(week);
+    console.log(week);
+    console.log(body);
   }
   month.append(body);
+  var yearView = $("#year-view");
+  var viewBody = $("<tbody>");
+  var row = $("<tr>");
+  var col = $("<td>");
+  col.append(month).appendTo(row);
+  row.appendTo(viewBody);
+  yearView.append(viewBody);
 }
+
 function setLabel(view) {
   switch (view) {
     case "week":
@@ -203,6 +213,7 @@ function setLabel(view) {
 $(document).ready(() => {
   buildWeekView(moment());
   buildMonthView(moment());
+  buildYearView(moment());
 });
 
 $(document).on("click", "#prev-week", function() {
