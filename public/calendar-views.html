@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Handlee|Pontano+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- Moment -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
+      integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Local Stylesheet -->
+    <link rel="stylesheet" href="assets/css/calendar-views.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 class="text-center">Week View</h1>
+      <div class="button-box">
+        <button type="button" class="btn btn-info" id="prev-week">&lt;&lt;&lt;</button>
+        <div id="week-label-box">
+          <div id="week-month-label">This Week</div>
+          <div id="week-label">This Week</div>
+        </div>
+
+        <button type="button" class="btn btn-info" id="next-week">&gt;&gt;&gt;</button>
+      </div>
+      <table id="week-view" class="table table-bordered table-dark"></table>
+      <br />
+      <hr />
+      <br />
+      <h1 class="text-center">Month View</h1>
+      <div class="button-box">
+        <button type="button" class="btn btn-info" id="prev-month">&lt;&lt;&lt;</button>
+        <div id="month-label-box">
+          <div id="month-year-label">Month</div>
+          <div id="month-label">This Month</div>
+        </div>
+
+        <button type="button" class="btn btn-info" id="next-month">&gt;&gt;&gt;</button>
+      </div>
+      <table id="month-view" class="table table-bordered table-dark"></table>
+      <br />
+      <hr />
+      <br />
+      <table id="cal-year"></table>
+    </div>
+    <script src="assets/js/calendar.js"></script>
+  </body>
+</html>
