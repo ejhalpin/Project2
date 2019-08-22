@@ -29,3 +29,14 @@
   align-items: center;
   justify-content: center;
 }
+
+/* td {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.year-day:hover {
+  color: rgb(255, 60, 0);
+}

@@ -19,7 +19,7 @@ var monthOffset = 0;
 var yearOffset = 0;
 
 function buildWeekView(now) {
-  console.log("Month: " + (now.month() + 1).toString());
+  //console.log("Month: " + (now.month() + 1).toString());
   var weekView = $("#week-view");
   //add the days of the week to the header row
   var head = $("<thead>");
@@ -79,10 +79,10 @@ function buildMonthView(now) {
   var thisMonth = []; //an array of arrays, each corresponding to a week
   //track the moment to the beginning of the month
   now.date(1);
-  console.log("NOW - PRE ADJUST: " + now.toString());
+  //console.log("NOW - PRE ADJUST: " + now.toString());
   //now track backwards to the first day of the week
   now.day(0);
-  console.log("NOW - POST ADJUST: " + now.toString());
+  //console.log("NOW - POST ADJUST: " + now.toString());
   //now build out the weeks
   do {
     var week = [];
@@ -92,9 +92,9 @@ function buildMonthView(now) {
     }
     now.add(1, "d");
     thisMonth.push(week);
-    console.log(now.month() + " || " + nextMonth);
+    //console.log(now.month() + " || " + nextMonth);
   } while (now.month() !== nextMonth);
-  console.log(thisMonth);
+  //console.log(thisMonth);
   //reset the day of the week
   now.day(dayOfMonth);
   //loop through the thisMonth array, which now holds the array of calendar (month) days, and append the weeks to the table
@@ -123,41 +123,65 @@ function buildMonthView(now) {
 }
 
 function buildYearView(now) {
-  //track the moment to the first day of the first year.
-  now.dayOfYear(0);
-  //build out the month
-  var month = $("<table>");
-  var body = $("<tbody>");
-  while (now.month() === 0) {
-    var week = $("<tr>");
-    //back fill the empty days if any
-    for (var i = 0; i < now.day(); i++) {
-      week.append("<td></td>");
-    }
-    //fill in the dates for the days of the week
-    while (now.day() <= 6) {
-      week.append("<td>" + now.date() + "</td>");
-      now.add(1, "d");
-      if (now.day() === 0 || now.month !== 0) {
-        break;
-      }
-    }
-    //check to see if all of the days of the week have been populated
-    if (week.children().toArray().length < 7) {
-      week.append("<td></td>");
-    }
-    body.append(week);
-    console.log(week);
-    console.log(body);
-  }
-  month.append(body);
+  //grab the year view table
   var yearView = $("#year-view");
+  //make a table body for the year view
   var viewBody = $("<tbody>");
-  var row = $("<tr>");
-  var col = $("<td>");
-  col.append(month).appendTo(row);
-  row.appendTo(viewBody);
+  //the year view will have 4 calendar months per row, with 3 rows
+  //a loop for each row
+  //set the dayOfYear to 1
+  now.dayOfYear(1);
+  var currentMonth = 0;
+  for (var i = 0; i < 4; i++) {
+    var viewRow = $("<tr>");
+    //a loop for each column (calendar month) in the row
+    for (var j = 0; j < 3; j++) {
+      var col = $("<td>");
+      //build the month table
+      var monthTable = $("<table>");
+      var monthBody = $("<tbody>");
+      //build an array of weeks on the month, filled with dates to be added to the table
+      var weeksInMonth = []; //an array of arrays
+      while (now.month() === currentMonth) {
+        var week = [];
+        //backfill the week array for the first week, if now is not a sunday
+        for (var p = 0; p < now.day(); p++) {
+          week.push(0);
+        }
+        //fill in the rest of the week
+        for (var q = now.day(); q < 7; q++) {
+          week.push(now.date());
+          now.add(1, "day");
+          if (now.month() > currentMonth) {
+            break;
+          }
+        }
+        //fill out the rest of the week if the month doesn't end on a saturday
+        for (var r = week.length; r < 7; r++) {
+          week.push(0);
+        }
+        weeksInMonth.push(week);
+      }
+      //fill in the dates in the calendar and push it to the view column
+      weeksInMonth.forEach(week => {
+        var weekRow = $("<tr>");
+        week.forEach(day => {
+          if (day === 0) {
+            weekRow.append("<td></td>");
+          } else {
+            weekRow.append("<td class='year-day'>" + day + "</td>");
+          }
+        });
+        monthBody.append(weekRow);
+      });
+      monthTable.append(monthBody);
+      col.append(monthTable).appendTo(viewRow);
+      currentMonth++;
+    }
+    viewBody.append(viewRow);
+  }
   yearView.append(viewBody);
+  console.log(currentMonth);
 }
 
 function setLabel(view) {
