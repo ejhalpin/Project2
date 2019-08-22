@@ -18,8 +18,19 @@ module.exports = function(sequelize, DataTypes) {
       //The body cannot be an empty string
       len: [1]
     },
-    linkedTo: DataTypes.STRING,
-    isFlagged: DataTypes.BOOLEAN
+    category: DataTypes.STRING,
+    isReply: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    linkedTo: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    isFlagged: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   });
 
   Post.associate = function(models) {
