@@ -16,6 +16,7 @@ const months = [
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 var offset = 0;
 var monthOffset = 0;
+var yearOffset = 0;
 
 function buildWeekView(now) {
   console.log("Month: " + (now.month() + 1).toString());
@@ -41,20 +42,18 @@ function buildWeekView(now) {
   var tbody = $("<tbody>");
   var dayRow = $("<tr>");
   thisWeek.forEach(day => {
-    dayRow.append($("<td>" + day + "</td>"));
-  });
-  tbody.append(dayRow);
-  //it would be at this point that we would add the daily chores list to the weekly calendar or showing some data about the chores, number, time, etc.
-  //for right now, I'll just throw an empty div into each cell and give it a class called week-view-cell
-  var dataRow = $("<tr>");
-  for (var i = 0; i < 7; i++) {
     var td = $("<td>");
+    td.append("<div class='day left'>" + day + "</div>");
+    td.append("<hr />");
+    //it would be at this point that we would add the daily chores list to the weekly calendar or showing some data about the chores, number, time, etc.
+    //for right now, I'll just throw an empty div into each cell and give it a class called week-view-cell
     var div = $("<div>");
     //add data to the div here...
     div.addClass("week-view-cell");
-    td.append(div).appendTo(dataRow);
-  }
-  tbody.append(dataRow);
+    td.append(div);
+    dayRow.append(td);
+  });
+  tbody.append(dayRow);
   // Lastly, append the table data to the weekView table
   weekView.append(tbody);
   //update the week-month-label text
@@ -103,29 +102,54 @@ function buildMonthView(now) {
   thisMonth.forEach(week => {
     var weekRow = $("<tr>");
     week.forEach(day => {
-      weekRow.append($("<td>" + day + "</td>"));
-    });
-    tbody.append(weekRow);
-    var dataRow = $("<tr>");
-    for (var i = 0; i < 7; i++) {
       var td = $("<td>");
+      td.append("<div class='day left'>" + day + "</div>");
+      td.append("<hr />");
+      //it would be at this point that we would add the daily chores list to the weekly calendar or showing some data about the chores, number, time, etc.
+      //for right now, I'll just throw an empty div into each cell and give it a class called week-view-cell
       var div = $("<div>");
       //add data to the div here...
-      div.addClass("month-view-cell");
-      td.append(div).appendTo(dataRow);
-    }
-    tbody.append(dataRow);
+      div.addClass("week-view-cell");
+      td.append(div);
+      weekRow.append(td);
+    });
+    tbody.append(weekRow);
   });
 
-  //it would be at this point that we would add the daily chores list to the weekly calendar or showing some data about the chores, number, time, etc.
-  //for right now, I'll just throw an empty div into each cell and give it a class called week-view-cell
-
-  // Lastly, append the table data to the weekView table
+  // Lastly, append the table data to the monthView table
   monthView.append(tbody);
-  //update the week-month-label text
+  //update the month-year-label text
   $("#month-year-label").text(months[month] + " " + now.year());
 }
 
+function buildYearView(now) {
+  //track the moment to the first day of the first year.
+  now.dayOfYear(0);
+  //build out the month
+  var month = $("<table>");
+  var body = $("<tbody>");
+  while (now.month() === 0) {
+    var week = $("<tr>");
+    //back fill the empty days if any
+    for (var i = 0; i < now.day(); i++) {
+      week.append("<td></td>");
+    }
+    //fill in the dates for the days of the week
+    while (now.day() <= 6) {
+      week.append("<td>" + now.date() + "</td>");
+      now.add(1, "d");
+      if (now.day() === 0 || now.month !== 0) {
+        break;
+      }
+    }
+    //check to see if all of the days of the week have been populated
+    if (week.children().toArray().length < 7) {
+      week.append("<td></td>");
+    }
+    body.append(week);
+  }
+  month.append(body);
+}
 function setLabel(view) {
   switch (view) {
     case "week":
@@ -158,8 +182,24 @@ function setLabel(view) {
       }
       $("#month-label").text(text);
       break;
+    case "year":
+      var plural = "";
+      if (yearOffset > 1 || yearOffset < -1) {
+        plural = "s";
+      }
+      var ending = "Ago";
+      if (yearOffset > 0) {
+        ending = "Ahead";
+      }
+      var text = "This Year";
+      if (yearOffset !== 0) {
+        text = `${Math.abs(yearOffset)} Year${plural} ${ending}`;
+      }
+      $("#year-label").text(text);
+      break;
   }
 }
+
 $(document).ready(() => {
   buildWeekView(moment());
   buildMonthView(moment());
@@ -191,4 +231,18 @@ $(document).on("click", "#next-month", function() {
   setLabel("month");
   $("#month-view").empty();
   buildMonthView(moment().add(monthOffset, "month"));
+});
+
+$(document).on("click", "#prev-year", function() {
+  yearOffset--;
+  setLabel("year");
+  $("#year-view").empty();
+  buildYearView(moment().add(yearOffset, "year"));
+});
+
+$(document).on("click", "#next-year", function() {
+  yearOffset++;
+  setLabel("year");
+  $("#year-view").empty();
+  buildYearView(moment().add(yearOffset, "year"));
 });
