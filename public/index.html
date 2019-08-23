@@ -33,30 +33,21 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-light" style="background-color: #EBFCFC; margin-top:10px;">
+      <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
         <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
         <ul class="nav justify-content-end">
           <li class="nav-item">
-            <a class="nav-link home" href="#">Home</a>
+            <i class="far fa-user fa-2x"></i>&emsp;&emsp;
           </li>
           <li class="nav-item">
-            <a class="nav-link family" href="#">My Family</a>
+            <i class="far fa-calendar-alt fa-2x"></i>&emsp;&emsp;
           </li>
-          <li class="nav-item">
-            <a class="nav-link forum" href="#">Forum</a>
+          <li class="nav-item"></li>
+            <i class="fas fa-sign-out-alt fa-2x"></i>
           </li>
-          <button
-            type="button"
-            class="btn btn-outline-dark"
-            id="loginButton"
-            data-toggle="modal"
-            data-target="#loginModal"
-          >
-            Login
-          </button>
         </ul>
       </nav>
-      <div id="cardContainer"></div>
+      <div id="cardContainer" class='row'></div>
 
       <!-- <div class="card-body">
           <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
@@ -129,7 +120,7 @@
         </form>
       </div> -->
       <div class="footer-margin">
-        <footer class="fixed-bottom text-center">
+        <footer class="bottom text-center">
           <p ID="teamName" style="text-align: center; margin-top: 20px">
             &copy; Eugene Haplin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
           </p>

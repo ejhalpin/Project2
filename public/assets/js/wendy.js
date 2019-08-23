@@ -27,9 +27,11 @@ function pullChores(userName) {
     console.log(response.data.length);
     for (var i = 0; i < response.data.length; i++) {
       //   console.log("Running for loop");
-      let card = $("<div class='card'></div>");
+      let card = $("<div class='card col-6 mb-3 p-2 bg-light'></div>");
       let cardText = $("<div class='card-text'></div>");
-      cardText.append(`<p>${response.data[i].name}</p>`);
+      cardText.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
+      cardText.append(`<p><strong>Created:</strong> ${response.data[i].createdAt}</p>`);
+      cardText.append(`<p><strong>Frequency:</strong> ${response.data[i].frequency}</p>`);
       card.append(cardText);
       $("#cardContainer").append(card);
       //   let cardHeader = $(`div class ='card m-3'></div>`);
@@ -49,4 +51,4 @@ function pullChores(userName) {
   });
 }
 
-$(window).on("load", pullChores("user_1"));
+$(window).on("load", pullChores("user_0"));
