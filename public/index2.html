@@ -205,16 +205,11 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <label for="choresToAssign">Chores to be Assigned</label><br />
-            <input id="choresToAssign" placeholder="Sample" /> <br />
-            <label for="password">Assign To:</label><br />
-            <input id="assignTo" placeholder="" /> <br />
-            <button id="assignmentModal" class="btn btn-primary">
+          <div class="modal-body" id="assignmentModalBody"></div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="assignBtn">
               Assign Chores
             </button>
-          </div>
-          <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
@@ -381,6 +376,7 @@
 
   //Sample Family
   $("#joinFamilyGroup").on("click", function() {
+    $("#sampleHousehold").remove();
     var familyGroup = $("<div id='sampleHousehold'>");
     var familyDiv = $("<div class='householdGroup id='group1'>");
     var sampleMembers = ["Mom", "Dad", "Bob", "Barbara", "You"];
@@ -404,7 +400,7 @@
     memberList.append("</ul>");
     familyDiv.append(memberList);
     //Function that sets up chores and lists them as unassigned
-    var sampleChoresListed = $("<ul id='#sampleChoresHolder'>");
+    var sampleChoresListed = $("<ul id='sampleChoresHolder'>");
     for (var j = 0; j < sampleChores.length; j++) {
       event.preventDefault();
       var intermediate = $(
@@ -414,13 +410,77 @@
       );
       sampleChoresListed.append(intermediate);
     }
-    sampleChoresListed.append("</ul>");
+
     familyDiv.append("<h4>Unassigned Chores</h4>");
     familyDiv.append(sampleChoresListed);
     var buttonAssign = $(
-      "<button class='assign btn btn-primary' data-toggle='modal' data-target='#assignmentModal'>Assign</button>"
+      "<button id='assignButton' class= 'btn btn-primary' data-toggle='modal' data-target='#assignmentModal'>Assign</button>"
+    );
+    $(document).on("click", "#assignButton", function() {
+      $("#assignmentModalBody").empty();
+      var choresLabel = $(
+        "<label for='choresToAssign'>Chores To Assign</label> <br>"
+      );
+      $("#assignmentModalBody").append(choresLabel);
+      for (var i = 0; i < sampleChores.length; i++) {
+        var intermediate = $(
+          `<input type='checkbox' name='${sampleChores[i]}' class='householdChores' value='${sampleChores[i]}'>${sampleChores[i]}</input><br>`
+        );
+        $("#assignmentModalBody").append(intermediate);
+      }
+      $("#assignmentModalBody").append(
+        "<label for='assignTo'>Assign To: </label><br>"
+      );
+      for (var j = 0; j < sampleMembers.length; j++) {
+        var intermediate = $(
+          `<input type='checkbox' class='household' name='${sampleMembers[j]}' value='${sampleMembers[j]}'>${sampleMembers[j]}</input><br>`
+        );
+        $("#assignmentModalBody").append(intermediate);
+      }
+      //assignBtn
+      $(document).on("click", "#assignBtn", function() {
+        var choreArray = [];
+        var memberArray = [];
+
+        for (var i = 0; i < sampleChores.length; i++) {
+          var choresToAssign = $(`input[name='${sampleChores[i]}']`);
+          if (choresToAssign.prop("checked") == true) {
+            console.log(choresToAssign.val());
+            choreArray.push(choresToAssign.val());
+          }
+        }
+        for (var z = 0; z < sampleMembers.length; z++) {
+          var assignedTo = $(`input[name='${sampleMembers[z]}']`);
+          if (assignedTo.prop("checked") == true) {
+            console.log(assignedTo.val());
+            memberArray.push(assignedTo.val());
+            console.log(memberArray);
+            console.log(choreArray);
+          }
+        }
+        for (var y = 0; y < memberArray.length; y++) {
+          for (var x = 0; x < choreArray.length; x++) {
+            $(`#${memberArray[y]}`).append(`<p>${choreArray[x]}</p>`);
+          }
+        }
+      });
+    });
+    //assignBtn
+    var newChore = $(
+      "<button class='btn btn-primary' id='newChoreBtn'>Create New Chores</button>"
     );
     familyDiv.append(buttonAssign);
+    familyDiv.append("<br><label for='newChore'>Create New Chore</label><br>");
+    familyDiv.append("<input id='newChore'></input><br>");
+    familyDiv.append(newChore);
+    $(document).on("click", "#newChoreBtn", function() {
+      var newTask = $("#newChore").val();
+      sampleChores.push(newTask);
+      $("#sampleChoresHolder").append(
+        `<li id='${newTask}'><p>${newTask}</p></li>`
+      );
+    });
+
     familyGroup.append(familyDiv);
     $(".content-div").append(familyGroup);
   });
