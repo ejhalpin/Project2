@@ -10,4 +10,8 @@ module.exports = function(app) {
   app.get("/kelvin", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index2.html"));
   });
+
+  app.get("/forum", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/forum.html"));
+  });
 };

@@ -90,15 +90,15 @@ module.exports = function(app) {
           response.status = 500;
           response.reason =
             "Error fetching Posts of category: " + req.params.category + " -> " + err;
-          res.json(response);
+          return res.json(response);
         });
     }
-    //ohterwise return all posts
+    //otherwise return all posts
     db.Post.findAll({})
       .then(data => {
         var posts = linkPostsAndResponses(data);
         response.data = posts;
-        res.json(data);
+        res.json(response);
       })
       .catch(err => {
         response.status = 500;
@@ -117,6 +117,26 @@ module.exports = function(app) {
     };
     //query the db for all posts by a user
     db.User.findOne({ where: { name: req.params.name }, include: [db.Post] })
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error fetching Posts: " + err;
+        res.json(response);
+      });
+  });
+
+  // Define an api route to retreive all user names sorted by id
+  app.get("/api/users", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    db.User.findAll({ order: [["id", "ASC"]], attributes: ["id", "name"] })
       .then(data => {
         response.data = data;
         res.json(response);
@@ -341,21 +361,22 @@ function linkPostsAndResponses(data) {
   var posts = [];
   var responses = [];
   data.forEach(entry => {
-    if (entry.isResponse) {
+    if (entry.isReply) {
       responses.push(entry);
     } else {
+      entry.dataValues.responses = [];
+      console.log(entry);
       posts.push(entry);
     }
   });
-  //sort the responses
-  responses.sort(function(a, b) {
-    return parseInt(a.linkedTo) - parseInt(b.linkedTo);
-  });
+
   posts.forEach(post => {
-    post.responses = [];
-    while (responses[0].linkedTo === post.id) {
-      post.responses.push(responses.shift());
-    }
+    responses.forEach(response => {
+      console.log(response.linkedTo);
+      if (parseInt(response.linkedTo) === parseInt(post.id)) {
+        post.dataValues.responses.push(response);
+      }
+    });
   });
   return posts;
 }

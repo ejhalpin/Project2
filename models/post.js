@@ -23,10 +23,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    linkedTo: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
+    linkedTo: DataTypes.STRING,
     isFlagged: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
