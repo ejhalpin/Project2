@@ -6,10 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- local stylesheet -->
 
-    <!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css" /> -->
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
 
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
@@ -26,50 +30,80 @@
     />
 
     <title>Family Management</title>
-
-    <!-- Styling -->
-    <style>
-      body {
-        background-image: url("../images/pencils.jpg");
-        background-size: cover;
-        background-repeat: repeat;
-        background-attachment: fixed;
-      }
-      h1 {
-        font-size: 5rem;
-        font-weight: 300;
-        color: rgb(24, 17, 3);
-        font-family: "Handlee", cursive;
-        text-align: left;
-        margin-top: 0.5rem;
-        /* margin-right: 7rem; */
-      }
-
-      #teamName {
-        font-family: "Pontano Sans", sans-serif;
-        font-size: 18px;
-      }
-
-      input[type="text"] {
-        display: flex;
-        margin: auto;
-        width: 130px;
-        box-sizing: border-box;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-        background-color: white;
-        padding: 6px 10px;
-        -webkit-transition: width 0.4s ease-in-out;
-        transition: width 0.4s ease-in-out;
-      }
-      input[type="text"]:focus {
-        width: 50%;
-      }
-    </style>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container">
+      <nav class="navbar navbar-light" style="background-color: #EBFCFC; margin-top:10px;">
+        <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a class="nav-link home" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link family" href="#">My Family</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link forum" href="#">Forum</a>
+          </li>
+          <button
+            type="button"
+            class="btn btn-outline-dark"
+            id="loginButton"
+            data-toggle="modal"
+            data-target="#loginModal"
+          >
+            Login
+          </button>
+        </ul>
+      </nav>
+      <div id="cardContainer"></div>
+
+      <!-- <div class="card-body">
+          <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="addModalTitle">Create a Chore</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body"> -->
+      <!-- Form Content -->
+
+      <!-- <form action="/addChore" method="post">
+      
+                              <div class="form-group" style="display: none">
+                                  <label for="username">User Name</label>
+                                  <input type="text" class="form-control" id="usernameNewChore" name="user_name"
+                                      placeholder="username"></input>
+                              </div>
+      
+                              <div class="form-group">
+                                  <label for="date">Date</label>
+                                  <input type="date" class="form-control" id="date" name="date"></input>
+                              </div>
+                              <div class="form-group">
+                                  <label for="assignto">Who do you want to assign this chore to?</label>
+                                  <select class="form-control" id="assignNewChore" name="assignNewChore"
+                                      placeholder="Household Member">
+                                      <option value="Mom">Mom</option>
+                                      <option value="Dad">Dad</option>
+                                      <option value="Colin">Colin</option>
+                                      <option value="Wendy">Wendy</option>
+                                  </select>
+                              </div>
+                              <div class='text-right'>
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Add</button>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>  
+        </div> -->
+      <!--       
       <h1><span class="fab fa-forumbee"></span>Busy Bee</h1>
       <div class="header">
         <form id="form">
@@ -93,7 +127,7 @@
             Login
           </button>
         </form>
-      </div>
+      </div> -->
       <div class="footer-margin">
         <footer class="fixed-bottom text-center">
           <p ID="teamName" style="text-align: center; margin-top: 20px">
@@ -102,6 +136,7 @@
         </footer>
       </div>
     </div>
-    <script src="assets/js/logic.js"></script>
+    <!-- </div> -->
+    <script src="assets/js/wendy.js"></script>
   </body>
 </html>

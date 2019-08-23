@@ -1,0 +1,37 @@
+body {
+  background-image: url("../../../images/pencils.jpg");
+  background-size: cover;
+  background-repeat: repeat;
+  background-attachment: fixed;
+}
+/* h1 {
+  font-size: 5rem;
+  font-weight: 300;
+  color: rgb(24, 17, 3);
+  font-family: "Handlee", cursive;
+  text-align: left;
+  margin-top: 0.5rem;
+  margin-right: 7rem;
+} */
+
+#teamName {
+  font-family: "Pontano Sans", sans-serif;
+  font-size: 18px;
+}
+
+input[type="text"] {
+  display: flex;
+  margin: auto;
+  width: 130px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  padding: 6px 10px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+input[type="text"]:focus {
+  width: 50%;
+}
