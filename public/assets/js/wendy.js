@@ -27,13 +27,19 @@ function pullChores(userName) {
     console.log(response.data.length);
     for (var i = 0; i < response.data.length; i++) {
       //   console.log("Running for loop");
-      let card = $("<div class='card col-6 mb-3 p-2 bg-light'></div>");
-      let cardText = $("<div class='card-text'></div>");
-      cardText.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
-      cardText.append(`<p><strong>Created:</strong> ${response.data[i].createdAt}</p>`);
-      cardText.append(`<p><strong>Frequency:</strong> ${response.data[i].frequency}</p>`);
-      card.append(cardText);
-      $("#cardContainer").append(card);
+      let col = $("<div class='col-6'></div>");
+      let card = $("<div class='card mb-3'></div>");
+      let cardHeader = $("<div class='card-header'></div>");
+      // let cardHeaderRow = $("<div class='row'></div>");
+      // cardHeader.append(cardHeaderRow);
+      cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
+      let cardBody = $("<div class='card-body'></div>");
+      cardBody.append(`<p><strong>Created:</strong> ${response.data[i].createdAt}</p>`);
+      cardBody.append(`<p><strong>Frequency:</strong> ${response.data[i].frequency}</p>`);
+      card.append(cardHeader);
+      card.append(cardBody);
+      col.append(card);
+      $("#cardContainer").append(col);
       //   let cardHeader = $(`div class ='card m-3'></div>`);
       //   let cardHeaderRow = $(`<div class='row'></div>`);
 
