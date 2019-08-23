@@ -424,8 +424,8 @@ async function seedDB(n) {
   var posts = [];
   var m = 2 * n;
   for (var j = 0; j < m; j++) {
-    post.push({
-      title: title,
+    posts.push({
+      title: "title",
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
       category: "category_" + Math.ceil(Math.random() * 5),
       UserId: Math.ceil(Math.random() * users.length)
@@ -434,7 +434,7 @@ async function seedDB(n) {
   //create n replies
   for (var j = 0; j < n; j++) {
     posts.push({
-      title: title,
+      title: "title",
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
       category: "category_" + Math.ceil(Math.random() * 10),
       UserId: Math.ceil(Math.random() * users.length),
@@ -443,7 +443,7 @@ async function seedDB(n) {
     });
   }
   //create the entries in Post
-  await db.Post.bulkCreate(posts);
+  // await db.Post.bulkCreate(posts);
   return new Promise(resolve => {
     resolve(data);
   });
