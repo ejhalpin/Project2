@@ -50,6 +50,3 @@ function pullChores(userName) {
 }
 
 $(window).on("load", pullChores("user_1"));
-
-function editChore() {}
-function deleteChore() {}
