@@ -16,3 +16,7 @@
 .jumbotron p {
   font-size: 12px;
 }
+
+#sampleHousehold {
+  border: 2px solid black;
+}
