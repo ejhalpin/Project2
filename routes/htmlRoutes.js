@@ -8,7 +8,7 @@ module.exports = function(app) {
   });
 
   app.get("/kelvin", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index2.html"));
+    res.sendFile(path.join(__dirname, "../public/household.html"));
   });
 
   app.get("/forum", (req, res) => {
