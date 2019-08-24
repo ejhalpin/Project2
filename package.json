@@ -1,19 +1,20 @@
 {
-  "name": "node-handlebars-boilerplate",
+  "name": "project2",
   "version": "1.0.0",
   "description": "Project 2 Starter",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "lint": "eslint --quiet .",
     "fix": "eslint --fix .",
     "test": "npm run lint && cross-env NODE_ENV=test mocha -u tdd --reporter spec --exit"
   },
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.0",
-    "express-handlebars": "^3.1.0",
+    "moment": "^2.24.0",
     "mysql2": "^1.6.5",
     "sequelize": "^5.8.6"
   },
@@ -26,5 +27,17 @@
     "eslint-plugin-prettier": "^3.1.0",
     "mocha": "^6.1.4",
     "prettier": "^1.17.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejhalpin/Project2.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/ejhalpin/Project2/issues"
+  },
+  "homepage": "https://github.com/ejhalpin/Project2#readme"
 }
