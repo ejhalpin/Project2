@@ -2,6 +2,7 @@
 //============================================================================================================================
 var db = require("../models");
 var moment = require("moment");
+var axios = require("axios");
 //============================================================================================================================
 
 //============================================================================================================================
@@ -80,7 +81,7 @@ module.exports = function(app) {
     };
     if (req.params.category) {
       //get the posts of a given category from the db
-      db.Post.findAll({ where: { category: req.params.category } })
+      db.Post.findAll({ where: { category: req.params.category }, order: [["createdAt", "DESC"]] })
         .then(data => {
           var posts = linkPostsAndResponses(data);
           response.data = posts;
@@ -94,7 +95,7 @@ module.exports = function(app) {
         });
     }
     //otherwise return all posts
-    db.Post.findAll({})
+    db.Post.findAll({ order: [["createdAt", "DESC"]] })
       .then(data => {
         var posts = linkPostsAndResponses(data);
         response.data = posts;
@@ -108,7 +109,7 @@ module.exports = function(app) {
   });
 
   // Define an api route to retreive all posts by a given user
-  app.get("/api/post-by-user/:name", (req, res) => {
+  app.get("/api/posts-by-user/:name", (req, res) => {
     //define the default response object
     var response = {
       status: 200,
@@ -147,6 +148,34 @@ module.exports = function(app) {
         res.json(response);
       });
   });
+
+  // Define an api route to find posts with a title like ...
+  app.get("/api/posts-search/:title", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    db.Post.findAll({
+      where: {
+        title: {
+          [db.Sequelize.Op.like]: "%" + req.params.title + "%"
+        }
+      },
+      order: [["title", "ASC"]]
+    })
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error fetching Posts: " + err;
+        res.json(response);
+      });
+  });
+
   //==========================================================================================================================
 
   // *** CREATE *** //
@@ -248,7 +277,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data.push(data);
+          return res.json(response);
         });
         break;
       case "chores":
@@ -257,7 +287,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data.push(data);
+          return res.json(response);
         });
         break;
       case "posts":
@@ -266,7 +297,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data.push(data);
+          return res.json(response);
         });
         break;
     }
@@ -400,17 +432,28 @@ var lorem =
   "Dolorum, porro eveniet id, perferendis laudantium culpa assumenda ducimus nihil corrupti temporibus asperiores perspiciatis ipsum " +
   "dolore repudiandae voluptates itaque aspernatur? Cumque cum consequuntur pariatur nihil mollitia qui aliquid ad non obcaecati rerum " +
   "officiis laborum, a iste modi ut, placeat nemo provident!";
+var categories = ["cleaning", "diy", "laundry", "appliance repair", "landscaping", "other"];
+
+async function getUserName() {
+  return new Promise(resolve => {
+    axios.get("https://randomuser.me/api/").then(response => {
+      resolve(response.data.results[0]);
+    });
+  });
+}
 
 async function seedDB(n) {
   //make n users
   var users = [];
   for (var i = 0; i < n; i++) {
+    var nameObj = await getUserName();
+    var name = nameObj.name.first + " " + nameObj.name.last;
     users.push({
-      name: "user_" + i.toString(),
-      email: "user" + i.toString() + "@mail.com",
-      token: i.toString() + "acde" + (i + 1).toString(),
+      name: name,
+      email: nameObj.email,
+      token: nameObj.login.sha1,
       emailConfirmed: Math.random() < 0.5,
-      tempToken: "temptoken_" + i.toString(),
+      tempToken: nameObj.login.md5,
       expiration: moment()
         .subtract(1, "d")
         .toString()
@@ -445,17 +488,19 @@ async function seedDB(n) {
   var posts = [];
   var m = 2 * n;
   for (var j = 0; j < m; j++) {
+    var postnames = await getUserName();
     posts.push({
-      title: "title",
+      title: postnames.location.state,
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
-      category: "category_" + Math.ceil(Math.random() * 5),
+      category: categories[Math.floor(Math.random() * categories.length)],
       UserId: Math.ceil(Math.random() * users.length)
     });
   }
   //create n replies
   for (var j = 0; j < n; j++) {
+    var postnames = await getUserName();
     posts.push({
-      title: "title",
+      title: postnames.location.state,
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
       category: "category_" + Math.ceil(Math.random() * 10),
       UserId: Math.ceil(Math.random() * users.length),
@@ -464,7 +509,7 @@ async function seedDB(n) {
     });
   }
   //create the entries in Post
-  // await db.Post.bulkCreate(posts);
+  await db.Post.bulkCreate(posts);
   return new Promise(resolve => {
     resolve(data);
   });
