@@ -19,7 +19,7 @@ body {
   font-size: 18px;
 }
 
-input[type="text"] {
+/* input[type="text"] {
   display: flex;
   margin: auto;
   width: 130px;
@@ -34,4 +34,4 @@ input[type="text"] {
 }
 input[type="text"]:focus {
   width: 50%;
-}
+} */
