@@ -80,7 +80,7 @@ module.exports = function(app) {
     };
     if (req.params.category) {
       //get the posts of a given category from the db
-      db.Post.findAll({ where: { category: req.params.category } })
+      db.Post.findAll({ where: { category: req.params.category }, order: [["createdAt", "DESC"]] })
         .then(data => {
           var posts = linkPostsAndResponses(data);
           response.data = posts;
@@ -94,7 +94,7 @@ module.exports = function(app) {
         });
     }
     //otherwise return all posts
-    db.Post.findAll({})
+    db.Post.findAll({ order: [["createdAt", "DESC"]] })
       .then(data => {
         var posts = linkPostsAndResponses(data);
         response.data = posts;
@@ -108,7 +108,7 @@ module.exports = function(app) {
   });
 
   // Define an api route to retreive all posts by a given user
-  app.get("/api/post-by-user/:name", (req, res) => {
+  app.get("/api/posts-by-user/:name", (req, res) => {
     //define the default response object
     var response = {
       status: 200,
@@ -147,6 +147,34 @@ module.exports = function(app) {
         res.json(response);
       });
   });
+
+  // Define an api route to find posts with a title like ...
+  app.get("/api/posts-search/:title", (req, res) => {
+    //define the default response object
+    var response = {
+      status: 200,
+      reason: "success",
+      data: []
+    };
+    db.Post.findAll({
+      where: {
+        title: {
+          [db.Sequelize.Op.like]: "%" + req.params.title + "%"
+        }
+      },
+      order: [["title", "ASC"]]
+    })
+      .then(data => {
+        response.data = data;
+        res.json(response);
+      })
+      .catch(err => {
+        response.status = 500;
+        response.reason = "Error fetching Posts: " + err;
+        res.json(response);
+      });
+  });
+
   //==========================================================================================================================
 
   // *** CREATE *** //
@@ -248,7 +276,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data.push(data);
+          return res.json(response);
         });
         break;
       case "chores":
@@ -257,7 +286,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data.push(data);
+          return res.json(response);
         });
         break;
       case "posts":
@@ -266,7 +296,8 @@ module.exports = function(app) {
             id: req.params.id
           }
         }).then(data => {
-          return res.json(data);
+          response.data.push(data);
+          return res.json(response);
         });
         break;
     }
@@ -400,7 +431,7 @@ var lorem =
   "Dolorum, porro eveniet id, perferendis laudantium culpa assumenda ducimus nihil corrupti temporibus asperiores perspiciatis ipsum " +
   "dolore repudiandae voluptates itaque aspernatur? Cumque cum consequuntur pariatur nihil mollitia qui aliquid ad non obcaecati rerum " +
   "officiis laborum, a iste modi ut, placeat nemo provident!";
-
+var categories = ["cleaning", "diy", "laundry", "appliance repair", "landscaping", "other"];
 async function seedDB(n) {
   //make n users
   var users = [];
@@ -448,7 +479,7 @@ async function seedDB(n) {
     posts.push({
       title: "title",
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
-      category: "category_" + Math.ceil(Math.random() * 5),
+      category: categories[Math.floor(Math.random() * categories.length)],
       UserId: Math.ceil(Math.random() * users.length)
     });
   }
