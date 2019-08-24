@@ -47,7 +47,6 @@ function pullChores(userName) {
   });
 }
 
-
 function editChore(dbID) {
   let queryURL = `/api/${dbType}/${dbID}`;
   console.log(queryURL);
@@ -64,4 +63,3 @@ function editChore(dbID) {
 }
 // req.params.id;
 $(window).on("load", pullChores("user_0"));
-
