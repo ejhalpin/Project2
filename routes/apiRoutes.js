@@ -2,6 +2,7 @@
 //============================================================================================================================
 var db = require("../models");
 var moment = require("moment");
+var axios = require("axios");
 //============================================================================================================================
 
 //============================================================================================================================
@@ -432,16 +433,27 @@ var lorem =
   "dolore repudiandae voluptates itaque aspernatur? Cumque cum consequuntur pariatur nihil mollitia qui aliquid ad non obcaecati rerum " +
   "officiis laborum, a iste modi ut, placeat nemo provident!";
 var categories = ["cleaning", "diy", "laundry", "appliance repair", "landscaping", "other"];
+
+async function getUserName() {
+  return new Promise(resolve => {
+    axios.get("https://randomuser.me/api/").then(response => {
+      resolve(response.data.results[0]);
+    });
+  });
+}
+
 async function seedDB(n) {
   //make n users
   var users = [];
   for (var i = 0; i < n; i++) {
+    var nameObj = await getUserName();
+    var name = nameObj.name.first + " " + nameObj.name.last;
     users.push({
-      name: "user_" + i.toString(),
-      email: "user" + i.toString() + "@mail.com",
-      token: i.toString() + "acde" + (i + 1).toString(),
+      name: name,
+      email: nameObj.email,
+      token: nameObj.login.sha1,
       emailConfirmed: Math.random() < 0.5,
-      tempToken: "temptoken_" + i.toString(),
+      tempToken: nameObj.login.md5,
       expiration: moment()
         .subtract(1, "d")
         .toString()
@@ -476,8 +488,9 @@ async function seedDB(n) {
   var posts = [];
   var m = 2 * n;
   for (var j = 0; j < m; j++) {
+    var postnames = await getUserName();
     posts.push({
-      title: "title",
+      title: postnames.location.state,
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
       category: categories[Math.floor(Math.random() * categories.length)],
       UserId: Math.ceil(Math.random() * users.length)
@@ -485,8 +498,9 @@ async function seedDB(n) {
   }
   //create n replies
   for (var j = 0; j < n; j++) {
+    var postnames = await getUserName();
     posts.push({
-      title: "title",
+      title: postnames.location.state,
       body: lorem.substring(0, Math.round(Math.random() * 150) + 100), //give back a post with a length between 100 and 250 characters
       category: "category_" + Math.ceil(Math.random() * 10),
       UserId: Math.ceil(Math.random() * users.length),
@@ -495,7 +509,7 @@ async function seedDB(n) {
     });
   }
   //create the entries in Post
-  // await db.Post.bulkCreate(posts);
+  await db.Post.bulkCreate(posts);
   return new Promise(resolve => {
     resolve(data);
   });
