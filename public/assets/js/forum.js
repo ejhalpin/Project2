@@ -1,12 +1,3 @@
-//warm-up routines
-var local, session;
-if (localStorage.getItem("instance")) {
-  local = JSON.parse(localStorage.getItem("instance"));
-}
-if (sessionStorage.getItem("instance")) {
-  session = JSON.parse(sessionStorage.getItem("instance"));
-}
-
 //global variables
 //an array of forum categories - const
 const categories = [
@@ -19,6 +10,45 @@ const categories = [
   "other"
 ];
 categories.sort();
+//a variable to hold the html for the post-modal
+var postCreateType = "New Post";
+
+var postModal = `<div  id="post-modal" class="modal" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 id="post-modal-title" class="modal-title">Create A ${postCreateType}</h5>
+      <button type="button" id="close-post-modal" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <form id="auth-form">
+    <div class="form-group">
+      <label for="post-title">Title</label>
+      <input type="text" class="form-control" id="post-title" aria-describedby="emailHelp" placeholder="New Post" />
+    </div>
+    <div class="input-group">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="category-select">Categories</label>
+  </div>
+  <select class="custom-select" id="category-select">
+      ${getCategoryOptions()}
+  </select>
+</div>
+    <div class="form-group">
+      <label for="post-body">Body</label>
+      <textarea class="form-control" rows="4" id="post-body" />
+    </div>
+    
+    </form>
+    </div>
+    <div class="modal-footer">
+    <button type="submit" id="submit-post" data-reply ="0" data-link="0" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</div>
+</div>`;
 //a function to retreive all user names from the database
 //DEVNOTE: THIS FUNCTION SHOULD BE REPLACED WITH AJAX CALLS FOR USER DATA ON THE FLY
 function getUserNames() {
@@ -116,6 +146,7 @@ async function layOutForum(posts) {
   });
 }
 
+//a function to lay out the page structure
 function loadStructure() {
   $("#target").empty();
   //define the global container
@@ -177,7 +208,42 @@ function loadStructure() {
   });
 }
 
-//documenbt level clicks...
+//a function to execute title searches
+function searchByTitle(title) {
+  $.get("/api/posts-search/" + title, response => {
+    if (response.status !== 200) {
+      console.log(response.reason);
+    }
+    if (response.data.length === 0) {
+      $("#target").empty();
+      var card = $("<div>").addClass("card text-white bg-secondary mb-3");
+      var header = $("<div>")
+        .addClass("card-header")
+        .text("Your search did not return any results. :(");
+      card.append(header).appendTo($("#target"));
+    }
+    console.log(response);
+    layOutForum(response.data);
+  });
+}
+
+//a function to populate the post-modal category select box
+function getCategoryOptions() {
+  var options = "";
+  categories.forEach((category, index) => {
+    if (index === 0) {
+      return;
+    }
+    if (index === 1) {
+      return (options =
+        options + "<option value=" + index + " selected>" + category + "</option>\n");
+    }
+    options = options + "<option value=" + index + ">" + category + "</option>\n";
+  });
+  return options;
+}
+
+//document level clicks...
 $(document).on("click", "#forum-link", () => {
   getAllPosts();
 });
@@ -219,24 +285,6 @@ $(document).on("click", "#title-search", () => {
   searchByTitle(title);
 });
 
-function searchByTitle(title) {
-  $.get("/api/posts-search/" + title, response => {
-    if (response.status !== 200) {
-      console.log(response.reason);
-    }
-    if (response.data.length === 0) {
-      $("#target").empty();
-      var card = $("<div>").addClass("card text-white bg-secondary mb-3");
-      var header = $("<div>")
-        .addClass("card-header")
-        .text("Your search did not return any results. :(");
-      card.append(header).appendTo($("#target"));
-    }
-    console.log(response);
-    layOutForum(response.data);
-  });
-}
-
 $(document).on("click", ".user-name", function() {
   var userName = $(this).text();
   getPostsByUser(userName);
@@ -256,256 +304,18 @@ $(document).on("click", ".flag-post", function() {
   });
 });
 
-//a function to handle user athentication
-
-var nameInput = `<div id="signup" class="form-group">
-<label for="signup-name">unique name</label>
-<input type="text" class="form-control" id="signup-name" aria-describedby="nameHelp" placeholder="arya stark" />
-<small id="nameHelp" class="form-text text-muted">Your name needs to be unique. Go ahead and use spaces and special characters.</small>
-</div>`;
-var authModal = `
-<div id="auth-modal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Login</h5>
-        <button type="button" id="close-auth-modal" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div id="auth-modal-body" class="modal-body">
-      <form id="auth-form">
-      <div class="form-group">
-        <label for="login-email">email address</label>
-        <input type="email" class="form-control" id="login-email" aria-describedby="emailHelp" placeholder="arya.stark@winterfell.com" />
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      </div>
-      <div class="form-group">
-        <label for="login-password">password</label>
-        <input type="password" class="form-control" id="login-password" placeholder="password" />
-      </div>
-      
-      </form>
-      </div>
-      <div class="modal-footer">
-      <button type="button" id="auth-swap" class="btn btn-secondary">sign up</button>
-      <button type="submit" id="login-submit" class="btn btn-primary">login</button>
-      </div>
-    </div>
-  </div>
-</div>`;
-var postCreateType = "New Post";
-
-var postModal = `<div  id="post-modal" class="modal" tabindex="-1" role="dialog">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 id="post-modal-title" class="modal-title">Create A ${postCreateType}</h5>
-      <button type="button" id="close-post-modal" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-    <form id="auth-form">
-    <div class="form-group">
-      <label for="post-title">Title</label>
-      <input type="text" class="form-control" id="post-title" aria-describedby="emailHelp" placeholder="New Post By ${
-        JSON.parse(sessionStorage.getItem("instance")).name
-      }"" />
-    </div>
-    <div class="input-group">
-  <div class="input-group-prepend">
-    <label class="input-group-text" for="category-select">Categories</label>
-  </div>
-  <select class="custom-select" id="category-select">
-      ${getCategoryOptions()}
-  </select>
-</div>
-    <div class="form-group">
-      <label for="post-body">Body</label>
-      <textarea class="form-control" rows="4" id="post-body" />
-    </div>
-    
-    </form>
-    </div>
-    <div class="modal-footer">
-    <button type="submit" id="submit-post" data-reply ="0" data-link="0" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-</div>
-</div>`;
-function getCategoryOptions() {
-  var options = "";
-  categories.forEach((category, index) => {
-    if (index === 0) {
-      return;
-    }
-    if (index === 1) {
-      return (options =
-        options + "<option value=" + index + " selected>" + category + "</option>\n");
-    }
-    options = options + "<option value=" + index + ">" + category + "</option>\n";
-  });
-  return options;
-}
-//toggle between the login and signup forms
-$(document).on("click", "#auth-swap", () => {
-  var text = $("#auth-swap").text();
-  switch (text) {
-    case "sign up":
-      $("#auth-form").prepend(nameInput);
-      $("#auth-swap").text("login");
-      $("#login-submit").text("sign up");
-      break;
-    case "login":
-      $("#signup").remove();
-      $("#auth-swap").text("sign up");
-      $("#login-submit").text("login");
-      break;
-  }
-});
-
-//EDIT THIS FUNCTION FIRST!
-//submit the auth form
-$(document).on("click", "#login-submit", event => {
-  event.preventDefault();
-  var text = $("#login-submit").text();
-  var credentials = {
-    email: $("#login-email")
-      .val()
-      .trim(),
-    password: $("#login-password")
-      .val()
-      .trim(),
-    name: ""
-  };
-  if (credentials.email.length === 0 || credentials.password.length === 0) {
-    $("#alert").remove();
-    $("#auth-modal-body").prepend(`<div id="alert" class="alert alert-light" role="alert">
-    <span id="message">the fields can't be empty</span>
-    <button id="close" type="button" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>`);
-    return;
-  }
-  if (text === "sign up") {
-    text = "signup";
-    credentials.name = $("#signup-name")
-      .val()
-      .trim();
-    if (credentials.name.length === 0) {
-      $("#alert").remove();
-      $("#auth-modal-body").prepend(`<div id="alert" class="alert alert-light" role="alert">
-    <span id="message">the fields can't be empty</span>
-    <button id="close" type="button" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>`);
-      return;
-    }
-  }
-  switch (text) {
-    case "signup":
-      //use the signup route
-      authenticateUser("/auth/signup", credentials)
-        .then(() => {
-          $("#auth-modal").modal("hide");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      break;
-    case "login":
-      //use the login route
-      authenticateUser("/auth/login", credentials)
-        .then(() => {
-          $("#auth-modal").modal("hide");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      break;
-  }
-});
-
-function authenticateUser(route, credentials) {
-  return new Promise(resolve => {
-    //The data returned by the server is placed in the session storage
-    $.post(route, credentials, res => {
-      if (res.status === 409) {
-        $("#alert").remove();
-        $("#auth-modal-body").prepend(`<div id="alert" class="alert alert-light" role="alert">
-  <span id="message">${res.reason}</span>
-  <button id="close" type="button" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>`);
-
-        console.log(res.reason);
-        return;
-      }
-      if (res.status === 500) {
-        $("#alert").remove();
-        $("#auth-modal-body").prepend(`<div id="alert" class="alert alert-light" role="alert">
-  <span id="message">${res.reason}</span>
-  <button id="close" type="button" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>`);
-        console.log(res.reason);
-        return;
-      }
-      if (res.status === 200) {
-        //set the friend finder data instance in session storage
-        var instance = res.data[0];
-        console.log(instance);
-        sessionStorage.setItem("instance", JSON.stringify(instance));
-      }
-      resolve(true);
-    });
-  });
-}
-
-$(document).on("click", "#close", function() {
-  $("#alert").remove();
-});
-
-$(document).on("click", "#auth-modal-close", function() {
-  $("#auth-modal").modal("hide");
-});
-
 $(document).on("click", "#create-post", () => {
   //build a modal for post creation
   $("#post-modal").modal("show");
 });
 
-$(document).ready(() => {
-  loadStructure();
-  getAllPosts();
-  //check session and local storage for a token. If found, load the profile page, otherwise, load the login page
-  if (local) {
-    sessionStorage.setItem("instance", JSON.stringify(local));
-  }
-  if (session) {
-    if (!session.token) {
-      //show the login-signup modal
-      $("#parent").append(authModal);
-      $("#auth-modal").modal("show");
-    }
-  } else {
-    //show the login-signup modal
-    $("#parent").append(authModal);
-    $("#auth-modal").modal("show");
-  }
-  $("#parent").append(postModal);
-});
 $(document).on("click", ".reply-to-post", function() {
   $("#submit-post")
     .attr("data-link", $(this).attr("data-id"))
     .attr("data-reply", "1");
   $("#post-modal").modal("show");
 });
+
 $(document).on("click", "#submit-post", function() {
   var postData = {
     UserId: JSON.parse(sessionStorage.getItem("instance")).id,
@@ -529,6 +339,13 @@ $(document).on("click", "#submit-post", function() {
     $("#post-modal").modal("hide");
   });
 });
+
+$(document).ready(() => {
+  loadStructure();
+  getAllPosts();
+  $("#parent").append(postModal);
+});
+
 //TODO - use flagged data to change color of post or reply and disable the flag post / flag reply link
 //TODO - be able to delete a post if you are the user
 //TODO - show user name somewhere if they have a token
