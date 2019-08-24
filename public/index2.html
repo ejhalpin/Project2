@@ -378,8 +378,8 @@
   $("#joinFamilyGroup").on("click", function() {
     $("#sampleHousehold").remove();
     var familyGroup = $("<div id='sampleHousehold'>");
-    var familyDiv = $("<div class='householdGroup id='group1'>");
-    var sampleMembers = ["Mom", "Dad", "Bob", "Barbara", "You"];
+    var familyDiv = $("<div class='householdGroup' id='sampleHouse'>");
+    var sampleMembers = ["Mom", "Dad", "You"];
     var sampleChores = [
       "Do the dishes",
       "Sweep the house",
@@ -399,6 +399,24 @@
     }
     memberList.append("</ul>");
     familyDiv.append(memberList);
+    familyDiv.prepend(
+      "<button class='btn btn-primary' id='inviteMembersBtn'>Invite New Members</button>"
+    );
+    var newMemberInput = $(
+      "<input id='newMember' placeholder='New Member Username'></input>"
+    );
+    familyDiv.prepend(newMemberInput);
+    $(document).on("click", "#inviteMembersBtn", function() {
+      var newMember = newMemberInput.val();
+      console.log(newMember);
+      if (newMember.trim() !== "") {
+        console.log(newMember);
+        sampleMembers.push(newMember);
+        memberList.append(`<li id='${newMember}'>${newMember}</li>`);
+      } else {
+        console.log("Error: Enter a value.");
+      }
+    });
     //Function that sets up chores and lists them as unassigned
     var sampleChoresListed = $("<ul id='sampleChoresHolder'>");
     for (var j = 0; j < sampleChores.length; j++) {
@@ -460,7 +478,8 @@
         }
         for (var y = 0; y < memberArray.length; y++) {
           for (var x = 0; x < choreArray.length; x++) {
-            $(`#${memberArray[y]}`).append(`<p>${choreArray[x]}</p>`);
+            $(`#${memberArray[y]}`).append(`<br>${choreArray[x]}`);
+            $(`#task${x}`).remove();
           }
         }
       });
