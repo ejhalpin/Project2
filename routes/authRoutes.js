@@ -185,7 +185,8 @@ module.exports = function(app) {
         var userObject = {
           id: data.id,
           name: data.name,
-          emailConfirmed: data.emailConfirmed
+          emailConfirmed: data.emailConfirmed,
+          token: data.token
         };
         if (data.HouseholdId) {
           userObject.HouseholdId = data.HouseholdId;
