@@ -1,0 +1,34 @@
+.title-div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+a.user-name,
+a.flag-post,
+a.reply-to-post {
+  text-decoration: none;
+  color: #fff;
+}
+
+a.user-name:hover,
+a.flag-post:hover,
+a.reply-to-post:hover {
+  opacity: 0.75;
+}
+
+#close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  opacity: 0.5;
+  text-shadow: 0 1px 0 #fff;
+}
+
+#close:hover {
+  opacity: 0.8;
+}
