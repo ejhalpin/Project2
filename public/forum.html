@@ -31,10 +31,101 @@
     ></script>
     <!-- Local Stylesheet -->
     <link rel="stylesheet" href="assets/css/forum.css" />
-    <title>Document</title>
+    <title>Busy Bee Forum</title>
   </head>
   <body>
-    <div class="container" id="parent"></div>
+    <div class="container" id="parent">
+      <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
+        <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
+        <ul class="nav justify-content-end">
+          <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i></li>
+          <li id="user-icon" data-state="0" class="nav-item">
+            <i class="far fa-user fa-2x"></i>
+          </li>
+        </ul>
+      </nav>
+
+      <div id="post-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="post-modal-title" class="modal-title">Create A Post</h5>
+              <button
+                type="button"
+                id="close-post-modal"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="post-form">
+                <div class="form-group">
+                  <label for="post-title">Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="post-title"
+                    aria-describedby="emailHelp"
+                    placeholder="New Post"
+                  />
+                </div>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="category-select">Categories</label>
+                  </div>
+                  <select class="custom-select" id="category-select"> </select>
+                </div>
+                <div class="form-group">
+                  <label for="post-body">Body</label>
+                  <textarea class="form-control" rows="4" id="post-body"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" id="submit-post" class="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="reply-modal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 id="reply-modal-title" class="modal-title">Create a Reply</h5>
+              <button
+                type="button"
+                id="close-reply-modal"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form id="reply-form">
+                <div id="reply-header"></div>
+                <div class="form-group">
+                  <label for="reply-body">Body</label>
+                  <textarea class="form-control" rows="4" id="reply-body"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" id="submit-reply" data-link="0" class="btn btn-primary">
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/auth.js"></script>
     <script src="assets/js/forum.js"></script>
   </body>
 </html>

@@ -32,3 +32,15 @@ a.reply-to-post:hover {
 #close:hover {
   opacity: 0.8;
 }
+
+body {
+  background-color: #f7d00e;
+}
+
+.nav-item:hover {
+  cursor: pointer;
+}
+
+.nav-item {
+  padding: 0 10px;
+}

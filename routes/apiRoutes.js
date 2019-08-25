@@ -119,8 +119,11 @@ module.exports = function(app) {
     //query the db for all posts by a user
     db.User.findOne({ where: { name: req.params.name }, include: [db.Post] })
       .then(data => {
-        response.data = data;
-        res.json(response);
+        var posts = [];
+        data.dataValues.Posts.forEach(post => {
+          posts.push(post.dataValues);
+        });
+        filterPosts(posts, response, res);
       })
       .catch(err => {
         response.status = 500;
@@ -166,7 +169,7 @@ module.exports = function(app) {
       order: [["title", "ASC"]]
     })
       .then(data => {
-        response.data = data;
+        response.data = linkPostsAndResponses(data);
         res.json(response);
       })
       .catch(err => {
@@ -259,7 +262,7 @@ module.exports = function(app) {
       reason: "success",
       data: []
     };
-    console.log(req.body);
+    //console.log(req.body);
     switch (req.params.type) {
       case "users":
         db.User.update(req.body, {
@@ -396,21 +399,44 @@ function linkPostsAndResponses(data) {
     if (entry.isReply) {
       responses.push(entry);
     } else {
-      entry.dataValues.responses = [];
-      console.log(entry);
-      posts.push(entry);
+      if (entry.dataValues) {
+        entry.dataValues.responses = [];
+        //console.log(entry);
+        posts.push(entry);
+      } else {
+        entry.responses = [];
+        posts.push(entry);
+      }
     }
   });
 
   posts.forEach(post => {
     responses.forEach(response => {
-      console.log(response.linkedTo);
+      //console.log(response.linkedTo);
       if (parseInt(response.linkedTo) === parseInt(post.id)) {
-        post.dataValues.responses.push(response);
+        if (post.dataValues) {
+          post.dataValues.responses.push(response);
+        } else {
+          post.responses.push(response);
+        }
       }
     });
   });
   return posts;
+}
+
+async function filterPosts(data, response, res) {
+  var posts = [];
+  for (var i = 0; i < data.length; i++) {
+    var entry = data[i];
+    if (entry.isReply) {
+      var post = await db.Post.findOne({ where: { id: parseInt(entry.linkedTo) } });
+      posts.push(post);
+    }
+    posts.push(entry);
+  }
+  response.data = linkPostsAndResponses(posts);
+  res.json(response);
 }
 
 // FOR DEV PURPOSES ONLY - DELETE BEFORE DEPLOY

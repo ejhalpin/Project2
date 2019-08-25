@@ -5,6 +5,8 @@
  * Any link that allows a user to login / signup should display the modal:
  * $("#auth-modal").modal("show")
  */
+var signOutIcon = "<i class='fas fa-sign-out-alt fa-2x'></i>";
+var signInIcon = "<i class='far fa-user fa-2x'></i>";
 
 //warm-up routines
 var local, session;
@@ -53,6 +55,23 @@ var authModal = `
     </div>
   </div>
 </div>`;
+
+$(document).on("click", "#user-icon", function() {
+  var state = parseInt($(this).attr("data-state"));
+  if (state) {
+    //log out the user
+    sessionStorage.clear();
+    session = undefined;
+    //swap the icon
+    $("#user-icon")
+      .empty()
+      .append(signInIcon)
+      .attr("data-state", "0");
+  } else {
+    // show the login/signup modal
+    $("#auth-modal").modal("show");
+  }
+});
 
 //toggle between the login and signup forms
 $(document).on("click", "#auth-swap", () => {
@@ -116,6 +135,10 @@ $(document).on("click", "#login-submit", event => {
       authenticateUser("/auth/signup", credentials)
         .then(() => {
           $("#auth-modal").modal("hide");
+          $("#user-icon")
+            .empty()
+            .append(signOutIcon)
+            .attr("data-state", "1");
         })
         .catch(err => {
           console.log(err);
@@ -126,6 +149,10 @@ $(document).on("click", "#login-submit", event => {
       authenticateUser("/auth/login", credentials)
         .then(() => {
           $("#auth-modal").modal("hide");
+          $("#user-icon")
+            .empty()
+            .append(signOutIcon)
+            .attr("data-state", "1");
         })
         .catch(err => {
           console.log(err);
@@ -163,9 +190,9 @@ function authenticateUser(route, credentials) {
       }
       if (res.status === 200) {
         //set the friend finder data instance in session storage
-        var instance = res.data[0];
-        console.log(instance);
-        sessionStorage.setItem("instance", JSON.stringify(instance));
+        session = res.data[0];
+        console.log(session);
+        sessionStorage.setItem("instance", JSON.stringify(session));
       }
       resolve(true);
     });
@@ -186,6 +213,6 @@ $(document).ready(function() {
     sessionStorage.setItem("instance", JSON.stringify(local));
   }
   if (session) {
-    console.log("session");
+    //set the icon to sign out
   }
 });
