@@ -21,11 +21,23 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Household</title>
   </head>
   <body>
     <!--Too lazy to dynamically create modals.-->
-    <div class="container">
+    <div class="jumbotron container">
+      <label for="test">Filter By:</label> <br />
+      <select id="frequencyFilter">
+        <option value="All">All</option>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+      <br />
+      <button id="frequencyFilterButton">Submit</button>
+
       <button id="hideComplete" class="btn btn-primary">Hide Completed Chores</button>
       <button
         type="button"
@@ -101,7 +113,7 @@
           <div class="modal-body">
             <label for="chore-name">New Chore Name</label><br />
             <input id="chore-name" placeholder="New Chore Name" /> <br />
-            <label for="frequency">Frequency</label> <br>
+            <label for="frequency">Frequency</label> <br />
             <select id="frequency">
               <option value="once">Once</option>
               <option value="daily">Daily</option>
@@ -111,7 +123,7 @@
             </select>
             <br />
             <label for="assign-chore">Assign To</label><br />
-            <input id="family-name" placeholder="Members to Assign Chore To" /> <br />
+            <form id="formCheck"></form>
             <button id="submitChore" class="btn btn-primary">
               Create Chore
             </button>

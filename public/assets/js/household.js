@@ -1,5 +1,6 @@
 //SAMPLE HOUSEHOLD
 var houseID = 1;
+//Big Display Function(Probaconsole.log(db.User);
 //Big Display Function(Probably need to break it down into seperate functions???)
 function houseDisplay() {
   let queryURL = "/api/household/" + houseID;
@@ -7,7 +8,7 @@ function houseDisplay() {
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
     console.log(response.data);
     console.log(response.data.name);
-    var householdDiv = $("<div class='households'></div>");
+    var householdDiv = $("<div class='bg-light households'></div>");
     var rez = response.data;
     householdDiv.append(`<h2>${rez.name}</h2>`);
     householdDiv.append("<h2>Members</h2>");
@@ -26,8 +27,22 @@ function houseDisplay() {
         var special = rez.Chores[z];
         if (rez.Users[j].name === special.assignedTo) {
           var intermediate2 = $(`<p class='chore${z}'>${special.name}(${special.frequency})</p>`);
-          specialDiv.append(intermediate2);
           console.log(special.isComplete);
+          switch (special.frequency) {
+            case "dialy":
+              intermediate2.addClass("daily");
+              break;
+            case "weekly":
+              intermediate2.addClass("weekly");
+              break;
+            case "monthly":
+              intermediate2.addClass("monthly");
+              break;
+            case "yearly":
+              intermediate2.addClass("yearly");
+              break;
+          }
+          specialDiv.append(intermediate2);
         }
       }
       intermediate.append(specialDiv);
@@ -66,4 +81,59 @@ function houseDisplay() {
   });
 }
 
+$("#frequencyFilterButton").on("click", function() {
+  var test = $("#frequencyFilter").val();
+  console.log(test);
+  switch (test) {
+    case "Daily":
+      $(".daily").show();
+      $(".weekly").hide();
+      $(".monthly").hide();
+      $(".yearly").hide();
+      break;
+    case "Weekly":
+      $(".daily").hide();
+      $(".weekly").show();
+      $(".monthly").hide();
+      $(".yearly").hide();
+      break;
+    case "Monthly":
+      $(".daily").hide();
+      $(".weekly").hide();
+      $(".monthly").show();
+      $(".yearly").hide();
+      break;
+    case "Yearly":
+      $(".daily").hide();
+      $(".weekly").hide();
+      $(".monthly").hide();
+      $(".yearly").show();
+      break;
+    case "all":
+      $(".daily").show();
+      $(".weekly").show();
+      $(".monthly").show();
+      $(".yearly").show();
+      break;
+  }
+});
+
+function modalChecks() {
+  let queryURL = "/api/household/" + houseID;
+  console.log(queryURL);
+  $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+    console.log(response.data);
+    console.log(response.data.name);
+    var rez = response.data;
+    for (var j = 0; j < rez.Users.length; j++) {
+      var special = rez.Users[j];
+      specialCheck = $(
+        `<input type="checkbox" name="assigned" value="${special.name}">${special.name}</input><br>`
+      );
+      $("#formCheck").append(specialCheck);
+    }
+  });
+}
+
 houseDisplay();
+modalChecks();
