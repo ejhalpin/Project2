@@ -136,7 +136,7 @@ module.exports = function(app) {
       reason: "success",
       data: []
     };
-    db.User.findAll({ order: [["id", "ASC"]], attributes: ["id", "name"] })
+    db.User.findAll({ order: [["id", "ASC"]], attributes: ["id", "name", "email", "HouseholdID"] })
       .then(data => {
         response.data = data;
         res.json(response);
