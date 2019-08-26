@@ -137,5 +137,17 @@ function modalChecks() {
   });
 }
 
+function makeChore() {
+  $.post("/api/chore", {
+    name: "test",
+    assignedTo: null,
+    HouseholdId: houseID,
+    frequency: "weekly"
+  }).then(function(response) {
+    console.log(response.data);
+  });
+}
+
 houseDisplay();
 modalChecks();
+makeChore();
