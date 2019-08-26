@@ -1,3 +1,19 @@
+// Edit button
+
+$(document).on("click", "#edit_button", function() {
+  let dbID = $(this).attr("data-dbID");
+  let dbType = $(this).attr("data-dbType");
+  $(".modal").modal("show");
+});
+
+// Delete button
+
+$(document).on("click", "#delete_button", function() {
+  let dbID = $(this).attr("data-dbID");
+  deleteChore(dbID);
+  $(this).fadeOut();
+});
+
 // Pull created chores from database and create cards
 
 function pullChores(userName) {
@@ -58,18 +74,18 @@ function editChore(dbID, choreObj) {
 // Delete button
 
 $(document).on("click", "#delete_button", function() {
+  event.preventDefault();
   let dbID = $(this).attr("data-dbID");
   deleteChore(dbID);
 });
 function deleteChore(dbID) {
-  let queryURL = "/api/chores" + dbID;
+  let queryURL = "/api/chores/" + dbID;
   console.log(queryURL);
   $.ajax({
     url: queryURL,
-    method: "DELETE",
-    data: { id: dbID }.then(function(response) {
-      console.log(response);
-    })
+    method: "DELETE"
+  }).then(function(response) {
+    console.log(response);
   });
 }
 // req.params.id;

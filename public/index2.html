@@ -30,7 +30,7 @@
     <div class="row header">
       <div class="col-sm-2">Logo goes here</div>
       <div class="col-sm-3"></div>
-      <div class="col-sm-1">Families</div>
+      <div class="col-sm-1" id="family">Families</div>
       <div class="col-sm-2" id="chores">My Chores</div>
       <div class="col-sm-1" id="forum">Forum</div>
       <div class="col-sm-1"></div>
@@ -47,7 +47,8 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modals -->
+    <!---Login Modal-->
     <div
       class="modal fade"
       id="loginModal"
@@ -60,7 +61,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="loginModalLabel">Sign in</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -73,31 +79,175 @@
             <button id="submitLogin" class="btn btn-primary">Login</button>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Create Family Modal-->
+    <div
+      class="modal fade"
+      id="createFamilyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="FamilyModalLabel">
+              Create New Household
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="family-name">New Household Name</label><br />
+            <input id="family-name" placeholder="Desired Family Name" /> <br />
+            <label for="password">Password</label><br />
+            <input id="password" placeholder="*******" /> <br />
+            <button id="submitFamilyGroup" class="btn btn-primary">
+              Create New Group
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Join Family Modal-->
+    <div
+      class="modal fade"
+      id="joinFamilyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="joinModalLabel">
+              Join Family Group
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="family-name">Household Name</label><br />
+            <input id="family-name" placeholder="Sample" /> <br />
+            <label for="password">Password (if required)</label><br />
+            <input id="password" placeholder="" /> <br />
+            <button id="joinFamilyGroup" class="btn btn-primary">
+              Join Group
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
     </div>
 
+    <!---Assignment Modal--->
+    <div
+      class="modal fade"
+      id="assignmentModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="assignmentModalLabel">
+              Assign Tasks
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="assignmentModalBody"></div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" id="assignBtn">
+              Assign Chores
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!---Main Jumbotron + Content Div-->
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
         <div class="jumbotron row">
           <div class="col-sm-1"></div>
+          <!---The Main content-div-->
           <div class="col-sm-10 content-div">
             <h1>Welcome to Family Chore Planner Thingy</h1>
             <br />
             <h2>What is Family Chore Planner Thingy?</h2>
             <br />
             <p>
-              Family Chore Planner Thingy (working title) is a website deisgned to help families and
-              work groups delegate tasks among their members. Users will be able to create groups,
-              set up objectives, create and assign tasks amongst themselves, and also chat with
-              staff and other users through our forums. Guests are only able to browse the forums.
-              Membership is completely free of charge. Sign up now and get started!
+              Family Chore Planner Thingy (working title) is a website deisgned
+              to help families and work groups delegate tasks among their
+              members. Users will be able to create groups, set up objectives,
+              create and assign tasks amongst themselves, and also chat with
+              staff and other users through our forums. Guests are only able to
+              browse the forums. Membership is completely free of charge. Sign
+              up now and get started!
             </p>
-            <button class="btn btn-primary" id="get-started">Get Started!</button>
-            <button class="btn btn-primary" id="forumRedirect">Browse the Forums</button>
+            <button class="btn btn-primary" id="get-started">
+              Get Started!
+            </button>
+            <button class="btn btn-primary" id="forumRedirect">
+              Browse the Forums
+            </button>
           </div>
         </div>
       </div>
@@ -112,23 +262,14 @@
     $(".content-div").empty();
     $(".content-div").append("<h1>Family App Forums</h1>");
     var searchDiv = $("<div class='form-group'></div>");
-    var searchBar = $("<input id='searchField' placeholder='Search the Forums'></input>");
+    var searchBar = $(
+      "<input id='searchField' placeholder='Search the Forums'></input>"
+    );
     searchDiv.append(searchBar);
     searchDiv.append("<button class='btn btn-primary' id='forumSearch'>Search");
     $(".content-div").append(searchDiv);
     $(".content-div").append("<div class='row threadHolder'></div>");
   }
-  //Thread table creater
-  // function threadTableMaker() {
-  //   var threadTable = $("<table class='table table-dark' id='threads'>");
-  //   threadTable.append(
-  //     "<thead><tr><th scope='col'>Thread ID</th><th scope='col'>Title</th><th scope='col'>Author</th></thead>"
-  //   );
-  //   threadTable.append(
-  //     "<tbody><tr><th scope='row'>1</th><td id='thread1'>Forum Rules</td><td>Moderator</td></tr></tbody></table>"
-  //   );
-  //   $(".content-div").append(threadTable);
-  // }
 
   function threadMaker() {
     var threadContainer = $("<div id='thread-container'>");
@@ -177,20 +318,189 @@
     );
     var choresDiv = $("<div id='chores-div'></div>");
     $(".content-div").append(choresDiv);
-    choresDiv.append("<p>Assigned by Mom from Family Group<p>");
+    choresDiv.append("<h3>Assigned by Mom from Family Group</h3>");
     var sampleChoresList = $("<ol>");
     sampleChoresList.append(
-      "<li>Clean your room <form><input type='radio' name='task1' value='Completed'>Completed</input><br><input type='radio' name='task1' value='incomplete'>Incomplete</form></li>"
+      "<li data-complete='false'><p id='task1'>Clean your room</p> <form id='task-radio1'><input type='radio' name='task1' value='Completed'>Completed</input><br></form></li>"
     );
     sampleChoresList.append(
-      "<li>Walk the dog <form><input type='radio' name='task2' value='Completed'>Completed</input><br><input type='radio' name='task2' value='incomplete'>Incomplete</form></li>"
+      "<li data-complete='false'><p id='task2'>Walk the dog </p><form id='task-radio2'><input type='radio' name='task2' value='Completed'>Completed</input><br></form></li>"
     );
     sampleChoresList.append(
-      "<li>Take out the trash <form><input type='radio' name='task3' value='Completed'>Completed</input><br><input type='radio' name='task3' value='incomplete'>Incomplete</input></form></li>"
+      "<li data-complete='false'><p id='task3'>Take out the trash </p><form  id='task-radio3'><input type='radio' name='task3' value='Completed'>Completed</input><br></form></li>"
     );
-    sampleChoresList.append(
-      "<button class='btn btn-primary' id='chores-update'>Submit Changes</button>"
+    var submitChanges = $(
+      "<button class='btn btn-primary' id='choresUpdate'>Submit Changes</button>"
     );
+    sampleChoresList.append(submitChanges);
     choresDiv.append(sampleChoresList);
+  });
+
+  $(document).on("click", "#choresUpdate", function() {
+    var task1 = $("input[name=task1]").prop("checked");
+    var task2 = $("input[name=task2]").prop("checked");
+    var task3 = $("input[name=task3]").prop("checked");
+    console.log(task1);
+
+    if (task1 == true) {
+      $("#task-radio1").remove();
+      $("#task1").attr("style", "text-decoration-line: line-through");
+    }
+
+    if (task2 == true) {
+      $("#task-radio2").remove();
+      $("#task2").attr("style", "text-decoration-line: line-through");
+    }
+
+    if (task3 == true) {
+      $("#task-radio3").remove();
+      $("#task3").attr("style", "text-decoration-line: line-through");
+    }
+  });
+
+  //Family/HouseholdPage
+  $("#family").on("click", function() {
+    $(".content-div").empty();
+    var familyDiv = $("<div id='family-div'></div>");
+    familyDiv.append(
+      "<p>In order to assign and be assigned tasks, users must be part of a family group. A family group only requires one user, so solo 'family groups' are possible. Members of family groups assign chores to be done daily, weekly, monthly, annually, or however they wish. Members can invite others to their family group. Once a family group is created, the user is automatically put into the group."
+    );
+    familyDiv.append(
+      "<button type='button' class='btn btn-primary' id='create-family' data-toggle='modal' data-target='#createFamilyModal'>Create Family</button><br>"
+    );
+    familyDiv.append(
+      "<button class='btn btn-primary' id='existing-family' data-toggle='modal' data-target='#joinFamilyModal'>Join Existing Family</button>"
+    );
+    $(".content-div").append(familyDiv);
+  });
+
+  //Sample Family
+  $("#joinFamilyGroup").on("click", function() {
+    $("#sampleHousehold").remove();
+    var familyGroup = $("<div id='sampleHousehold'>");
+    var familyDiv = $("<div class='householdGroup' id='sampleHouse'>");
+    var sampleMembers = ["Mom", "Dad", "You"];
+    var sampleChores = [
+      "Do the dishes",
+      "Sweep the house",
+      "Clean the oven",
+      "Take out the trash"
+    ];
+    familyDiv.append("<h3>Sample Household</h3>");
+    familyDiv.append("<h4>Members<h4>");
+    //Function that sets up members in a group.
+    memberList = $("<ul id='#sampleMemberHolder'>");
+    for (var i = 0; i < sampleMembers.length; i++) {
+      event.preventDefault();
+      var intermediate = $(
+        `<li id='${sampleMembers[i]}'>${sampleMembers[i]}</li>`
+      );
+      memberList.append(intermediate);
+    }
+    memberList.append("</ul>");
+    familyDiv.append(memberList);
+    familyDiv.prepend(
+      "<button class='btn btn-primary' id='inviteMembersBtn'>Invite New Members</button>"
+    );
+    var newMemberInput = $(
+      "<input id='newMember' placeholder='New Member Username'></input>"
+    );
+    familyDiv.prepend(newMemberInput);
+    $(document).on("click", "#inviteMembersBtn", function() {
+      var newMember = newMemberInput.val();
+      console.log(newMember);
+      if (newMember.trim() !== "") {
+        console.log(newMember);
+        sampleMembers.push(newMember);
+        memberList.append(`<li id='${newMember}'>${newMember}</li>`);
+      } else {
+        console.log("Error: Enter a value.");
+      }
+    });
+    //Function that sets up chores and lists them as unassigned
+    var sampleChoresListed = $("<ul id='sampleChoresHolder'>");
+    for (var j = 0; j < sampleChores.length; j++) {
+      event.preventDefault();
+      var intermediate = $(
+        `<li id='task${[j]}'><p class='sampleChores'>${
+          sampleChores[j]
+        }</p></li>`
+      );
+      sampleChoresListed.append(intermediate);
+    }
+
+    familyDiv.append("<h4>Unassigned Chores</h4>");
+    familyDiv.append(sampleChoresListed);
+    var buttonAssign = $(
+      "<button id='assignButton' class= 'btn btn-primary' data-toggle='modal' data-target='#assignmentModal'>Assign</button>"
+    );
+    $(document).on("click", "#assignButton", function() {
+      $("#assignmentModalBody").empty();
+      var choresLabel = $(
+        "<label for='choresToAssign'>Chores To Assign</label> <br>"
+      );
+      $("#assignmentModalBody").append(choresLabel);
+      for (var i = 0; i < sampleChores.length; i++) {
+        var intermediate = $(
+          `<input type='checkbox' name='${sampleChores[i]}' class='householdChores' value='${sampleChores[i]}'>${sampleChores[i]}</input><br>`
+        );
+        $("#assignmentModalBody").append(intermediate);
+      }
+      $("#assignmentModalBody").append(
+        "<label for='assignTo'>Assign To: </label><br>"
+      );
+      for (var j = 0; j < sampleMembers.length; j++) {
+        var intermediate = $(
+          `<input type='checkbox' class='household' name='${sampleMembers[j]}' value='${sampleMembers[j]}'>${sampleMembers[j]}</input><br>`
+        );
+        $("#assignmentModalBody").append(intermediate);
+      }
+      //assignBtn
+      $(document).on("click", "#assignBtn", function() {
+        var choreArray = [];
+        var memberArray = [];
+
+        for (var i = 0; i < sampleChores.length; i++) {
+          var choresToAssign = $(`input[name='${sampleChores[i]}']`);
+          if (choresToAssign.prop("checked") == true) {
+            console.log(choresToAssign.val());
+            choreArray.push(choresToAssign.val());
+          }
+        }
+        for (var z = 0; z < sampleMembers.length; z++) {
+          var assignedTo = $(`input[name='${sampleMembers[z]}']`);
+          if (assignedTo.prop("checked") == true) {
+            console.log(assignedTo.val());
+            memberArray.push(assignedTo.val());
+            console.log(memberArray);
+            console.log(choreArray);
+          }
+        }
+        for (var y = 0; y < memberArray.length; y++) {
+          for (var x = 0; x < choreArray.length; x++) {
+            $(`#${memberArray[y]}`).append(`<br>${choreArray[x]}`);
+            $(`#task${x}`).remove();
+          }
+        }
+      });
+    });
+    //assignBtn
+    var newChore = $(
+      "<button class='btn btn-primary' id='newChoreBtn'>Create New Chores</button>"
+    );
+    familyDiv.append(buttonAssign);
+    familyDiv.append("<br><label for='newChore'>Create New Chore</label><br>");
+    familyDiv.append("<input id='newChore'></input><br>");
+    familyDiv.append(newChore);
+    $(document).on("click", "#newChoreBtn", function() {
+      var newTask = $("#newChore").val();
+      sampleChores.push(newTask);
+      $("#sampleChoresHolder").append(
+        `<li id='${newTask}'><p>${newTask}</p></li>`
+      );
+    });
+
+    familyGroup.append(familyDiv);
+    $(".content-div").append(familyGroup);
   });
 </script>

@@ -11,44 +11,7 @@ const categories = [
 ];
 categories.sort();
 //a variable to hold the html for the post-modal
-var postCreateType = "New Post";
 
-var postModal = `<div  id="post-modal" class="modal" tabindex="-1" role="dialog">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 id="post-modal-title" class="modal-title">Create A ${postCreateType}</h5>
-      <button type="button" id="close-post-modal" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-    <form id="auth-form">
-    <div class="form-group">
-      <label for="post-title">Title</label>
-      <input type="text" class="form-control" id="post-title" aria-describedby="emailHelp" placeholder="New Post" />
-    </div>
-    <div class="input-group">
-  <div class="input-group-prepend">
-    <label class="input-group-text" for="category-select">Categories</label>
-  </div>
-  <select class="custom-select" id="category-select">
-      ${getCategoryOptions()}
-  </select>
-</div>
-    <div class="form-group">
-      <label for="post-body">Body</label>
-      <textarea class="form-control" rows="4" id="post-body" />
-    </div>
-    
-    </form>
-    </div>
-    <div class="modal-footer">
-    <button type="submit" id="submit-post" data-reply ="0" data-link="0" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-</div>
-</div>`;
 //a function to retreive all user names from the database
 //DEVNOTE: THIS FUNCTION SHOULD BE REPLACED WITH AJAX CALLS FOR USER DATA ON THE FLY
 function getUserNames() {
@@ -89,8 +52,8 @@ function getPostsByUser(userName) {
     if (response.status !== 200) {
       console.log(response.reason);
     }
-    console.log(response.data.Posts);
-    layOutForum(response.data.Posts);
+    console.log(response);
+    layOutForum(response.data);
   });
 }
 
@@ -101,9 +64,12 @@ async function layOutForum(posts) {
   posts.forEach(post => {
     var card = $("<div>").addClass("card text-white bg-secondary mb-3");
     var header = $("<div>").addClass("card-header");
-    var title = $("<div>").text(post.title);
+    var title = $("<div>")
+      .attr("id", "title-" + post.id)
+      .text(post.title);
     var category = $("<div>")
       .addClass("forum-category")
+      .attr("id", "category-" + post.id)
       .text(post.category);
     var username = $("<div>").append(
       "<a class='user-name' href='#'>" + userNames[parseInt(post.UserId)] + "</a>"
@@ -305,21 +271,23 @@ $(document).on("click", ".flag-post", function() {
 });
 
 $(document).on("click", "#create-post", () => {
-  //build a modal for post creation
-  $("#post-modal").modal("show");
+  //if the user is not logged in, show the login modal
+  if (session) {
+    $("#post-modal").modal("show");
+  } else {
+    $("#auth-modal").modal("show");
+  }
 });
 
 $(document).on("click", ".reply-to-post", function() {
-  $("#submit-post")
-    .attr("data-link", $(this).attr("data-id"))
-    .attr("data-reply", "1");
-  $("#post-modal").modal("show");
+  $("#submit-reply").attr("data-link", $(this).attr("data-id"));
+  $("#reply-modal").modal("show");
 });
 
 $(document).on("click", "#submit-post", function() {
   var postData = {
-    UserId: JSON.parse(sessionStorage.getItem("instance")).id,
-    isReply: $(this).attr("data-reply") === "1",
+    UserId: session.id,
+    isReply: false,
     title: $("#post-title")
       .val()
       .trim(),
@@ -328,22 +296,41 @@ $(document).on("click", "#submit-post", function() {
       .trim(),
     category: categories[parseInt($("#category-select").val())]
   };
-  var link = parseInt($(this).attr("data-link"));
-  if (link !== 0) {
-    postData.linkedTo = link;
-  }
   $.post("/api/post", postData, response => {
     if (response.status !== 200) {
       console.log(response.reason);
     }
     $("#post-modal").modal("hide");
+    location.reload();
+  });
+});
+
+$(document).on("click", "#submit-reply", function() {
+  var postId = $(this).attr("data-link");
+  var postData = {
+    UserId: session.id,
+    isReply: true,
+    linkedTo: postId,
+    title: $("#title-" + postId).text(),
+    body: $("#reply-body")
+      .val()
+      .trim(),
+    category: $("#category-" + postId).text()
+  };
+  console.log(postData);
+  $.post("/api/post", postData, response => {
+    if (response.status !== 200) {
+      console.log(response.reason);
+    }
+    $("#reply-modal").modal("hide");
+    location.reload();
   });
 });
 
 $(document).ready(() => {
   loadStructure();
   getAllPosts();
-  $("#parent").append(postModal);
+  $("#category-select").append(getCategoryOptions());
 });
 
 //TODO - use flagged data to change color of post or reply and disable the flag post / flag reply link

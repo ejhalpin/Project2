@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <!-- local stylesheet -->
-
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
-
     <!-- jquery -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"
     ></script>
-
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
     <link
@@ -30,18 +27,16 @@
     />
     <!-- bootstrap js -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-    <title>Family Management</title>
+    <title>Busy Bee</title>
   </head>
   <body>
-    <div class="container">
+    <div id="parent" class="container">
       <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
         <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
         <ul class="nav justify-content-end">
-          <li class="nav-item"><i class="far fa-user fa-2x"></i>&emsp;&emsp;</li>
           <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i>&emsp;&emsp;</li>
-          <li class="nav-item">
-            <i class="fas fa-sign-out-alt fa-2x"></i>
+          <li id="user-icon" data-state="0" class="nav-item">
+            <i class="far fa-user fa-2x"></i>
           </li>
         </ul>
       </nav>
@@ -105,12 +100,13 @@
       </div>
       <div class="footer-margin">
         <footer class="bottom text-center">
-          <p ID="teamName" style="text-align: center; margin-top: 20px">
+          <p id="teamName" style="text-align: center; margin-top: 20px">
             &copy; Eugene Haplin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
           </p>
         </footer>
       </div>
     </div>
   </body>
+  <script src="assets/js/auth.js"></script>
   <script src="assets/js/wendy.js"></script>
 </html>
