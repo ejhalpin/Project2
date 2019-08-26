@@ -1,6 +1,15 @@
+function searchForUser() {
+  var queryURL = "/api/users";
+  $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+    console.log(response.data);
+    var rez = response.data;
+    for (var i = 0; i < rez.length; i++) {
+      console.log(rez[i].name);
+    }
+  });
+}
 //SAMPLE HOUSEHOLD
 var houseID = 1;
-//Big Display Function(Probaconsole.log(db.User);
 //Big Display Function(Probably need to break it down into seperate functions???)
 function houseDisplay() {
   let queryURL = "/api/household/" + houseID;
@@ -136,18 +145,31 @@ function modalChecks() {
     }
   });
 }
-
-function makeChore() {
+$("#submitChore").on("click", function() {
+  var choreName = $("#chore-name").val();
   $.post("/api/chore", {
-    name: "test",
+    name: choreName,
     assignedTo: null,
     HouseholdId: houseID,
     frequency: "weekly"
   }).then(function(response) {
     console.log(response.data);
   });
-}
+});
+
+$("#submitChore").on("click", function() {
+  var newUser = $("#username").val();
+  var newEmail = $("#email").val();
+  var newPassword = $("#password").val();
+  $.put("/auth/signup", {
+    name: newUser,
+    email: newEmail,
+    password: newPassword
+  }).then(function(response) {
+    console.log(response.data);
+  });
+});
 
 houseDisplay();
 modalChecks();
-makeChore();
+searchForUser();
