@@ -1,22 +1,3 @@
-// Edit button
-
-$(document).on("click", "#edit_button", function() {
-  let dbID = $(this).attr("data-dbID");
-  editChore(dbID);
-});
-
-// Delete button
-
-$(document).on("click", "#delete_button", function() {
-  let dbID = $(this).attr("data-dbID");
-  deleteChore(dbID);
-  $(this)
-    .parent()
-    .parent()
-    .parent()
-    .fadeOut();
-});
-
 // Pull created chores from database and create cards
 
 function pullChores(userName) {
@@ -30,9 +11,9 @@ function pullChores(userName) {
       let card = $("<div class='card mb-3'></div>");
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
-      cardHeaderRow.append(`<div class='col-6 text-right'>
-      <i id='edit_button' data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle"; cursor: pointer'>edit</i>
-      <i id='delete_button' data-dbID="${response.data[i].id}" data-toggle"modal" class="fas fa-ban"; cursor: pointer'>clear</i></div>`);
+      cardHeaderRow.append(`<div class='col-12 text-right'>
+      <i id='edit_button' data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle"</i>
+      <i id='delete_button' data-dbID="${response.data[i].id}" data-toggle"modal" class="fas fa-ban"</i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
       cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
@@ -46,13 +27,25 @@ function pullChores(userName) {
     }
   });
 }
+// Edit chore button
 
-function editChore(dbID) {
-  let queryURL = `/api/${dbType}/${dbID}`;
+$(document).on("click", "#updateChore", function(event) {
+  event.preventDefault();
+  dbID = 2;
+  var choreObj = { frequency: $("#editFrequency").val(), name: $("#editChoreName").val() };
+  console.log(choreObj);
+  //get all form data and put it inside that object
+  editChore(dbID, choreObj);
+});
+
+// Edit chore function
+
+function editChore(dbID, choreObj) {
+  let queryURL = "/api/chores/" + dbID;
   console.log(queryURL);
-  $.ajax({ url: queryURL, method: "PUT" }).then(function(response) {
+  $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
     console.log(response.data);
-    $("#editById").val(response[0].params.id);
+    // $("#editById").val(response.data[0].id);
     // let updatedDate = moment(response[0].updatedAt)
     //   .add(12, "hours")
     //   .format("YYYY-MM-DD");
@@ -61,5 +54,23 @@ function editChore(dbID) {
     $("#editChoreName").val(response.data[0].name);
   });
 }
+
+// Delete button
+
+$(document).on("click", "#delete_button", function() {
+  let dbID = $(this).attr("data-dbID");
+  deleteChore(dbID);
+});
+function deleteChore(dbID) {
+  let queryURL = "/api/chores" + dbID;
+  console.log(queryURL);
+  $.ajax({
+    url: queryURL,
+    method: "DELETE",
+    data: { id: dbID }.then(function(response) {
+      console.log(response);
+    })
+  });
+}
 // req.params.id;
-$(window).on("load", pullChores("user_0"));
+$(window).on("load", pullChores("frida christensen"));

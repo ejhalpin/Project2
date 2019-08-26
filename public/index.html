@@ -28,6 +28,8 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <!-- bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <title>Family Management</title>
   </head>
@@ -64,7 +66,7 @@
             <div class="modal-body">
               <!-- Form Content // double check the form action route ** pulled from the apiRoutes.js ** -->
 
-              <form action="/api/:type/:id" method="put">
+              <form>
                 <div class="form-group" style="display: none">
                   <input type="text" class="form-control" id="editById" name="editById" />
                 </div>
@@ -74,7 +76,7 @@
                 </div>
                 <div class="form-group">
                   <label for="date">Update Frequency</label>
-                  <input type="date" class="form-control" id="editFrequency" name="editFrequency" />
+                  <input type="text" class="form-control" id="editFrequency" name="editFrequency" />
                 </div>
                 <!-- <div class="form-group">
                     <label for="assignto">Who do you want to assign this chore to?</label>
@@ -94,7 +96,7 @@
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     Close
                   </button>
-                  <button type="submit" class="btn btn-primary">Add</button>
+                  <button type="button" id="updateChore" class="btn btn-primary">Add</button>
                 </div>
               </form>
             </div>
