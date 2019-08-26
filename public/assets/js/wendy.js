@@ -1,32 +1,27 @@
-// Edit button
-
-$(document).on("click", "#edit_button", function() {
-  let dbID = $(this).attr("data-dbID");
-  let dbType = $(this).attr("data-dbType");
-  $(".modal").modal("show");
-});
-
 // Pull created chores from database and create cards
 
 function pullChores(userName) {
-  let queryURL = "/api/chores/" + userName;
+  let queryURL = "/api/chores/" + userName.replace(/%20/g, " ");
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
     console.log(response.data);
     console.log(response.data.length);
+
+    console.log(response.data.filter(element => element.frequency === "monthly"));
+
     for (var i = 0; i < response.data.length; i++) {
       let col = $("<div class='col-6'></div>");
       let card = $("<div class='card mb-3'></div>");
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
       cardHeaderRow.append(`<div class='col-12 text-right'>
-      <i id='edit_button' data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle"</i>
-      <i id='delete_button' data-dbID="${response.data[i].id}" data-toggle"modal" class="fas fa-ban"</i></div>`);
+      <i id='edit_button' data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle"></i>
+      <i id='delete_button' data-dbID="${response.data[i].id}" class="fas fa-ban"></i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
       cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
       let cardBody = $("<div class='card-body'></div>");
-      cardBody.append(`<p><strong>Created:</strong> ${response.data[i].createdAt}</p>`);
+      cardBody.append(`<p><strong>Created:</strong> ${new Date(response.data[i].createdAt)}</p>`);
       cardBody.append(`<p><strong>Frequency:</strong> ${response.data[i].frequency}</p>`);
       card.append(cardHeader);
       card.append(cardBody);
@@ -37,11 +32,19 @@ function pullChores(userName) {
 }
 // Edit chore button
 
+$(document).on("click", "#edit_button", function() {
+  $("#editChoreModal").modal("show");
+  $("#updateChore").attr("data-dbid", $(this).attr("data-dbid"));
+});
+
 $(document).on("click", "#updateChore", function(event) {
   event.preventDefault();
-  dbID = 2;
+
+  let dbID = $(this).attr("data-dbid");
+  // let dbType = $(this).attr("data-dbType");
+
   var choreObj = { frequency: $("#editFrequency").val(), name: $("#editChoreName").val() };
-  console.log(choreObj);
+  console.log(dbID, choreObj);
   //get all form data and put it inside that object
   editChore(dbID, choreObj);
 });
@@ -52,14 +55,16 @@ function editChore(dbID, choreObj) {
   let queryURL = "/api/chores/" + dbID;
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
-    console.log(response.data);
+    console.log("modal success: ", response);
     // $("#editById").val(response.data[0].id);
     // let updatedDate = moment(response[0].updatedAt)
     //   .add(12, "hours")
     //   .format("YYYY-MM-DD");
     // console.log(updatedDate);
-    $("#editFrequency").val(response.data[0].frequency);
-    $("#editChoreName").val(response.data[0].name);
+
+    $("#cardContainer").empty();
+    pullChores(session.name);
+    $("#editChoreModal").modal("hide");
   });
 }
 
@@ -67,7 +72,7 @@ function editChore(dbID, choreObj) {
 
 $(document).on("click", "#delete_button", function() {
   event.preventDefault();
-  let dbID = $(this).attr("data-dbID");
+  let dbID = $(this).attr("data-dbid");
   // $(this)
   //   .parent()
   //   .parent()
@@ -76,7 +81,7 @@ $(document).on("click", "#delete_button", function() {
   //   .parent()
   //   .fadeOut();
   deleteChore(dbID);
-  location.reload(false);
+  //location.reload(false);
 });
 function deleteChore(dbID) {
   let queryURL = "/api/chores/" + dbID;
@@ -86,7 +91,11 @@ function deleteChore(dbID) {
     method: "DELETE"
   }).then(function(response) {
     console.log(response);
+    console.log("Emptying Card Container");
+    $("#cardContainer").empty();
+    console.log("Pulling Kim Morris");
+    pullChores("kim morris");
   });
 }
 // req.params.id;
-$(window).on("load", pullChores("stella legrand"));
+$(window).on("load", pullChores(session.name));

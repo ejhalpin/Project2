@@ -56,17 +56,20 @@ module.exports = function(app) {
       reason: "success",
       data: []
     };
-    //query the db for all chores where assignedTo = uname
-    db.Chore.findAll({ where: { assignedTo: req.params.uname } })
-      .then(data => {
-        response.data = data;
-        res.json(response);
-      })
-      .catch(err => {
-        response.status = 500;
-        response.reason = "Error: " + err;
-        res.json(response);
-      });
+
+    if (req.params.uname[0].match("^[a-zA-Z]")) {
+      //query the db for all chores where assignedTo = uname
+      db.Chore.findAll({ where: { assignedTo: req.params.uname.replace(/%20/g, " ") } })
+        .then(data => {
+          response.data = data;
+          res.json(response);
+        })
+        .catch(err => {
+          response.status = 500;
+          response.reason = "Error: " + err;
+          res.json(response);
+        });
+    }
   });
 
   // Define an api route to retreive all posts of a given category OR all posts if a category is not specified
@@ -262,7 +265,10 @@ module.exports = function(app) {
       reason: "success",
       data: []
     };
-    //console.log(req.body);
+    // console.log("\nbody: ", req.body, "\n");
+    // console.log("\n" + req.body.frequency, "\n");
+    // console.log("\n" + req.body.name, "\n");
+
     switch (req.params.type) {
       case "users":
         db.User.update(req.body, {
@@ -285,13 +291,16 @@ module.exports = function(app) {
         });
         break;
       case "chores":
+        console.log("body:", req.body, "\n");
+        console.log("id", req.params, "\n");
         db.Chore.update(req.body, {
           where: {
             id: req.params.id
           }
         }).then(data => {
+          console.log("\n", data, "\n");
           response.data.push(data);
-          return res.json(response);
+          return res.json(data);
         });
         break;
       case "posts":
