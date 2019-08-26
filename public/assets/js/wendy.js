@@ -6,14 +6,6 @@ $(document).on("click", "#edit_button", function() {
   $(".modal").modal("show");
 });
 
-// Delete button
-
-$(document).on("click", "#delete_button", function() {
-  let dbID = $(this).attr("data-dbID");
-  deleteChore(dbID);
-  $(this).fadeOut();
-});
-
 // Pull created chores from database and create cards
 
 function pullChores(userName) {
@@ -76,7 +68,15 @@ function editChore(dbID, choreObj) {
 $(document).on("click", "#delete_button", function() {
   event.preventDefault();
   let dbID = $(this).attr("data-dbID");
+  // $(this)
+  //   .parent()
+  //   .parent()
+  //   .parent()
+  //   .parent()
+  //   .parent()
+  //   .fadeOut();
   deleteChore(dbID);
+  location.reload(false);
 });
 function deleteChore(dbID) {
   let queryURL = "/api/chores/" + dbID;
@@ -89,4 +89,4 @@ function deleteChore(dbID) {
   });
 }
 // req.params.id;
-$(window).on("load", pullChores("frida christensen"));
+$(window).on("load", pullChores("stella legrand"));
