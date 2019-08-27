@@ -49,7 +49,7 @@ module.exports = function(app) {
 
     //copy by reference req.body to a local object that we can build on
     var userObject = req.body;
-
+    userObject.HouseholdId = 1;
     // look in the users table for the email address to ensure uniqueness
     db.User.findOne({ where: { email: userObject.email } })
       .then(data => {

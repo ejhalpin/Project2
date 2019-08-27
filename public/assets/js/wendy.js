@@ -62,4 +62,4 @@ function editChore(dbID) {
   });
 }
 // req.params.id;
-$(window).on("load", pullChores("user_0"));
+$(window).on("load", pullChores("domingo ferrer"));
