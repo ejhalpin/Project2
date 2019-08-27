@@ -40,6 +40,7 @@
           </li>
         </ul>
       </nav>
+      <br />
       <div id="cardContainer" class="row"></div>
 
       <div
@@ -61,7 +62,7 @@
             <div class="modal-body">
               <!-- Form Content // double check the form action route ** pulled from the apiRoutes.js ** -->
 
-              <form action="/api/:type/:id" method="put">
+              <form>
                 <div class="form-group" style="display: none">
                   <input type="text" class="form-control" id="editById" name="editById" />
                 </div>
@@ -71,27 +72,13 @@
                 </div>
                 <div class="form-group">
                   <label for="date">Update Frequency</label>
-                  <input type="date" class="form-control" id="editFrequency" name="editFrequency" />
+                  <input type="text" class="form-control" id="editFrequency" name="editFrequency" />
                 </div>
-                <!-- <div class="form-group">
-                    <label for="assignto">Who do you want to assign this chore to?</label>
-                    <select
-                      class="form-control"
-                      id="assignNewChoreTo"
-                      name="assignNewChoreTo"
-                      placeholder="Household Member"
-                    >
-                      <option value="Mom">Mom</option>
-                      <option value="Dad">Dad</option>
-                      <option value="Colin">Colin</option>
-                      <option value="Wendy">Wendy</option>
-                    </select>
-                  </div> -->
                 <div class="text-right">
+                  <button type="button" id="updateChore" class="btn btn-primary">Add</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     Close
                   </button>
-                  <button type="submit" class="btn btn-primary">Add</button>
                 </div>
               </form>
             </div>
