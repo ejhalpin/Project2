@@ -17,12 +17,15 @@ const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 var weekOffset = 0;
 var monthOffset = 0;
+
 //=================================================================================================
 //******************************* THE CALENDAR DISPLAY LOGIC **************************************
 //=================================================================================================
+
 $(document).on("click", "#cal-close", function() {
   $("#parent").empty();
 });
+
 $(document).on("change", "#cal-scope", function() {
   var scope = $(this).val();
   $("#cal-view").remove();
@@ -145,6 +148,7 @@ $(document).on("click", ".year-view-cell", function() {
   $("#cal-view-target").append(buildWeekView(moment().add(weekOffset, "week")));
   setLabel("week");
 });
+
 function buildMonthView(now) {
   var monthView = $("<table>").addClass("table table-bordered table-dark");
 
@@ -444,13 +448,14 @@ $(document).on("click", "#chore-modal-show", function() {
     }
     option.appendTo($("#chore-assigned-to"));
   });
+  $("#chore-submit").attr("data-type", "create");
+  $("#chore-modal-title").text("Create A New Chore");
   $("#chore-modal").modal("show");
 });
 
 $("#chore-submit").on("click", function(event) {
   event.preventDefault();
-  console.log("FORM DATA");
-  //get the table rows
+
   var tableCols = $(".tiny-cal-td").toArray();
   //assign the days to an array
   var days = [];
@@ -485,14 +490,18 @@ $("#chore-submit").on("click", function(event) {
     assignedTo: $("#chore-assigned-to").val(),
     HouseholdId: session.HouseholdId
   };
-
-  //call the api to create the chore
-  $.post("/api/chore", choreObj, response => {
-    if (response.status !== 200) {
-      console.log(response.reason);
-    }
-    location.reload();
-  });
+  if ($(this).attr("data-type") === "create") {
+    //call the api to create the chore
+    $.post("/api/chore", choreObj, response => {
+      if (response.status !== 200) {
+        console.log(response.reason);
+      }
+      //TODO change this to a reload of the scene, not the page
+      location.reload();
+    });
+  } else {
+    editChore($(this).attr("data-dbID"), choreObj);
+  }
 });
 
 $("#chore-frequency").change(function() {

@@ -106,48 +106,7 @@
     </div>
 
     <div id="parent" class="container"></div>
-    <div
-      class="modal fade"
-      id="editChoreModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="editChoreModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editChore">Update a chore</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- Form Content // double check the form action route ** pulled from the apiRoutes.js ** -->
-
-            <form>
-              <div class="form-group" style="display: none">
-                <input type="text" class="form-control" id="editById" name="editById" />
-              </div>
-              <div class="form-group">
-                <label for="choreName">Update Chore Name</label>
-                <input type="text" class="form-control" id="editChoreName" name="editChoreName" />
-              </div>
-              <div class="form-group">
-                <label for="date">Update Frequency</label>
-                <input type="text" class="form-control" id="editFrequency" name="editFrequency" />
-              </div>
-              <div class="text-right">
-                <button type="button" id="updateChore" class="btn btn-primary">Add</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                  Close
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- New Chore / Update Chore Modal -->
     <div
       class="modal fade"
       id="chore-modal"
@@ -160,7 +119,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="chore-modal-title">Create A New Chore</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close chore-close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -198,8 +157,18 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="chore-submit">Save changes</button>
+            <button type="button" class="btn btn-secondary chore-close" data-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-type="create"
+              data-dbID=""
+              id="chore-submit"
+            >
+              Save changes
+            </button>
           </div>
         </div>
       </div>
@@ -214,5 +183,6 @@
   </body>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/calendar.js"></script>
+  <script src="assets/js/chore.js"></script>
   <script src="assets/js/wendy.js"></script>
 </html>
