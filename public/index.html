@@ -4,16 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <!-- local stylesheet -->
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
+
     <!-- jquery -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.min.js"
       integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
       crossorigin="anonymous"
     ></script>
+
+    <!-- bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
+
     <link
       href="https://fonts.googleapis.com/css?family=Handlee|Pontano+Sans&display=swap"
       rel="stylesheet"
@@ -25,8 +32,13 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <!-- bootstrap js -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Animate.css -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css"
+      rel="stylesheet"
+    />
+
     <title>Busy Bee</title>
   </head>
   <body>
@@ -34,14 +46,16 @@
       <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
         <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
         <ul class="nav justify-content-end">
-          <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i>&emsp;&emsp;</li>
+          <li class="nav-item"><i class="far fa-bars fa-2x"></i>&emsp;</li>
+          <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i>&emsp;</li>
           <li id="user-icon" data-state="0" class="nav-item">
             <i class="far fa-user fa-2x"></i>
           </li>
         </ul>
       </nav>
       <br />
-      <div id="cardContainer" class="row"></div>
+      <div id="cardContainerDaily" class="col-6 animated fadeInUp slow"></div>
+      <div id="cardContainer" class="col-6 animated fadeInUp slow"></div>
 
       <div
         class="modal fade"

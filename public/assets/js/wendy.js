@@ -7,16 +7,14 @@ function pullChores(userName) {
     console.log(response.data);
     console.log(response.data.length);
 
-    console.log(response.data.filter(element => element.frequency === "monthly"));
-
     for (var i = 0; i < response.data.length; i++) {
-      let col = $("<div class='col-6'></div>");
+      let col = $("<div class='col-12'></div>");
       let card = $("<div class='card mb-3'></div>");
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
       cardHeaderRow.append(`<div class='col-12 text-right'>
-      <i id='edit_button' data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle"></i>
-      <i id='delete_button' data-dbID="${response.data[i].id}" class="fas fa-ban"></i></div>`);
+      <i id='edit_button' style="cursor: pointer" data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle fa-lg"></i>
+      <i id='delete_button' style="cursor: pointer" data-dbID="${response.data[i].id}" class="fas fa-ban fa-lg"></i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
       cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
@@ -27,6 +25,9 @@ function pullChores(userName) {
       card.append(cardBody);
       col.append(card);
       $("#cardContainer").append(col);
+      $("#cardContainerDaily").append(
+        response.data.filter(element => element.frequency === "dialy")
+      );
     }
   });
 }
@@ -63,7 +64,8 @@ function editChore(dbID, choreObj) {
     // console.log(updatedDate);
 
     $("#cardContainer").empty();
-    pullChores(session.name);
+    pullChores("jonathan hansen");
+    // pullChores(session.name);
     $("#editChoreModal").modal("hide");
   });
 }
@@ -94,10 +96,11 @@ function deleteChore(dbID) {
     console.log("Emptying Card Container");
     $("#cardContainer").empty();
     console.log("Pulling Kim Morris");
-    pullChores("kim morris");
+    // pullChores(session.name);
+    pullChores("jonathan hansen");
   });
 }
 // req.params.id;
 
-$(window).on("load", pullChores(session.name));
-
+$(window).on("load", pullChores("jonathan hansen"));
+// $(window).on("load", pullChores(session.name));

@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "node",
-    "password": "creedo",
+    "username": "root",
+    "password": "Happyhobo1!",
     "database": "exampleDB",
     "host": "127.0.0.1",
     "port": 3306,
@@ -9,7 +9,7 @@
   },
   "test": {
     "username": "root",
-    "password": null,
+    "password": "Happyhobo1!",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
