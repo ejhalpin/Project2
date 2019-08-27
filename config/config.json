@@ -3,23 +3,19 @@
     "username": "node",
     "password": "creedo",
     "database": "exampleDB",
-    "host": "127.0.0.1",
-    "port": 3306,
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "password": "null",
+    "database": "testdb",
+    "host": "localhost",
+    "dialect": "mysql",
+    "logging": false
   },
   "production": {
-    "username": "pknkscpu0rcyjx97",
-    "password": "diopoij1pu1asn2o",
-    "database": "arizfy9psubiumpx",
-    "port": 3306,
-    "host": "fugfonv8odxxolj8.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql"
   }
 }
