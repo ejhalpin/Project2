@@ -161,7 +161,7 @@ $("#daily-icon").on("click", function() {
         </div>
       </div>
       <input type="text" id="chore-${chore.id}" class="form-control to-do-item" aria-label="Chore" placeholder ="${chore.name}"  readonly>
-    </div><small id="choreDetail${i}" class="form-text text-muted">${chore.details}</small></td>
+    </div><small id="choreDetail${chore.id}" class="form-text text-muted">${chore.details}</small></td>
       `);
       row.append(col1);
       table.append(row);
