@@ -9,6 +9,7 @@ var signOutIcon = "<i class='fas fa-sign-out-alt'></i>";
 var signInIcon = "<i class='far fa-user'></i>";
 
 //warm-up routines
+var Household;
 var local, session;
 if (localStorage.getItem("instance")) {
   local = JSON.parse(localStorage.getItem("instance"));
@@ -191,6 +192,10 @@ function authenticateUser(route, credentials) {
       if (res.status === 200) {
         //set the friend finder data instance in session storage
         session = res.data[0];
+        $.get("/api/household/" + session.HouseholdId, response => {
+          Household = response.data;
+          console.log(Household);
+        });
         console.log(session);
         sessionStorage.setItem("instance", JSON.stringify(session));
       }
@@ -213,6 +218,10 @@ $(document).ready(function() {
     sessionStorage.setItem("instance", JSON.stringify(local));
   }
   if (session) {
+    $.get("/api/household/" + session.HouseholdId, response => {
+      Household = response.data;
+      console.log(Household);
+    });
     $("#user-icon")
       .empty()
       .append(signOutIcon)

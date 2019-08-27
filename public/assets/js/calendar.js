@@ -14,7 +14,7 @@ const months = [
   "December"
 ];
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-var Household;
+
 var weekOffset = 0;
 var monthOffset = 0;
 //=================================================================================================
@@ -414,21 +414,6 @@ function setLabel(view) {
       break;
   }
 }
-
-$(document).ready(() => {
-  //$("#week-view").append(buildWeekView(moment()));
-  //buildMonthView(moment());
-  //buildYearView(moment());
-  //get all data about the user and household and store it in a global object
-  if (session) {
-    $.get("/api/household/" + session.HouseholdId, response => {
-      Household = response.data;
-      console.log(Household);
-    });
-  }
-
-  console.log(moment().dayOfYear());
-});
 
 $(document).on("click", "#prev-year", function() {
   yearOffset--;
