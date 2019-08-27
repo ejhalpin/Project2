@@ -420,10 +420,13 @@ $(document).ready(() => {
   //buildMonthView(moment());
   //buildYearView(moment());
   //get all data about the user and household and store it in a global object
-  $.get("/api/household/" + session.HouseholdId, response => {
-    Household = response.data;
-    console.log(Household);
-  });
+  if (session) {
+    $.get("/api/household/" + session.HouseholdId, response => {
+      Household = response.data;
+      console.log(Household);
+    });
+  }
+
   console.log(moment().dayOfYear());
 });
 
