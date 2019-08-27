@@ -67,6 +67,7 @@ $(document).on("click", "#user-icon", function() {
     $("#user-icon")
       .empty()
       .append(signInIcon)
+      .attr("title", "Login")
       .attr("data-state", "0");
   } else {
     // show the login/signup modal
@@ -225,6 +226,7 @@ $(document).ready(function() {
     $("#user-icon")
       .empty()
       .append(signOutIcon)
-      .attr("title", "Logout");
+      .attr("title", "Logout")
+      .attr("data-state", "1");
   }
 });

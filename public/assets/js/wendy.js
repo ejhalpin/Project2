@@ -81,9 +81,10 @@ function deleteChore(dbID) {
 $(document).ready(function() {
   if (session) {
     $("#user-link").prepend(session.name);
+    $("[data-toggle='tooltip']").tooltip();
+  } else {
+    location.href = "/forum";
   }
-
-  $("[data-toggle='tooltip']").tooltip();
 });
 
 //all chores icon click
