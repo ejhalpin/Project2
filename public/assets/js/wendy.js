@@ -63,3 +63,5 @@ function editChore(dbID) {
 }
 // req.params.id;
 $(window).on("load", pullChores("domingo ferrer"));
+
+//fix
