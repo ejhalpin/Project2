@@ -9,6 +9,7 @@ function houseDisplay() {
     console.log(response.data.name);
     var rez = response.data;
     var superCard = $("<div class='row cardContainer'>");
+    console.log(rez.Users);
     for (var j = 0; j < rez.Users.length; j++) {
       var cardDiv = $("<div class='card bg-light mb-3 col-6' style='max-width: 15rem;'>");
       cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
@@ -21,8 +22,14 @@ function houseDisplay() {
       cardBody.append(cardTitle);
       for (var z = 0; z < rez.Chores.length; z++) {
         var special = rez.Chores[z];
-        if (rez.Users[j].name === special.assignedTo && special.frequency) {
+
+        if (rez.Users[j].name === special.assignedTo) {
+          console.log("special = " + special.name);
           var intermediate2 = $(`<li class='chore${z}'>${special.name}(${special.frequency})</p>`);
+          if (rez.Chores[z].isComplete === true) {
+            intermediate2.addClass("complete");
+            intermediate2.attr("style", "color: green;");
+          }
           switch (special.frequency) {
             case "dialy":
               intermediate2.addClass("daily");
@@ -60,28 +67,16 @@ function houseDisplay() {
     // householdDiv.append("<h4> Unassigned Chores </h4>");
     // householdDiv.append(unAssigned);
     // $(".container").append(householdDiv);
-    for (var z = 0; z < rez.Chores.length; z++) {
-      if (rez.Chores[z].isComplete === true) {
-        $(`.chore${z}`).attr("style", "color: green;");
-      }
-    }
-    var hide = false;
+    var hide = true;
+    $(".complete").hide();
     $("#hideComplete").on("click", function() {
       if (hide === false) {
-        for (var z = 0; z < rez.Chores.length; z++) {
-          if (rez.Chores[z].isComplete === true) {
-            $(`.chore${z}`).hide();
-          }
-          $("#hideComplete").html("Show Completed Chores");
-        }
+        $(".complete").hide();
+        $("#hideComplete").html("Show Completed Chores");
         hide = true;
       } else {
         $("#hideComplete").html("Hide Completed Chores");
-        for (var z = 0; z < rez.Chores.length; z++) {
-          if (rez.Chores[z].isComplete === true) {
-            $(`.chore${z}`).show();
-          }
-        }
+        $(".complete").show();
         hide = false;
       }
     });
@@ -116,7 +111,7 @@ $("#frequencyFilterButton").on("click", function() {
       $(".monthly").hide();
       $(".yearly").show();
       break;
-    case "all":
+    case "All":
       $(".daily").show();
       $(".weekly").show();
       $(".monthly").show();
@@ -233,6 +228,12 @@ $("#deleteChore").on("click", function() {
   $("#modal-body3").show();
 });
 
+$("#updateChoresBtn").on("click", function() {
+  $("#modal-body3").hide();
+  $("#modal-body1").hide();
+  $("#modal-body2").hide();
+});
+
 $("#nameChanger").on("click", function() {
   var newName = $("#newChoreName")
     .val()
@@ -256,7 +257,6 @@ $("#nameChanger").on("click", function() {
 });
 
 $("#deleteChoreButton").on("click", function() {
-  houseDisplay();
   var choreId = $("#chore-selector2").val();
   var queryURL = "/api/chores/" + choreId;
   $.ajax({
@@ -274,34 +274,33 @@ $("#submitFamilyGroup").on("click", function() {
     .trim();
   //Once I figure how the website figures out who's logged in, we can probably change userId to the current logged in User's ID
   //For now it's Hello aka Me
-  var userId = 11;
+  // var userId = 11;
   //var userData stores the full data of the user
-  var userData;
+  //var userData;
   console.log(queryURL);
-  function test2() {
-    $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-      var rez = response.data;
-      for (var i = 0; i < rez.Users.length; i++) {
-        if (rez.Users[i].id === userId) {
-          userData = rez.Users[i];
-          console.log(rez.Users[i]);
-        }
-      }
-    });
-  }
+  // function test2() {
+  //   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+  //     var rez = response.data;
+  //     for (var i = 0; i < rez.Users.length; i++) {
+  //       if (rez.Users[i].id === userId) {
+  //         userData = rez.Users[i];
+  //         console.log(rez.Users[i]);
+  //       }
+  //     }
+  //   });
+  // }
   function test() {
     $.ajax({
       url: "api/household",
       method: "POST",
       data: {
-        name: newFamilyName,
-        Users: userData
+        name: newFamilyName
       }
     }).then(function(rezponz) {
       console.log(rezponz);
     });
   }
-  test2();
+  //test2();
   test();
 });
 houseDisplay();
