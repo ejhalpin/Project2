@@ -43,3 +43,9 @@ input[type="text"]:focus {
 .nav-item {
   padding: 0 10px;
 }
+
+li a,
+li a:hover {
+  color: inherit;
+  text-decoration: inherit;
+}

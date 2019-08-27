@@ -7,28 +7,35 @@ function pullChores(userName) {
     console.log(response.data);
     console.log(response.data.length);
 
-    for (var i = 0; i < response.data.length; i++) {
+    // Daily view first
+    let daily = response.data.filter(element => element.frequency === "daily");
+    let weekly = response.data.filter(element => element.frequency === "weekly");
+    let monthly = response.data.filter(element => element.frequency === "monthly");
+    let yearly = response.data.filter(element => element.frequency === "yearly");
+    let sortedChores = daily.concat(weekly.concat(monthly.concat(yearly)));
+    console.log(sortedChores);
+    for (var i = 0; i < sortedChores.length; i++) {
       let col = $("<div class='col-6'></div>");
       let card = $("<div class='card mb-3'></div>");
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
       cardHeaderRow.append(`<div class='col-12 text-right'>
-      <i id='edit_button' style="cursor: pointer" data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-edit fa-lg"></i>&nbsp;
-      <i id='delete_button' style="cursor: pointer" data-dbID="${response.data[i].id}" class="fas fa-minus fa-lg"></i></div>`);
+      <i id='edit_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-edit fa-lg"></i>&nbsp;
+      <i id='delete_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" class="fas fa-minus fa-lg"></i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
-      cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
+      cardHeader.append(`<p><strong>Chore Name:</strong> ${sortedChores[i].name}</p>`);
       let cardBody = $("<div class='card-body'></div>");
-      cardBody.append(`<p><strong>Created:</strong> ${new Date(response.data[i].createdAt)}</p>`);
-      cardBody.append(`<p><strong>Frequency:</strong> ${response.data[i].frequency}</p>`);
+      cardBody.append(`<p><strong>Created:</strong> ${new Date(sortedChores[i].createdAt)}</p>`);
+      cardBody.append(`<p><strong>Frequency:</strong> ${sortedChores[i].frequency}</p>`);
       card.append(cardHeader);
       card.append(cardBody);
       col.append(card);
       $("#cardContainer").append(col);
-      $("#cardContainerDaily").append(
-        response.data.filter(element => element.frequency === "dialy")
-      );
+      // $("#cardContainer").append(response.data.filter(element => element.frequency === "daily"));
     }
+    $("#cardContainer").removeClass("fadeInUp slow");
+    $("#cardContainer").addClass("fadeInUp slow");
   });
 }
 // Edit chore button
