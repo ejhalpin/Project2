@@ -11,7 +11,7 @@ function houseDisplay() {
     var superCard = $("<div class='row cardContainer'>");
     console.log(rez.Users);
     for (var j = 0; j < rez.Users.length; j++) {
-      var cardDiv = $("<div class='card bg-light mb-3 col-6' style='max-width: 15rem;'>");
+      var cardDiv = $("<div class='card cardUser bg-light mb-5 col-4'>");
       cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
       var cardBody = $("<div class='card-body'>");
       var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -19,6 +19,10 @@ function houseDisplay() {
       var cardListMonthly = $("<ul>");
       var cardListWeekly = $("<ul>");
       var cardListYearly = $("<ul>");
+      var cardListDailyComplete = $("<ul>");
+      var cardListMonthlyComplete = $("<ul>");
+      var cardListWeeklyComplete = $("<ul>");
+      var cardListYearlyComplete = $("<ul>");
       cardBody.append(cardTitle);
       for (var z = 0; z < rez.Chores.length; z++) {
         var special = rez.Chores[z];
@@ -33,27 +37,51 @@ function houseDisplay() {
           switch (special.frequency) {
             case "dialy":
               intermediate2.addClass("daily");
-              cardListDaily.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListDaily.append(intermediate2);
+              } else {
+                cardListDailyComplete.append(intermediate2);
+              }
               break;
             case "daily":
               intermediate2.addClass("daily");
-              cardListWeekly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListDaily.append(intermediate2);
+              } else {
+                cardListDailyComplete.append(intermediate2);
+              }
               break;
             case "weekly":
               intermediate2.addClass("weekly");
-              cardListWeekly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListWeekly.append(intermediate2);
+              } else {
+                cardListWeeklyComplete.append(intermediate2);
+              }
               break;
             case "monthly":
               intermediate2.addClass("monthly");
-              cardListMonthly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListMonthly.append(intermediate2);
+              } else {
+                cardListMonthlyComplete.append(intermediate2);
+              }
               break;
             case "yearly":
               intermediate2.addClass("yearly");
-              cardListYearly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListYearly.append(intermediate2);
+              } else {
+                cardListYearlyComplete.append(intermediate2);
+              }
               break;
           }
         }
       }
+      cardBody.append(cardListDailyComplete);
+      cardBody.append(cardListWeeklyComplete);
+      cardBody.append(cardListMonthlyComplete);
+      cardBody.append(cardListYearlyComplete);
       cardBody.append(cardListDaily);
       cardBody.append(cardListWeekly);
       cardBody.append(cardListMonthly);
@@ -164,12 +192,16 @@ function choreEdit() {
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
     var rez = response.data;
     for (var z = 0; z < rez.Chores.length; z++) {
-      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
-      $("#chore-selector2").append(intermediate);
+      if (rez.Chores[z].isComplete === false) {
+        var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+        $("#chore-selector2").append(intermediate);
+      }
     }
     for (var z = 0; z < rez.Chores.length; z++) {
-      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
-      $("#chore-selector").append(intermediate);
+      if (rez.Chores[z].isComplete === false) {
+        var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+        $("#chore-selector").append(intermediate);
+      }
     }
     for (var j = 0; j < rez.Users.length; j++) {
       var special = rez.Users[j];
@@ -250,8 +282,10 @@ $("#nameChanger").on("click", function() {
         name: newName
       }
     }).then(function(response) {
-      console.log(response);
-      console.log("Congrats. You've changed the chore's name!");
+      if (response === 1) {
+        var intermediate = $("<p>Your chore name change was successful. Reload the page.</p>");
+        $("#modal-body2").prepend(intermediate);
+      }
     });
   }
 });
@@ -263,7 +297,9 @@ $("#deleteChoreButton").on("click", function() {
     type: "DELETE",
     url: queryURL
   }).then(function(response) {
-    console.log(response);
+    if (response === 1) {
+      console.log("success");
+    }
   });
 });
 
@@ -304,5 +340,4 @@ $("#submitFamilyGroup").on("click", function() {
   test();
 });
 houseDisplay();
-//modalChecks();
 choreEdit();
