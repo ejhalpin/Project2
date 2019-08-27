@@ -2,22 +2,10 @@
 //==============================================================
 var db = require("../models");
 var crypto = require("crypto");
-var sgMail = require("@sendgrid/mail");
+var sg = require("sendgrid")(process.env.SG_MAIL_KEY);
 var moment = require("moment");
+var path = require("path");
 require("dotenv").config();
-//==============================================================
-
-//Configure the mailer
-//==============================================================
-sgMail.setApiKey(process.env.SG_MAIL_KEY);
-
-var message = {
-  to: "null@null.com",
-  from: "no-reply@householdmanager.com",
-  subject: "Please verify your email",
-  text: "dummy text",
-  html: ""
-};
 //==============================================================
 
 //==============================================================
@@ -89,29 +77,53 @@ module.exports = function(app) {
           //add the user to the database
           db.User.create(userObject).then(data => {
             response.data.push(data);
-            //format the email
-            var html =
-              "<h3>Please Confirm Your Email Address</h3>" +
-              "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
-              "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
-              userObject.tempToken +
-              "'>click here to confirm your email</a>";
-            //add the email address and html to the mail config object
-            message.to = userObject.email;
-            message.html = html;
-            //send the confirmation email to the user
-            //send the email link
-            sgMail
-              .send(message)
-              .then(data => {
-                response.data.push(data);
-                res.json(response);
+            //===================CONFIGURE THE EMAIL=================================
+            var request = sg.emptyRequest({
+              method: "POST",
+              path: "/v3/mail/send",
+              body: {
+                personalizations: [
+                  {
+                    to: [
+                      {
+                        email: userObject.email
+                      }
+                    ],
+                    subject: "BusyBee Notification: Please Confirm Your Email"
+                  }
+                ],
+                from: {
+                  email: "noreply@busybee.com"
+                },
+                content: [
+                  {
+                    type: "text/html",
+                    value:
+                      "<h3>Please Confirm Your Email Address</h3>" +
+                      "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
+                      "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
+                      userObject.tempToken +
+                      "'>click here to confirm your email</a>"
+                  }
+                ]
+              }
+            });
+
+            //With promise
+            sg.API(request)
+              .then(info => {
+                console.log(info.statusCode);
+                console.log(info.body);
+                console.log(info.headers);
+                response.data.push(info);
+                return res.json(response);
               })
               .catch(err => {
                 response.status = 500;
                 response.reason = "Server Error " + err;
                 return res.json(response);
               });
+            //=======================================================================
           });
         });
       })
@@ -143,9 +155,8 @@ module.exports = function(app) {
           }
           response.data.push(data);
           //the user was found! confirm their email
-          db.User.update({ emailConfirmed: true }, { where: { id: data.id } }).then(userUpdate => {
-            response.data.push(userUpdate);
-            return res.json(response);
+          db.User.update({ emailConfirmed: true }, { where: { id: data.id } }).then(() => {
+            return res.sendFile(path.join(__dirname, "../public/index.html"));
           });
         } else {
           //the temp token wasn't found...
