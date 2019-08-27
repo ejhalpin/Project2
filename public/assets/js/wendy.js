@@ -76,7 +76,7 @@ function editChore(dbID, choreObj) {
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
     console.log("modal success: ", response);
-    $("#editChoreModal").modal("hide");
+    $("#chore-modal").modal("hide");
     $("#all-icon").trigger("click");
   });
 }
@@ -121,7 +121,7 @@ $("#all-icon").on("click", function() {
 
 function getChoreObjects(day) {
   //get a list of all chores for today
-  //let's make sure that we have all of the necessary info to parse thorough the chores data
+  //let's make sure that we have all of the necessary info to parse through the chores data
   var dayOfWeek = moment()
     .date(day)
     .day();
