@@ -291,16 +291,13 @@ module.exports = function(app) {
         });
         break;
       case "chores":
-        console.log("body:", req.body, "\n");
-        console.log("id", req.params, "\n");
         db.Chore.update(req.body, {
           where: {
             id: req.params.id
           }
         }).then(data => {
-          console.log("\n", data, "\n");
           response.data.push(data);
-          return res.json(data);
+          return res.json(response);
         });
         break;
       case "posts":
