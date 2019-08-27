@@ -88,7 +88,7 @@ module.exports = function(app) {
           var html =
             "<h3>Please Confirm Your Email Address</h3>" +
             "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
-            "<p><a href='http://localhost:8080/confirm/" +
+            "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
             userObject.tempToken +
             "'>click here to confirm your email</a>";
           //add the email address and html to the mail config object
