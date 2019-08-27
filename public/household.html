@@ -5,10 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="https://code.jquery.com/jquery.js"></script>
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Household</title>
   </head>
   <body>
-    <div class="container"></div>
+    <!--Too lazy to dynamically create modals.-->
+    <div class="jumbotron container">
+      <label for="test">Filter By:</label> <br />
+      <select id="frequencyFilter">
+        <option value="All">All</option>
+        <option value="Daily">Daily</option>
+        <option value="Weekly">Weekly</option>
+        <option value="Monthly">Monthly</option>
+        <option value="Yearly">Yearly</option>
+      </select>
+      <br />
+      <button id="frequencyFilterButton">Submit</button>
+
+      <button id="hideComplete" class="btn btn-primary">Hide Completed Chores</button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="create-family"
+        data-toggle="modal"
+        data-target="#createFamilyModal"
+      >
+        Create Family</button
+      ><br />
+      <button
+        type="button"
+        class="btn btn-primary"
+        id="create-family"
+        data-toggle="modal"
+        data-target="#createChoresModal"
+      >
+        Add/Assign Chores
+      </button>
+    </div>
+    <div
+      class="modal fade"
+      id="createFamilyModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="FamilyModalLabel">
+              Create New Household
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="family-name">New Household Name</label><br />
+            <input id="family-name" placeholder="Desired Family Name" /> <br />
+            <button id="submitFamilyGroup" class="btn btn-primary">
+              Create New Group
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Add Chores Modal-->
+    <div
+      class="modal fade"
+      id="createChoresModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="createChoresModalLabel">
+              Create New Chore
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="chore-name">New Chore Name</label><br />
+            <input id="chore-name" placeholder="New Chore Name" /> <br />
+            <label for="frequency">Frequency</label> <br />
+            <select id="frequency">
+              <option value="once">Once</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+            <br />
+            <label for="assign-chore">Assign To</label><br />
+            <form id="formCheck"></form>
+            <button id="submitChore" class="btn btn-primary">
+              Create Chore
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card bg-light mb-3" style="max-width: 18rem;">
+      <div class="card-header">Header</div>
+      <div class="card-body">
+        <h5 class="card-title">Light card title</h5>
+        <p class="card-text">
+          Some quick example text to build on the card title and make up the bulk of the card's
+          content.
+        </p>
+      </div>
+    </div>
   </body>
   <script src="../assets/js/household.js"></script>
 </html>
