@@ -11,7 +11,7 @@ function houseDisplay() {
     var superCard = $("<div class='row cardContainer'>");
     console.log(rez.Users);
     for (var j = 0; j < rez.Users.length; j++) {
-      var cardDiv = $("<div class='card cardUser bg-light mb-5 col-4'>");
+      var cardDiv = $("<div class='card cardUser bg-light mb-3 col-4'>");
       cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
       var cardBody = $("<div class='card-body'>");
       var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -228,7 +228,19 @@ $("#submitChore").on("click", function() {
       frequency: newFreq
     }
   }).then(function(response) {
-    console.log(response);
+    if (response[0] === 1) {
+      var intermediate = $("<p>Your chore reassignment was successful. Reload the page.</p>");
+      $("#modal-body1").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    } else {
+      var intermediate = $("<p>An error has occurred</p>");
+      $("#modal-body1").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    }
   });
 });
 
@@ -273,7 +285,11 @@ $("#nameChanger").on("click", function() {
   var id = $("#oldChoreName").val();
   var queryURL = "/api/chores/" + id;
   if (newName === "") {
-    console.log("ERR: No new name value.");
+    var intermediate2 = $("<p>Error: No new chore name. Please enter a new chore name.</p>");
+    $("#modal-body2").prepend(intermediate2);
+    setTimeout(function() {
+      intermediate2.remove();
+    }, 3000);
   } else {
     $.ajax({
       type: "PUT",
@@ -282,9 +298,20 @@ $("#nameChanger").on("click", function() {
         name: newName
       }
     }).then(function(response) {
-      if (response === 1) {
+      console.log(response);
+      console.log(response[0]);
+      if (response[0] === 1) {
         var intermediate = $("<p>Your chore name change was successful. Reload the page.</p>");
         $("#modal-body2").prepend(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      } else {
+        var intermediate = $("<p>An error has occurred</p>");
+        $("#modal-body2").prepend(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
       }
     });
   }
@@ -297,8 +324,19 @@ $("#deleteChoreButton").on("click", function() {
     type: "DELETE",
     url: queryURL
   }).then(function(response) {
+    console.log(response);
     if (response === 1) {
-      console.log("success");
+      var intermediate = $("<p>Your chore deletion was successful. Reload the page.</p>");
+      $("#modal-body3").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    } else {
+      var intermediate = $("<p>An error has occurred.</p>");
+      $("#modal-body3").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
     }
   });
 });
