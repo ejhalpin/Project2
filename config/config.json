@@ -3,22 +3,26 @@
     "username": "root",
     "password": "Happyhobo1!",
     "database": "exampleDB",
-    "host": "127.0.0.1",
-    "port": 3306,
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
+<<<<<<< HEAD
     "password": "Happyhobo1!",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
+=======
+    "password": "null",
+    "database": "testdb",
+    "host": "localhost",
+    "dialect": "mysql",
+    "logging": false
+>>>>>>> origin
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql"
   }
 }

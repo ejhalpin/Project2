@@ -5,10 +5,11 @@
  * Any link that allows a user to login / signup should display the modal:
  * $("#auth-modal").modal("show")
  */
-var signOutIcon = "<i class='fas fa-sign-out-alt fa-2x'></i>";
-var signInIcon = "<i class='far fa-user fa-2x'></i>";
+var signOutIcon = "<i class='fas fa-sign-out-alt'></i>";
+var signInIcon = "<i class='far fa-user'></i>";
 
 //warm-up routines
+var Household;
 var local, session;
 if (localStorage.getItem("instance")) {
   local = JSON.parse(localStorage.getItem("instance"));
@@ -66,6 +67,7 @@ $(document).on("click", "#user-icon", function() {
     $("#user-icon")
       .empty()
       .append(signInIcon)
+      .attr("title", "Login")
       .attr("data-state", "0");
   } else {
     // show the login/signup modal
@@ -191,6 +193,10 @@ function authenticateUser(route, credentials) {
       if (res.status === 200) {
         //set the friend finder data instance in session storage
         session = res.data[0];
+        $.get("/api/household/" + session.HouseholdId, response => {
+          Household = response.data;
+          console.log(Household);
+        });
         console.log(session);
         sessionStorage.setItem("instance", JSON.stringify(session));
       }
@@ -213,6 +219,14 @@ $(document).ready(function() {
     sessionStorage.setItem("instance", JSON.stringify(local));
   }
   if (session) {
-    //set the icon to sign out
+    $.get("/api/household/" + session.HouseholdId, response => {
+      Household = response.data;
+      console.log(Household);
+    });
+    $("#user-icon")
+      .empty()
+      .append(signOutIcon)
+      .attr("title", "Logout")
+      .attr("data-state", "1");
   }
 });

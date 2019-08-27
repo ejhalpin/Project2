@@ -25,44 +25,66 @@
     <title>Household</title>
   </head>
   <body>
-    <!--Too lazy to dynamically create modals.-->
-    <div class="jumbotron container">
-      <!--Menu Bar-->
-      <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10 menu">Test</div>
-      </div>
-      <label for="test">Filter By:</label> <br />
-      <select id="frequencyFilter">
-        <option value="All">All</option>
-        <option value="Daily">Daily</option>
-        <option value="Weekly">Weekly</option>
-        <option value="Monthly">Monthly</option>
-        <option value="Yearly">Yearly</option>
-      </select>
-      <br />
-      <button id="frequencyFilterButton">Submit</button>
+      <div class="container">
+          <nav class="navbar navbar-light" style="background-color: #EBFCFC; margin-top:10px;">
+            <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
+            <ul class="nav justify-content-end">
+              <li class="nav-item">
+                <a class="nav-link home" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link family" href="/household">Household</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link forum" href="/forum">Forum</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link forum" href="/user">My List</a>
+              </li>
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                id="loginButton"
+                data-toggle="modal"
+                data-target="#loginModal"
+              >
+                Login
+              </button>
+            </ul>
+          </nav>
 
-      <button id="hideComplete" class="btn btn-primary">Hide Completed Chores</button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        id="create-family"
-        data-toggle="modal"
-        data-target="#createFamilyModal"
-      >
-        Create Family</button
-      ><br />
-      <button
-        type="button"
-        class="btn btn-primary"
-        id="create-family"
-        data-toggle="modal"
-        data-target="#updateChoresModal"
-      >
-        Edit Chores
-      </button>
-    </div>
+    <!--Too lazy to dynamically create modals.-->
+<div class="jumbotron container">
+      <!--Menu Bar-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <label for="test">Filter By:</label>
+    <select id="frequencyFilter">
+      <option value="All">All</option>
+      <option value="Daily">Daily</option>
+      <option value="Weekly">Weekly</option>
+      <option value="Monthly">Monthly</option>
+      <option value="Yearly">Yearly</option>
+    </select>
+    <button id="frequencyFilterButton">Submit</button>
+    <button id="hideComplete" class="btn btn-primary">Hide Completed Chores</button>
+    <button
+    type="button"
+    class="btn btn-primary"
+    id="create-family"
+    data-toggle="modal"
+    data-target="#createFamilyModal"
+  >
+    Create Family</button>
+  <button
+    type="button"
+    class="btn btn-primary"
+    id="create-family"
+    data-toggle="modal"
+    data-target="#updateChoresModal"
+  >
+    Edit Chores
+  </button>
+</nav>
     <div
       class="modal fade"
       id="createFamilyModal"
@@ -115,6 +137,9 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          <button type="button" class="btn btn-secondary" id="renameChore">Rename Chore</button>
+          <button type="button" class="btn btn-secondary" id="backEdit">Reassign Chore</button>
+          <button type="button" class="btn btn-secondary" id="deleteChore">Delete Chore</button>
           <div class="modal-body" id="modal-body2">
             <label for="oldChoreName">Old Chore Name</label><br>
             <select id="oldChoreName"></select><br>
@@ -124,6 +149,7 @@
 
           </div>
           <div class="modal-body" id="modal-body1">
+
             <label for="chore-selector">Chore Name</label><br />
             <select id="chore-selector"></select> <br />
             <label for="frequency">Frequency</label> <br />
@@ -137,48 +163,18 @@
             <label for="assign-chore">Assign To</label><br />
             <select id="formCheck"></select> <br>
             <button id="submitChore" class="btn btn-primary">
-              Create Chore
+              Reassign Chore
             </button>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="renameChore">Rename Chore</button>
-            <button type="button" class="btn btn-secondary" id="backEdit">Editting</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-<<<<<<< Updated upstream
+          <div class="modal-body" id="modal-body3">
 
-    <!--New User Modal??-->
-
-    <div
-      class="modal fade"
-      id="inviteUserModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="createChoresModalLabel">
-              Invite New Member
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <label for="invite-name">Invite via Email Address</label><br />
-            <input id="invite-name" placeholder="User email address" /> <br />
-            <button id="inviteUser" class="btn btn-primary">
-              Invite User
-            </button>
-          </div>
+              <label for="chore-selector">Chore Name</label><br />
+              <select id="chore-selector2"></select> <br />
+              <br />
+              <button id="deleteChoreButton" class="btn btn-primary">
+                Delete Chore
+              </button>
+            </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">
               Close
@@ -187,19 +183,5 @@
         </div>
       </div>
     </div>
-
-    <div class="card bg-light mb-3" style="max-width: 18rem;">
-      <div class="card-header">Header</div>
-      <div class="card-body">
-        <h5 class="card-title">Light card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the card's
-          content.
-        </p>
-      </div>
-    </div>
-  </body>
-=======
->>>>>>> Stashed changes
   <script src="../assets/js/household.js"></script>
 </html>

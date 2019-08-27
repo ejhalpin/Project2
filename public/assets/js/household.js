@@ -28,6 +28,10 @@ function houseDisplay() {
               intermediate2.addClass("daily");
               cardListDaily.append(intermediate2);
               break;
+            case "daily":
+              intermediate2.addClass("daily");
+              cardListWeekly.append(intermediate2);
+              break;
             case "weekly":
               intermediate2.addClass("weekly");
               cardListWeekly.append(intermediate2);
@@ -121,22 +125,22 @@ $("#frequencyFilterButton").on("click", function() {
   }
 });
 
-function modalChecks() {
-  let queryURL = "/api/household/" + houseID;
-  console.log(queryURL);
-  $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-    console.log(response.data);
-    console.log(response.data.name);
-    var rez = response.data;
-    for (var j = 0; j < rez.Users.length; j++) {
-      var special = rez.Users[j];
-      specialCheck = $(
-        `<input type="checkbox" name="assigned" value="${special.name}">${special.name}</input><br>`
-      );
-      $("#formCheck").append(specialCheck);
-    }
-  });
-}
+// function modalChecks() {
+//   let queryURL = "/api/household/" + houseID;
+//   console.log(queryURL);
+//   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+//     console.log(response.data);
+//     console.log(response.data.name);
+//     var rez = response.data;
+//     for (var j = 0; j < rez.Users.length; j++) {
+//       var special = rez.Users[j];
+//       specialCheck = $(
+//         `<input type="checkbox" name="assigned" value="${special.name}">${special.name}</input><br>`
+//       );
+//       $("#formCheck").append(specialCheck);
+//     }
+//   });
+// }
 // function inviteMember() {
 //   $.ajax({ url: "api/users", method: "GET" }).then(function(response) {
 //     console.log(response.data);
@@ -164,6 +168,10 @@ function choreEdit() {
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
     var rez = response.data;
+    for (var z = 0; z < rez.Chores.length; z++) {
+      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+      $("#chore-selector2").append(intermediate);
+    }
     for (var z = 0; z < rez.Chores.length; z++) {
       var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
       $("#chore-selector").append(intermediate);
@@ -199,6 +207,7 @@ $("#submitChore").on("click", function() {
 
 $("#modal-body2").hide();
 $("#renameChore").on("click", function() {
+  $("#modal-body3").hide();
   $("#modal-body2").show();
   $("#modal-body1").hide();
   let queryURL = "/api/household/" + houseID;
@@ -215,6 +224,13 @@ $("#renameChore").on("click", function() {
 $("#backEdit").on("click", function() {
   $("#modal-body1").show();
   $("#modal-body2").hide();
+  $("#modal-body3").hide();
+});
+
+$("#deleteChore").on("click", function() {
+  $("#modal-body1").hide();
+  $("#modal-body2").hide();
+  $("#modal-body3").show();
 });
 
 $("#nameChanger").on("click", function() {
@@ -238,6 +254,56 @@ $("#nameChanger").on("click", function() {
     });
   }
 });
+
+$("#deleteChoreButton").on("click", function() {
+  houseDisplay();
+  var choreId = $("#chore-selector2").val();
+  var queryURL = "/api/chores/" + choreId;
+  $.ajax({
+    type: "DELETE",
+    url: queryURL
+  }).then(function(response) {
+    console.log(response);
+  });
+});
+
+$("#submitFamilyGroup").on("click", function() {
+  let queryURL = "/api/household/" + houseID;
+  var newFamilyName = $("#family-name")
+    .val()
+    .trim();
+  //Once I figure how the website figures out who's logged in, we can probably change userId to the current logged in User's ID
+  //For now it's Hello aka Me
+  var userId = 11;
+  //var userData stores the full data of the user
+  var userData;
+  console.log(queryURL);
+  function test2() {
+    $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+      var rez = response.data;
+      for (var i = 0; i < rez.Users.length; i++) {
+        if (rez.Users[i].id === userId) {
+          userData = rez.Users[i];
+          console.log(rez.Users[i]);
+        }
+      }
+    });
+  }
+  function test() {
+    $.ajax({
+      url: "api/household",
+      method: "POST",
+      data: {
+        name: newFamilyName,
+        Users: userData
+      }
+    }).then(function(rezponz) {
+      console.log(rezponz);
+    });
+  }
+  test2();
+  test();
+});
 houseDisplay();
-modalChecks();
+//modalChecks();
 choreEdit();
