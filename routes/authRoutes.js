@@ -81,32 +81,38 @@ module.exports = function(app) {
         userObject.expiration = moment()
           .add(1, "d")
           .toString();
-        //add the user to the database
-        db.User.create(userObject).then(data => {
-          response.data.push(data);
-          //format the email
-          var html =
-            "<h3>Please Confirm Your Email Address</h3>" +
-            "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
-            "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
-            userObject.tempToken +
-            "'>click here to confirm your email</a>";
-          //add the email address and html to the mail config object
-          message.to = userObject.email;
-          message.html = html;
-          //send the confirmation email to the user
-          //send the email link
-          sgMail
-            .send(message)
-            .then(data => {
-              response.data.push(data);
-              res.json(response);
-            })
-            .catch(err => {
-              response.status = 500;
-              response.reason = "Server Error " + err;
-              return res.json(response);
-            });
+        //make sure the busy bee household exits...
+        db.Household.findOne({ where: { id: 1 } }).then(result => {
+          if (!result) {
+            db.Household.create({ name: "Busy Bee" });
+          }
+          //add the user to the database
+          db.User.create(userObject).then(data => {
+            response.data.push(data);
+            //format the email
+            var html =
+              "<h3>Please Confirm Your Email Address</h3>" +
+              "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
+              "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
+              userObject.tempToken +
+              "'>click here to confirm your email</a>";
+            //add the email address and html to the mail config object
+            message.to = userObject.email;
+            message.html = html;
+            //send the confirmation email to the user
+            //send the email link
+            sgMail
+              .send(message)
+              .then(data => {
+                response.data.push(data);
+                res.json(response);
+              })
+              .catch(err => {
+                response.status = 500;
+                response.reason = "Server Error " + err;
+                return res.json(response);
+              });
+          });
         });
       })
       .catch(err => {
