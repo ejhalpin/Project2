@@ -46,17 +46,17 @@
       <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
         <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
         <ul class="nav justify-content-end">
-          <li class="nav-item"><i class="far fa-bars fa-2x"></i>&emsp;</li>
-          <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i>&emsp;</li>
+          <li id="forum-icon" class="nav-item"><i class="far fa-comments fa-2x"></i>&emsp;</li>
+          <li id="calendar-icon" class="nav-item">
+            <i class="far fa-calendar-alt fa-2x"></i>&emsp;
+          </li>
           <li id="user-icon" data-state="0" class="nav-item">
             <i class="far fa-user fa-2x"></i>
           </li>
         </ul>
       </nav>
       <br />
-      <div id="cardContainerDaily" class="col-6 animated fadeInUp slow"></div>
-      <div id="cardContainer" class="col-6 animated fadeInUp slow"></div>
-
+      <div id="cardContainer animated fadeInUp slow"></div>
       <div
         class="modal fade"
         id="editChoreModal"

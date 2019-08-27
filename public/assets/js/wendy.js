@@ -8,13 +8,13 @@ function pullChores(userName) {
     console.log(response.data.length);
 
     for (var i = 0; i < response.data.length; i++) {
-      let col = $("<div class='col-12'></div>");
+      let col = $("<div class='col-6'></div>");
       let card = $("<div class='card mb-3'></div>");
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
       cardHeaderRow.append(`<div class='col-12 text-right'>
-      <i id='edit_button' style="cursor: pointer" data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle fa-lg"></i>
-      <i id='delete_button' style="cursor: pointer" data-dbID="${response.data[i].id}" class="fas fa-ban fa-lg"></i></div>`);
+      <i id='edit_button' style="cursor: pointer" data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-edit fa-lg"></i>&nbsp;
+      <i id='delete_button' style="cursor: pointer" data-dbID="${response.data[i].id}" class="fas fa-minus fa-lg"></i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
       cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
