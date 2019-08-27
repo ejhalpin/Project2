@@ -33,110 +33,82 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar navbar-light" style="background-color: #EBFCFC; margin-top:10px;">
+      <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
         <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
         <ul class="nav justify-content-end">
+          <li class="nav-item"><i class="far fa-user fa-2x"></i>&emsp;&emsp;</li>
+          <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i>&emsp;&emsp;</li>
           <li class="nav-item">
-            <a class="nav-link home" href="#">Home</a>
+            <i class="fas fa-sign-out-alt fa-2x"></i>
           </li>
-          <li class="nav-item">
-            <a class="nav-link family" href="#">My Family</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link forum" href="#">Forum</a>
-          </li>
-          <button
-            type="button"
-            class="btn btn-outline-dark"
-            id="loginButton"
-            data-toggle="modal"
-            data-target="#loginModal"
-          >
-            Login
-          </button>
         </ul>
       </nav>
-      <div id="cardContainer"></div>
+      <div id="cardContainer" class="row"></div>
 
-      <!-- <div class="card-body">
-          <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="addModalTitle">Create a Chore</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                          </button>
-                      </div>
-                      <div class="modal-body"> -->
-      <!-- Form Content -->
+      <div
+        class="modal fade"
+        id="editChoreModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="editChoreModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editChore">Update a chore</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Form Content // double check the form action route ** pulled from the apiRoutes.js ** -->
 
-      <!-- <form action="/addChore" method="post">
-      
-                              <div class="form-group" style="display: none">
-                                  <label for="username">User Name</label>
-                                  <input type="text" class="form-control" id="usernameNewChore" name="user_name"
-                                      placeholder="username"></input>
-                              </div>
-      
-                              <div class="form-group">
-                                  <label for="date">Date</label>
-                                  <input type="date" class="form-control" id="date" name="date"></input>
-                              </div>
-                              <div class="form-group">
-                                  <label for="assignto">Who do you want to assign this chore to?</label>
-                                  <select class="form-control" id="assignNewChore" name="assignNewChore"
-                                      placeholder="Household Member">
-                                      <option value="Mom">Mom</option>
-                                      <option value="Dad">Dad</option>
-                                      <option value="Colin">Colin</option>
-                                      <option value="Wendy">Wendy</option>
-                                  </select>
-                              </div>
-                              <div class='text-right'>
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="submit" class="btn btn-primary">Add</button>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-          </div>  
-        </div> -->
-      <!--       
-      <h1><span class="fab fa-forumbee"></span>Busy Bee</h1>
-      <div class="header">
-        <form id="form">
-          <input
-            type="text"
-            name="search"
-            autocomplete="off"
-            placeholder="&#xF002; Search.."
-            style="font-family:Arial, FontAwesome"
-            id="input"
-          />
-        </form>
+              <form action="/api/:type/:id" method="put">
+                <div class="form-group" style="display: none">
+                  <input type="text" class="form-control" id="editById" name="editById" />
+                </div>
+                <div class="form-group">
+                  <label for="choreName">Update Chore Name</label>
+                  <input type="text" class="form-control" id="editChoreName" name="editChoreName" />
+                </div>
+                <div class="form-group">
+                  <label for="date">Update Frequency</label>
+                  <input type="date" class="form-control" id="editFrequency" name="editFrequency" />
+                </div>
+                <!-- <div class="form-group">
+                    <label for="assignto">Who do you want to assign this chore to?</label>
+                    <select
+                      class="form-control"
+                      id="assignNewChoreTo"
+                      name="assignNewChoreTo"
+                      placeholder="Household Member"
+                    >
+                      <option value="Mom">Mom</option>
+                      <option value="Dad">Dad</option>
+                      <option value="Colin">Colin</option>
+                      <option value="Wendy">Wendy</option>
+                    </select>
+                  </div> -->
+                <div class="text-right">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    Close
+                  </button>
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <br />
-      <div class="card" style="width: 350px; padding: 40px; margin: auto">
-        <form id="loginForm">
-          <input id="inputEmail" type="email" placeholder="Email" /><br /><br />
-          <input id="inputPassword" type="password" placeholder="Password" />
-          <br /><br />
-          <button id="loginButton" type="submit" class="btn btn-primary" style="width: 50%">
-            Login
-          </button>
-        </form>
-      </div> -->
       <div class="footer-margin">
-        <footer class="fixed-bottom text-center">
+        <footer class="bottom text-center">
           <p ID="teamName" style="text-align: center; margin-top: 20px">
             &copy; Eugene Haplin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
           </p>
         </footer>
       </div>
     </div>
-    <!-- </div> -->
-    <script src="assets/js/wendy.js"></script>
   </body>
+  <script src="assets/js/wendy.js"></script>
 </html>
