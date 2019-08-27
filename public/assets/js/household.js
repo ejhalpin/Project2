@@ -1,6 +1,5 @@
 //SAMPLE HOUSEHOLD
 var houseID = 1;
-//Big Display Function(Probaconsole.log(db.User);
 //Big Display Function(Probably need to break it down into seperate functions???)
 function houseDisplay() {
   let queryURL = "/api/household/" + houseID;
@@ -9,8 +8,9 @@ function houseDisplay() {
     console.log(response.data);
     console.log(response.data.name);
     var rez = response.data;
+    var superCard = $("<div class='row cardContainer'>");
     for (var j = 0; j < rez.Users.length; j++) {
-      var cardDiv = $("<div class='card bg-light mb-3' style='max-width: 20rem;'>");
+      var cardDiv = $("<div class='card bg-light mb-3 col-6' style='max-width: 15rem;'>");
       cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
       var cardBody = $("<div class='card-body'>");
       var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -48,7 +48,8 @@ function houseDisplay() {
       cardBody.append(cardListMonthly);
       cardBody.append(cardListYearly);
       cardDiv.append(cardBody);
-      $(".container").append(cardDiv);
+      superCard.append(cardDiv);
+      $(".container").append(superCard);
     }
     // houseHolder.append("</ul>");
     // householdDiv.append(houseHolder);
@@ -136,6 +137,107 @@ function modalChecks() {
     }
   });
 }
+// function inviteMember() {
+//   $.ajax({ url: "api/users", method: "GET" }).then(function(response) {
+//     console.log(response.data);
+//     var rez = response.data;
+//     $.ajax({
+//       type: "PUT",
+//       url: "api/users/11",
+//       data: {
+//         HouseholdId: 1
+//       }
+//     }).then(function(res) {
+//       console.log(res.data);
+//     });
+//     $.ajax({
+//       type: "GET",
+//       url: "api/users/11"
+//     }).then(function(resp) {
+//       console.log(resp.data);
+//     });
+//   });
+// }
 
+function choreEdit() {
+  let queryURL = "/api/household/" + houseID;
+  console.log(queryURL);
+  $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+    var rez = response.data;
+    for (var z = 0; z < rez.Chores.length; z++) {
+      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+      $("#chore-selector").append(intermediate);
+    }
+    for (var j = 0; j < rez.Users.length; j++) {
+      var special = rez.Users[j];
+      specialCheck = $(`<option value="${special.name}">${special.name}</option><br>`);
+      $("#formCheck").append(specialCheck);
+    }
+  });
+}
+$("#submitChore").on("click", function() {
+  var choreId = $("#chore-selector").val();
+  console.log(choreId);
+  var assignee = $("#formCheck").val();
+  var newFreq = $("#frequency").val();
+  console.log(newFreq);
+  var queryURL2 = "api/chores/" + choreId;
+  console.log(queryURL2);
+  console.log(assignee);
+  $.ajax({
+    type: "PUT",
+    url: queryURL2,
+    data: {
+      id: choreId,
+      assignedTo: assignee,
+      frequency: newFreq
+    }
+  }).then(function(response) {
+    console.log(response);
+  });
+});
+
+$("#modal-body2").hide();
+$("#renameChore").on("click", function() {
+  $("#modal-body2").show();
+  $("#modal-body1").hide();
+  let queryURL = "/api/household/" + houseID;
+  console.log(queryURL);
+  $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+    var rez = response.data;
+    for (var z = 0; z < rez.Chores.length; z++) {
+      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+      $("#oldChoreName").append(intermediate);
+    }
+  });
+});
+
+$("#backEdit").on("click", function() {
+  $("#modal-body1").show();
+  $("#modal-body2").hide();
+});
+
+$("#nameChanger").on("click", function() {
+  var newName = $("#newChoreName")
+    .val()
+    .trim();
+  var id = $("#oldChoreName").val();
+  var queryURL = "/api/chores/" + id;
+  if (newName === "") {
+    console.log("ERR: No new name value.");
+  } else {
+    $.ajax({
+      type: "PUT",
+      url: queryURL,
+      data: {
+        name: newName
+      }
+    }).then(function(response) {
+      console.log(response);
+      console.log("Congrats. You've changed the chore's name!");
+    });
+  }
+});
 houseDisplay();
 modalChecks();
+choreEdit();

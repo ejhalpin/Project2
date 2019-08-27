@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 150px;
   height: min-content;
 }
 
@@ -39,4 +38,23 @@
 
 .year-day:hover {
   color: rgb(255, 60, 0);
+}
+
+td:hover {
+  cursor: pointer;
+}
+
+.td-selected {
+  color: #f7d00e;
+}
+
+.tiny-cal-shifter {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#cal-close {
+  font-size: 2rem;
+  align-self: center;
 }

@@ -20,6 +20,8 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <!-- bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- Moment -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
@@ -31,45 +33,81 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="container-fluid">
-      <h1 class="text-center">Week View</h1>
-      <div class="button-box">
-        <button type="button" class="btn btn-info" id="prev-week">&lt;&lt;&lt;</button>
-        <div id="week-label-box">
-          <div id="week-month-label">This Week</div>
-          <div id="week-label">This Week</div>
-        </div>
-        <button type="button" class="btn btn-info" id="next-week">&gt;&gt;&gt;</button>
-      </div>
-      <table id="week-view" class="table table-bordered table-dark"></table>
-      <br />
-      <hr />
-      <br />
-      <h1 class="text-center">Month View</h1>
-      <div class="button-box">
-        <button type="button" class="btn btn-info" id="prev-month">&lt;&lt;&lt;</button>
-        <div id="month-label-box">
-          <div id="month-year-label">Month</div>
-          <div id="month-label">This Month</div>
-        </div>
-        <button type="button" class="btn btn-info" id="next-month">&gt;&gt;&gt;</button>
-      </div>
-      <table id="month-view" class="table table-bordered table-dark"></table>
-      <br />
-      <hr />
-      <br />
-      <h1 class="text-center">Year View</h1>
-      <div class="button-box">
-        <button type="button" class="btn btn-info" id="prev-year">&lt;&lt;&lt;</button>
-        <div id="year-label-box">
-          <div id="year-year-label">Year</div>
-          <div id="year-label">This Year</div>
-        </div>
-
-        <button type="button" class="btn btn-info" id="next-year">&gt;&gt;&gt;</button>
-      </div>
-      <table id="year-view" class="table table-bordered table-dark"></table>
+    <div class="container-fluid" id="parent">
+      <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
+        <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
+        <ul class="nav justify-content-end">
+          <li class="nav-item" id="cal-icon"><i class="far fa-calendar-alt fa-2x"></i></li>
+          <li id="user-icon" data-state="0" class="nav-item">
+            <i class="far fa-user fa-2x"></i>
+          </li>
+        </ul>
+      </nav>
+    <h1>New Chore Creation Modal</h1>
+    <div class="text-center">
+      <button type="button" class="btn btn-primary" id="show-modal">create a chore</button>
     </div>
+    <!-- the calendar view goes here -->
+    <div class="container-fluid" id="cal-target"></div>
+
+    <!-- Modals -->
+    <div
+      class="modal fade"
+      id="chore-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="chore-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="chore-modal-title">Create A New Chore</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="chore-title">Chore Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="chore-title"
+                  placeholder="Vacuum the Carpets"
+                />
+              </div>
+              <div class="form-group">
+                <label for="chore-details">Chore Details</label>
+                <textarea class="form-control" id="chore-details" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="chore-frequency">Frequency</label>
+                <select class="form-control" id="chore-frequency">
+                  <option selected>Daily</option>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                  <option>Yearly</option>
+                </select>
+              </div>
+              <div class="tiny-cal"></div>
+              <div class="form-group">
+                <label for="chore-assigned-to">Assigned To</label>
+                <select class="form-control" id="chore-assigned-to">
+                  <option selected>You</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="chore-submit">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/auth.js"></script>
     <script src="assets/js/calendar.js"></script>
   </body>
 </html>

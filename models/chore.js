@@ -9,10 +9,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    frequency: DataTypes.STRING,
+    details: DataTypes.STRING,
+    frequency: DataTypes.STRING, //"daily", "weekly", "monthly", "yearly"
     assignedTo: DataTypes.STRING,
-    assignedWhen: DataTypes.STRING,
-    htmlTarget: DataTypes.STRING,
+    assignedWhen: DataTypes.STRING, //a sting of comma separated numbers corresponding to the days in the frequency scope
     isComplete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
