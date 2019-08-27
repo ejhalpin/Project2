@@ -79,7 +79,10 @@ function deleteChore(dbID) {
 // req.params.id;
 
 $(document).ready(function() {
-  $("#user-link").prepend(session.name);
+  if (session) {
+    $("#user-link").prepend(session.name);
+  }
+
   $("[data-toggle='tooltip']").tooltip();
 });
 
