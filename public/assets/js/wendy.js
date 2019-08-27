@@ -98,6 +98,4 @@ function deleteChore(dbID) {
   });
 }
 // req.params.id;
-
 $(window).on("load", pullChores(session.name));
-
