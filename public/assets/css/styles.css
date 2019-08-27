@@ -35,11 +35,3 @@ body {
 input[type="text"]:focus {
   width: 50%;
 } */
-
-.nav-item:hover {
-  cursor: pointer;
-}
-
-.nav-item {
-  padding: 0 10px;
-}

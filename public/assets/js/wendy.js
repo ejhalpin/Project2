@@ -4,11 +4,8 @@ function pullChores(userName) {
   let queryURL = "/api/chores/" + userName.replace(/%20/g, " ");
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-    console.log(response.data);
-    console.log(response.data.length);
-
-    console.log(response.data.filter(element => element.frequency === "monthly"));
-
+    //update the cached chores
+    Household.Chores = response.data;
     for (var i = 0; i < response.data.length; i++) {
       let col = $("<div class='col-6'></div>");
       let card = $("<div class='card mb-3'></div>");
@@ -56,15 +53,8 @@ function editChore(dbID, choreObj) {
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
     console.log("modal success: ", response);
-    // $("#editById").val(response.data[0].id);
-    // let updatedDate = moment(response[0].updatedAt)
-    //   .add(12, "hours")
-    //   .format("YYYY-MM-DD");
-    // console.log(updatedDate);
-
-    $("#cardContainer").empty();
-    pullChores(session.name);
     $("#editChoreModal").modal("hide");
+    $("#all-icon").trigger("click");
   });
 }
 
@@ -73,15 +63,7 @@ function editChore(dbID, choreObj) {
 $(document).on("click", "#delete_button", function() {
   event.preventDefault();
   let dbID = $(this).attr("data-dbid");
-  // $(this)
-  //   .parent()
-  //   .parent()
-  //   .parent()
-  //   .parent()
-  //   .parent()
-  //   .fadeOut();
   deleteChore(dbID);
-  //location.reload(false);
 });
 function deleteChore(dbID) {
   let queryURL = "/api/chores/" + dbID;
@@ -91,14 +73,114 @@ function deleteChore(dbID) {
     method: "DELETE"
   }).then(function(response) {
     console.log(response);
-    console.log("Emptying Card Container");
-    $("#cardContainer").empty();
-    console.log("Pulling Kim Morris");
-    pullChores("kim morris");
+    $("#all-icon").trigger("click");
   });
 }
 // req.params.id;
 
 $(document).ready(function() {
+  $("#user-link").prepend(session.name);
+  $("[data-toggle='tooltip']").tooltip();
+});
+
+//all chores icon click
+$("#all-icon").on("click", function() {
+  $(
+    "#parent"
+  ).empty().append(`<div class="title-row"><button type="button" class="btn btn-dark" id="chore-modal-show">create a chore</button><div>All Chores</div></div>
+  <div id="cardContainer" class="row"></div>`);
   pullChores(session.name);
+});
+function getChoreObjects(day) {
+  //get a list of all chores for today
+  //let's make sure that we have all of the necessary info to parse thorough the chores data
+  var dayOfWeek = moment()
+    .date(day)
+    .day();
+  var dayOfYear = moment()
+    .date(day)
+    .dayOfYear();
+  //assuming that we are now correlating days and months correctly,
+  //make a list of all chores for the day based on frequency and assignedWhen
+  var choresList = [];
+  Household.Chores.forEach(chore => {
+    if (chore.assignedTo === session.name) {
+      switch (chore.frequency) {
+        case "Daily":
+          choresList.push(chore);
+          break;
+        case "Weekly":
+          if (chore.assignedWhen.includes(dayOfWeek.toString())) {
+            choresList.push(chore);
+          }
+          break;
+        case "Monthly":
+          if (chore.assignedWhen.includes(dayOfMonth.toString())) {
+            choresList.push(chore);
+          }
+          break;
+        case "Yearly":
+          if (chore.assignedWhen.includes(dayOfYear.toString())) {
+            choresList.push(chore);
+          }
+      }
+    }
+  });
+  return choresList;
+}
+//todays chores
+$("#daily-icon").on("click", function() {
+  //get the chores from the database
+  let queryURL = "/api/chores/" + session.name.replace(/%20/g, " ");
+  $.get(queryURL).then(response => {
+    if (response.status !== 200) {
+      console.log(response.reason);
+    }
+    //update the cached chores
+    Household.Chores = response.data;
+    var today = getChoreObjects(moment().date());
+    console.log(today);
+    var list = $("<div>").addClass("to-do table-responsive");
+    var table = $("<table>")
+      .addClass("table table-borderless")
+      .attr("id", "today-table");
+    today.forEach(chore => {
+      //redo this to handle completed chores
+      var row = $("<tr>").attr("id", "row-" + chore.id);
+      var col1 = $(`
+      <td>
+      <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">
+          <input type="checkbox" class="checkmark" data-id="${chore.id}" aria-label="Checkbox for marking chore complete" aria-describedby="choreDetail${chore.id}" >
+          
+        </div>
+      </div>
+      <input type="text" id="chore-${chore.id}" class="form-control to-do-item" aria-label="Chore" placeholder ="${chore.name}"  readonly>
+    </div><small id="choreDetail${i}" class="form-text text-muted">${chore.details}</small></td>
+      `);
+      row.append(col1);
+      table.append(row);
+    });
+    list.append(table);
+    $("#parent")
+      .empty()
+      .append(list);
+  });
+});
+
+$(document).on("change", ".checkmark", function() {
+  var checked = $(this).prop("checked");
+  var id = parseInt($(this).attr("data-id"));
+  var row = "#row-" + id;
+  if (checked) {
+    $(row)
+      .detach()
+      .appendTo("#today-table");
+  } else {
+    $(row)
+      .detach()
+      .prependTo("#today-table");
+  }
+  //update the database and the chached chores object
 });

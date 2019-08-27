@@ -5,8 +5,8 @@
  * Any link that allows a user to login / signup should display the modal:
  * $("#auth-modal").modal("show")
  */
-var signOutIcon = "<i class='fas fa-sign-out-alt fa-2x'></i>";
-var signInIcon = "<i class='far fa-user fa-2x'></i>";
+var signOutIcon = "<i class='fas fa-sign-out-alt'></i>";
+var signInIcon = "<i class='far fa-user'></i>";
 
 //warm-up routines
 var local, session;
@@ -215,6 +215,7 @@ $(document).ready(function() {
   if (session) {
     $("#user-icon")
       .empty()
-      .append(signOutIcon);
+      .append(signOutIcon)
+      .attr("title", "Logout");
   }
 });

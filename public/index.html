@@ -22,7 +22,7 @@
       crossorigin="anonymous"
     />
     <!-- bootstrap js -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
     <!-- Moment -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
@@ -30,75 +30,188 @@
       crossorigin="anonymous"
     ></script>
     <!-- local stylesheet -->
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/calendar-views.css" />
   </head>
   <body>
-    <div class="container-fluid">
-      <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
-        <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
-        <ul class="nav justify-content-end">
-          <li class="nav-item" id="cal-icon"><i class="far fa-calendar-alt fa-2x"></i></li>
-          <li id="user-icon" data-state="0" class="nav-item">
-            <i class="far fa-user fa-2x"></i>
-          </li>
-        </ul>
+    <!-- The navbar for view navigation -->
+    <div class="container-fluid full-width">
+      <nav class="navbar navbar-main navbar-expand-md">
+        <div class="brand">
+          <i class="fab fa-forumbee"></i><span class="brand-text">Busy Bee</span>
+        </div>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="brand"><i class="fas fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/" id="user-link"><span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/household">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/forum">Forum</a>
+            </li>
+          </ul>
+        </div>
       </nav>
+      <div class="view-nav">
+        <!-- fa-2x -->
+        <span
+          id="daily-icon"
+          class="icon"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="Today's Chores"
+          ><i class="fas fa-clipboard-list"></i
+        ></span>
+        <span
+          id="all-icon"
+          class="icon"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="View All Chores"
+          ><i class="fas fa-th"></i
+        ></span>
+        <span
+          id="cal-icon"
+          class="icon"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="Calendars"
+          ><i class="far fa-calendar-alt"></i
+        ></span>
+        <span
+          id="user-icon"
+          class="icon"
+          data-state="0"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="Login"
+          ><i class="far fa-user"></i
+        ></span>
+      </div>
     </div>
-    <div id="parent" class="container">
-      <div id="cardContainer" class="row"></div>
 
-      <div
-        class="modal fade"
-        id="editChoreModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="editChoreModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editChore">Update a chore</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <!-- Form Content // double check the form action route ** pulled from the apiRoutes.js ** -->
+    <div id="parent" class="container"></div>
+    <div
+      class="modal fade"
+      id="editChoreModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editChoreModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editChore">Update a chore</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Form Content // double check the form action route ** pulled from the apiRoutes.js ** -->
 
-              <form>
-                <div class="form-group" style="display: none">
-                  <input type="text" class="form-control" id="editById" name="editById" />
-                </div>
-                <div class="form-group">
-                  <label for="choreName">Update Chore Name</label>
-                  <input type="text" class="form-control" id="editChoreName" name="editChoreName" />
-                </div>
-                <div class="form-group">
-                  <label for="date">Update Frequency</label>
-                  <input type="text" class="form-control" id="editFrequency" name="editFrequency" />
-                </div>
-                <div class="text-right">
-                  <button type="button" id="updateChore" class="btn btn-primary">Add</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    Close
-                  </button>
-                </div>
-              </form>
-            </div>
+            <form>
+              <div class="form-group" style="display: none">
+                <input type="text" class="form-control" id="editById" name="editById" />
+              </div>
+              <div class="form-group">
+                <label for="choreName">Update Chore Name</label>
+                <input type="text" class="form-control" id="editChoreName" name="editChoreName" />
+              </div>
+              <div class="form-group">
+                <label for="date">Update Frequency</label>
+                <input type="text" class="form-control" id="editFrequency" name="editFrequency" />
+              </div>
+              <div class="text-right">
+                <button type="button" id="updateChore" class="btn btn-primary">Add</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                  Close
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      <div class="footer-margin">
-        <footer class="bottom text-center">
-          <p id="teamName" style="text-align: center; margin-top: 20px">
-            &copy; Eugene Haplin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
-          </p>
-        </footer>
+    </div>
+    <div
+      class="modal fade"
+      id="chore-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="chore-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="chore-modal-title">Create A New Chore</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="chore-title">Chore Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="chore-title"
+                  placeholder="Vacuum the Carpets"
+                />
+              </div>
+              <div class="form-group">
+                <label for="chore-details">Chore Details</label>
+                <textarea class="form-control" id="chore-details" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="chore-frequency">Frequency</label>
+                <select class="form-control" id="chore-frequency">
+                  <option selected>Daily</option>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                  <option>Yearly</option>
+                </select>
+              </div>
+              <div class="tiny-cal"></div>
+              <div class="form-group">
+                <label for="chore-assigned-to">Assigned To</label>
+                <select class="form-control" id="chore-assigned-to">
+                  <option selected>You</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="chore-submit">Save changes</button>
+          </div>
+        </div>
       </div>
+    </div>
+    <div class="footer-margin">
+      <footer class="bottom text-center">
+        <p id="teamName" style="text-align: center; margin-top: 20px">
+          &copy; Eugene Halpin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
+        </p>
+      </footer>
     </div>
   </body>
   <script src="assets/js/auth.js"></script>
-  <script src="assets/js/wendy.js"></script>
   <script src="assets/js/calendar.js"></script>
+  <script src="assets/js/wendy.js"></script>
 </html>

@@ -1,0 +1,90 @@
+.navbar-main {
+  background-color: #0a0a0a;
+  color: #f8f9fa;
+}
+
+.brand {
+  font-family: "Handlee", cursive;
+  color: #f7d00e;
+  font-size: 2rem;
+}
+
+.brand-text {
+  color: #fafafa;
+  text-shadow: 1px 1px 1px #f7d00e, -1px 1px 1px #f7d00e, 1px -1px 1px #f7d00e,
+    -1px -1px 1px #f7d00e;
+  font-size: 2rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
+  opacity: 0.8;
+}
+
+.view-nav {
+  width: 100%;
+  /* background-color: #f7d00e; */
+  color: #0a0a0a;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+  padding: 0;
+}
+
+.title-row {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#parent {
+  flex: 1 0 auto;
+}
+
+.to-do {
+  background-color: #0a0a0a;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.to-do-item {
+  width: 75%;
+  border-radius: 0 5px 5px 0;
+}
+
+.btn-dark {
+  background-color: #0a0a0a;
+  color: #f8f9fa;
+}

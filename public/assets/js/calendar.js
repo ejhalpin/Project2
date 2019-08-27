@@ -447,7 +447,7 @@ $(document).on("click", "#next-year", function() {
 var daysInYear = new Array(367);
 daysInYear.fill(false);
 
-$("#show-modal").on("click", function() {
+$(document).on("click", "#chore-modal-show", function() {
   $("#chore-assigned-to").empty();
   Household.Users.forEach(user => {
     var option = $("<option>").text(user.name);
