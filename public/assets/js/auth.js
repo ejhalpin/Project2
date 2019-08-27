@@ -213,6 +213,8 @@ $(document).ready(function() {
     sessionStorage.setItem("instance", JSON.stringify(local));
   }
   if (session) {
-    //set the icon to sign out
+    $("#user-icon")
+      .empty()
+      .append(signOutIcon);
   }
 });

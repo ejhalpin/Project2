@@ -20,12 +20,12 @@ var weekOffset = 0;
 //******************************* THE CALENDAR DISPLAY LOGIC **************************************
 //=================================================================================================
 $(document).on("click", "#cal-close", function() {
-  $("#cal-target").empty();
+  $("#parent").empty();
 });
 $(document).on("change", "#cal-scope", function() {
   var scope = $(this).val();
   $("#cal-view").remove();
-  $("#cal-target").append("<div id='cal-view'>");
+  $("#parent").append("<div id='cal-view'>");
   switch (scope) {
     case "Today":
       console.log("today");
@@ -54,8 +54,8 @@ $(document).on("change", "#cal-scope", function() {
 });
 
 $(document).on("click", "#cal-icon", function() {
-  $("#cal-target").empty().append(`
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  $("#parent").empty().append(`
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

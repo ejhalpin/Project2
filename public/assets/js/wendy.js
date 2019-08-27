@@ -99,5 +99,6 @@ function deleteChore(dbID) {
 }
 // req.params.id;
 
-$(window).on("load", pullChores(session.name));
-
+$(document).ready(function() {
+  pullChores(session.name);
+});
