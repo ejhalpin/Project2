@@ -491,7 +491,8 @@ $("#chore-submit").on("click", function(event) {
     if (response.status !== 200) {
       console.log(response.reason);
     }
-    location.reload();
+    $("#chore-modal").modal("hide");
+    $("#all-icon").trigger("click");
   });
 });
 

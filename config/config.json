@@ -8,18 +8,10 @@
   },
   "test": {
     "username": "root",
-<<<<<<< HEAD
     "password": "Happyhobo1!",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
-=======
-    "password": "null",
-    "database": "testdb",
-    "host": "localhost",
-    "dialect": "mysql",
-    "logging": false
->>>>>>> origin
   },
   "production": {
     "use_env_variable": "JAWSDB_URL",

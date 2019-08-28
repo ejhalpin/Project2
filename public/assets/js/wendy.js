@@ -22,7 +22,7 @@ function pullChores(userName) {
       let cardHeaderRow = $("<div class='row'></div>");
       cardHeaderRow.append(`<div class='col-12 text-right'>
       <i id='edit_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-edit fa-lg"></i>&nbsp;
-      <i id='delete_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" class="fas fa-minus fa-lg"></i></div>`);
+      <i id='delete_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" class="far fa-trash-alt fa-lg"></i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
       cardHeader.append(`<p><strong>Chore Name:</strong> ${sortedChores[i].name}</p>`);
@@ -35,8 +35,8 @@ function pullChores(userName) {
       $("#cardContainer").append(col);
       // $("#cardContainer").append(response.data.filter(element => element.frequency === "daily"));
     }
-    $("#cardContainer").removeClass("fadeInUp slow");
-    $("#cardContainer").addClass("fadeInUp slow");
+    $("#cardContainer").removeClass("animate fadeInUp slow");
+    $("#cardContainer").addClass("animate fadeInUp slow");
   });
 }
 // Edit chore button
@@ -103,8 +103,8 @@ $(document).ready(function() {
 $("#all-icon").on("click", function() {
   $(
     "#parent"
-  ).empty().append(`<div class="title-row"><button type="button" class="btn btn-dark" id="chore-modal-show">create a chore</button><div>All Chores</div></div>
-  <div id="cardContainer" class="row"></div>`);
+  ).empty().append(`<div class="title-row"><h2>All Chores</h2><button type="button" class="btn btn-dark" id="chore-modal-show">Create a New Chore</button></div>
+  <div id="cardContainer" class="row animated fadeInUp"></div>`);
   pullChores(session.name);
 });
 function getChoreObjects(day) {
