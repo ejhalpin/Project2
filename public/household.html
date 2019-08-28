@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Handlee|Pontano+Sans&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -53,6 +58,12 @@
                   <a class="nav-link" href="/forum">Forum</a>
                 </li>
               </ul>
+              <ul class="nav justify-content-end">
+                  <li class="nav-item"><i class="far fa-calendar-alt fa-2x" ></i></li>
+                  <li id="user-icon" data-state="0" class="nav-item">
+                    <i class="far fa-user fa-2x"></i>
+                  </li>
+                </ul>
             </div>
           </nav>
 <br>
@@ -105,7 +116,7 @@
         Delete Chore</button>
     </nav>
 </div>
-    <div class="special-container row"></div>
+    <div class="special-container container row"></div>
     <div
       class="modal fade"
       id="createFamilyModal"
@@ -125,6 +136,7 @@
             </button>
           </div>
           <div class="modal-body householdBody">
+            <p>WARNING: Creating a new household will automatically assign you to the new household, effectively removing you from your current household. </p>
             <label for="family-name">New Household Name</label><br />
             <input id="family-name" placeholder="Desired Family Name" /> <br />
             <button id="submitFamilyGroup" class="btn btn-warning">
@@ -200,6 +212,7 @@
         </div>
       </div>
     </div>
+    <div id="parent"></div>
 <!--Delete Chore Modal-->
 <div class="modal fade"
 id="delete-chore-modal"

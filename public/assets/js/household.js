@@ -14,7 +14,8 @@ function houseDisplay() {
       console.log("No Househould!");
     } else {
       for (var j = 0; j < rez.Users.length; j++) {
-        var cardDiv = $("<div class='card cardUser bg-light col-3'>");
+        console.log(rez.Users.length);
+        var cardDiv = $("<div class='card cardUser bg-light'>");
         cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
         var cardBody = $("<div class='card-body'>");
         var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -27,6 +28,17 @@ function houseDisplay() {
         var cardListWeeklyComplete = $("<ul>");
         var cardListYearlyComplete = $("<ul>");
         cardBody.append(cardTitle);
+        console.log(rez.Chores.length);
+        if (rez.Chores.length === 0) {
+          console.log(rez.Chores.length);
+          cardListDaily.append("<li>Hello!</li>");
+          cardListMonthly.append("<li>You currently have no chores for your household!</li>");
+          cardBody.append(cardListDaily);
+          cardBody.append(cardListMonthly);
+          cardDiv.append(cardBody);
+          superCard.append(cardDiv);
+          $(".special-container").append(superCard);
+        }
         for (var z = 0; z < rez.Chores.length; z++) {
           var special = rez.Chores[z];
           if (rez.Users[j].name === special.assignedTo) {
@@ -384,7 +396,7 @@ $("#submitFamilyGroup").on("click", function() {
       if (rezponz.status === 200) {
         console.log(rezponz.data[0].id);
         var intermediate = $(
-          `<p>Your new household has been created. Your new Household ID is ${rezponz.data[0].id}.</p>`
+          `<p>Your new household ${newFamilyName}has been created. Your new Household ID is ${rezponz.data[0].id}.</p>`
         );
         $(".householdBody").prepend(intermediate);
       }
@@ -404,6 +416,17 @@ $("#submitFamilyGroup").on("click", function() {
   test();
 });
 
+$(document).on("click", "#login-submit", function() {
+  console.log(session);
+  if (session === undefined) {
+    location.reload();
+  }
+});
+
+$(document).on("click", ".fa-sign-out-alt", function() {
+  location.reload();
+});
+
 function buttonHider() {
   $("#household-nav").hide();
 }
@@ -411,7 +434,9 @@ if (session === undefined) {
   buttonHider();
   console.log("Please Log In");
   var login = $("<div class='jumbotron container'>");
-  login.append("<p>It appears that you are not logged in! Please log in.");
+  login.append(
+    "<p>It appears that you are not logged in! Please log in. If you don't have an account, sign up! It's that easy!"
+  );
   $(".special-container").append(login);
 } else {
   houseDisplay();
