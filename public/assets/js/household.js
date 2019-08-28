@@ -9,8 +9,9 @@ function houseDisplay() {
     console.log(response.data.name);
     var rez = response.data;
     var superCard = $("<div class='row cardContainer'>");
+    console.log(rez.Users);
     for (var j = 0; j < rez.Users.length; j++) {
-      var cardDiv = $("<div class='card bg-light mb-3 col-6' style='max-width: 15rem;'>");
+      var cardDiv = $("<div class='card cardUser bg-light mb-3 col-4'>");
       cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
       var cardBody = $("<div class='card-body'>");
       var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -18,38 +19,71 @@ function houseDisplay() {
       var cardListMonthly = $("<ul>");
       var cardListWeekly = $("<ul>");
       var cardListYearly = $("<ul>");
+      var cardListDailyComplete = $("<ul>");
+      var cardListMonthlyComplete = $("<ul>");
+      var cardListWeeklyComplete = $("<ul>");
+      var cardListYearlyComplete = $("<ul>");
       cardBody.append(cardTitle);
       for (var z = 0; z < rez.Chores.length; z++) {
         var special = rez.Chores[z];
-        if (rez.Users[j].name === special.assignedTo && special.frequency) {
+        if (rez.Users[j].name === special.assignedTo) {
+          console.log("special = " + special.name);
           var intermediate2 = $(`<li class='chore${z}'>${special.name}(${special.frequency})</p>`);
+          if (rez.Chores[z].isComplete === true) {
+            intermediate2.addClass("complete");
+            intermediate2.attr("style", "color: green;");
+          }
           switch (special.frequency) {
             case "dialy":
               intermediate2.addClass("daily");
-              cardListDaily.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListDaily.append(intermediate2);
+              } else {
+                cardListDailyComplete.append(intermediate2);
+              }
               break;
             case "daily":
               intermediate2.addClass("daily");
-              cardListWeekly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListDaily.append(intermediate2);
+              } else {
+                cardListDailyComplete.append(intermediate2);
+              }
               break;
             case "weekly":
               intermediate2.addClass("weekly");
-              cardListWeekly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListWeekly.append(intermediate2);
+              } else {
+                cardListWeeklyComplete.append(intermediate2);
+              }
               break;
             case "monthly":
               intermediate2.addClass("monthly");
-              cardListMonthly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListMonthly.append(intermediate2);
+              } else {
+                cardListMonthlyComplete.append(intermediate2);
+              }
               break;
             case "yearly":
               intermediate2.addClass("yearly");
-              cardListYearly.append(intermediate2);
+              if (special.isComplete === false) {
+                cardListYearly.append(intermediate2);
+              } else {
+                cardListYearlyComplete.append(intermediate2);
+              }
               break;
           }
         }
       }
+      cardBody.append(cardListDailyComplete);
       cardBody.append(cardListDaily);
+      cardBody.append(cardListWeeklyComplete);
       cardBody.append(cardListWeekly);
+      cardBody.append(cardListMonthlyComplete);
       cardBody.append(cardListMonthly);
+      cardBody.append(cardListYearlyComplete);
       cardBody.append(cardListYearly);
       cardDiv.append(cardBody);
       superCard.append(cardDiv);
@@ -60,28 +94,16 @@ function houseDisplay() {
     // householdDiv.append("<h4> Unassigned Chores </h4>");
     // householdDiv.append(unAssigned);
     // $(".container").append(householdDiv);
-    for (var z = 0; z < rez.Chores.length; z++) {
-      if (rez.Chores[z].isComplete === true) {
-        $(`.chore${z}`).attr("style", "color: green;");
-      }
-    }
-    var hide = false;
+    var hide = true;
+    $(".complete").hide();
     $("#hideComplete").on("click", function() {
       if (hide === false) {
-        for (var z = 0; z < rez.Chores.length; z++) {
-          if (rez.Chores[z].isComplete === true) {
-            $(`.chore${z}`).hide();
-          }
-          $("#hideComplete").html("Show Completed Chores");
-        }
+        $(".complete").hide();
+        $("#hideComplete").html("Show Completed Chores");
         hide = true;
       } else {
         $("#hideComplete").html("Hide Completed Chores");
-        for (var z = 0; z < rez.Chores.length; z++) {
-          if (rez.Chores[z].isComplete === true) {
-            $(`.chore${z}`).show();
-          }
-        }
+        $(".complete").show();
         hide = false;
       }
     });
@@ -116,7 +138,7 @@ $("#frequencyFilterButton").on("click", function() {
       $(".monthly").hide();
       $(".yearly").show();
       break;
-    case "all":
+    case "All":
       $(".daily").show();
       $(".weekly").show();
       $(".monthly").show();
@@ -169,12 +191,16 @@ function choreEdit() {
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
     var rez = response.data;
     for (var z = 0; z < rez.Chores.length; z++) {
-      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
-      $("#chore-selector2").append(intermediate);
+      if (rez.Chores[z].isComplete === false) {
+        var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+        $("#chore-selector2").append(intermediate);
+      }
     }
     for (var z = 0; z < rez.Chores.length; z++) {
-      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
-      $("#chore-selector").append(intermediate);
+      if (rez.Chores[z].isComplete === false) {
+        var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
+        $("#chore-selector").append(intermediate);
+      }
     }
     for (var j = 0; j < rez.Users.length; j++) {
       var special = rez.Users[j];
@@ -201,7 +227,19 @@ $("#submitChore").on("click", function() {
       frequency: newFreq
     }
   }).then(function(response) {
-    console.log(response);
+    if (response[0] === 1) {
+      var intermediate = $("<p>Your chore reassignment was successful. Reload the page.</p>");
+      $("#modal-body1").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    } else {
+      var intermediate = $("<p>An error has occurred</p>");
+      $("#modal-body1").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    }
   });
 });
 
@@ -233,6 +271,12 @@ $("#deleteChore").on("click", function() {
   $("#modal-body3").show();
 });
 
+$("#updateChoresBtn").on("click", function() {
+  $("#modal-body3").hide();
+  $("#modal-body1").hide();
+  $("#modal-body2").hide();
+});
+
 $("#nameChanger").on("click", function() {
   var newName = $("#newChoreName")
     .val()
@@ -240,7 +284,11 @@ $("#nameChanger").on("click", function() {
   var id = $("#oldChoreName").val();
   var queryURL = "/api/chores/" + id;
   if (newName === "") {
-    console.log("ERR: No new name value.");
+    var intermediate2 = $("<p>Error: No new chore name. Please enter a new chore name.</p>");
+    $("#modal-body2").prepend(intermediate2);
+    setTimeout(function() {
+      intermediate2.remove();
+    }, 3000);
   } else {
     $.ajax({
       type: "PUT",
@@ -250,13 +298,25 @@ $("#nameChanger").on("click", function() {
       }
     }).then(function(response) {
       console.log(response);
-      console.log("Congrats. You've changed the chore's name!");
+      console.log(response[0]);
+      if (response[0] === 1) {
+        var intermediate = $("<p>Your chore name change was successful. Reload the page.</p>");
+        $("#modal-body2").prepend(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      } else {
+        var intermediate = $("<p>An error has occurred</p>");
+        $("#modal-body2").prepend(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      }
     });
   }
 });
 
 $("#deleteChoreButton").on("click", function() {
-  houseDisplay();
   var choreId = $("#chore-selector2").val();
   var queryURL = "/api/chores/" + choreId;
   $.ajax({
@@ -264,6 +324,19 @@ $("#deleteChoreButton").on("click", function() {
     url: queryURL
   }).then(function(response) {
     console.log(response);
+    if (response === 1) {
+      var intermediate = $("<p>Your chore deletion was successful. Reload the page.</p>");
+      $("#modal-body3").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    } else {
+      var intermediate = $("<p>An error has occurred.</p>");
+      $("#modal-body3").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    }
   });
 });
 
@@ -274,36 +347,41 @@ $("#submitFamilyGroup").on("click", function() {
     .trim();
   //Once I figure how the website figures out who's logged in, we can probably change userId to the current logged in User's ID
   //For now it's Hello aka Me
-  var userId = 11;
+  // var userId = 11;
   //var userData stores the full data of the user
-  var userData;
+  //var userData;
   console.log(queryURL);
-  function test2() {
-    $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-      var rez = response.data;
-      for (var i = 0; i < rez.Users.length; i++) {
-        if (rez.Users[i].id === userId) {
-          userData = rez.Users[i];
-          console.log(rez.Users[i]);
-        }
-      }
-    });
-  }
+  // function test2() {
+  //   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
+  //     var rez = response.data;
+  //     for (var i = 0; i < rez.Users.length; i++) {
+  //       if (rez.Users[i].id === userId) {
+  //         userData = rez.Users[i];
+  //         console.log(rez.Users[i]);
+  //       }
+  //     }
+  //   });
+  // }
   function test() {
     $.ajax({
       url: "api/household",
       method: "POST",
       data: {
-        name: newFamilyName,
-        Users: userData
+        name: newFamilyName
       }
     }).then(function(rezponz) {
       console.log(rezponz);
+      if (rezponz.status === 200) {
+        console.log(rezponz.data[0].id);
+        var intermediate = $(
+          `<p>Your new household has been created. Your new Household ID is ${rezponz.data[0].id}.</p>`
+        );
+        $(".householdBody").prepend(intermediate);
+      }
     });
   }
-  test2();
+  //test2();
   test();
 });
 houseDisplay();
-//modalChecks();
 choreEdit();

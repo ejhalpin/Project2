@@ -11,5 +11,9 @@
 }
 
 body {
-  background: #f7d00e;
+  background-color: yellow;
+}
+
+.btn-primary {
+  margin: 2px;
 }
