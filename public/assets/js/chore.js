@@ -63,7 +63,7 @@ $("#chore-submit").on("click", function(event) {
         console.log(response.reason);
       }
       //TODO change this to a reload of the scene, not the page
-      location.reload();
+      $("#all-icon").trigger("click");
     });
   } else {
     editChore($(this).attr("data-dbID"), choreObj);

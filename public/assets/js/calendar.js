@@ -150,6 +150,8 @@ $(document).on("click", ".year-view-cell", function() {
 });
 
 function buildMonthView(now) {
+  var month = now.month();
+  console.log("MONTH ORIGIN" + now.toString());
   var monthView = $("<table>").addClass("table table-bordered table-dark");
 
   //add the days of the week to the header row
@@ -185,7 +187,7 @@ function buildMonthView(now) {
   } while (now.month() !== nextMonth);
   //console.log(thisMonth);
   //reset the day of the week
-  now.day(dayOfMonth);
+  now.month(month).date(dayOfMonth);
   //loop through the thisMonth array, which now holds the array of calendar (month) days, and append the weeks to the table
   var tbody = $("<tbody>");
   thisMonth.forEach(week => {
@@ -194,7 +196,11 @@ function buildMonthView(now) {
       var td = $("<td>");
       td.append("<div class='day left'>" + day + "</div>");
       td.append("<hr />");
-      var choresList = getChores(day);
+      var dayOfYear = now
+        .month(month)
+        .date(day)
+        .dayOfYear();
+      var choresList = getChores(day, dayOfYear);
       //a div to hold the chore list
       var div = $("<ul>").addClass("chores-list");
       //each chore in the choreslist needs to be appended to the calendar day
@@ -226,14 +232,13 @@ function buildWeekView(now) {
   head.append(headRow);
   weekView.append(head);
   //get the day of the week -> this will correspond to the index of today in the days array
-  var dayOfWeek = now.day();
+
   var thisWeek = [];
   thisWeek.push(now.day(0).date());
   for (var i = 1; i < 7; i++) {
-    thisWeek.push(now.add(1, "d").date());
+    thisWeek.push(now.add(i, "d").date());
+    now.subtract(i, "d");
   }
-  //reset the day of the week
-  now.day(dayOfWeek);
 
   //loop through the thisWeek array, which now holds the calendar (month) day, and append the days to the table
   var tbody = $("<tbody>");
@@ -242,7 +247,8 @@ function buildWeekView(now) {
     var td = $("<td>");
     td.append("<div class='day left'>" + day + "</div>");
     td.append("<hr />");
-    var choresList = getChores(day);
+    var dayOfYear = now.date(day).dayOfYear();
+    var choresList = getChores(day, dayOfYear);
     //a div to hold the chore list
     var div = $("<ul>").addClass("chores-list");
     //each chore in the choreslist needs to be appended to the calendar day
@@ -262,20 +268,15 @@ function buildWeekView(now) {
   return weekView;
 }
 
-function getChores(day) {
-  //get a list of all chores for today
-  //let's make sure that we have all of the necessary info to parse thorough the chores data
-  var dayOfWeek = moment()
-    .date(day)
-    .day();
-  var dayOfYear = moment()
-    .date(day)
-    .dayOfYear();
-  //assuming that we are now correlating days and months correctly,
-  //make a list of all chores for the day based on frequency and assignedWhen
+function getChores(day, dayOfYear) {
+  //the variable day, which is passed into the function, is either a date or a day of the week, depending on the function call
   var choresList = [];
   Household.Chores.forEach(chore => {
+    console.log(chore.assignedWhen);
     if (chore.assignedTo === session.name) {
+      var dayOfWeek = moment()
+        .dayOfYear(dayOfYear)
+        .day();
       switch (chore.frequency) {
         case "Daily":
           choresList.push(chore.name);
@@ -286,7 +287,7 @@ function getChores(day) {
           }
           break;
         case "Monthly":
-          if (chore.assignedWhen.includes(dayOfMonth.toString())) {
+          if (chore.assignedWhen.includes(day.toString())) {
             choresList.push(chore.name);
           }
           break;

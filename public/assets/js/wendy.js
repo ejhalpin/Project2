@@ -119,15 +119,16 @@ $("#all-icon").on("click", function() {
   pullChores(session.name);
 });
 
-function getChoreObjects(day) {
+function getChoreObjects(day, date, month) {
+  var now = moment()
+    .month(month)
+    .date(date)
+    .day(day);
+  console.log(now);
   //get a list of all chores for today
-  //let's make sure that we have all of the necessary info to parse through the chores data
-  var dayOfWeek = moment()
-    .date(day)
-    .day();
-  var dayOfYear = moment()
-    .date(day)
-    .dayOfYear();
+  //let's make sure that we have all of the necessary info to parse thorough the chores data
+  var dayOfWeek = now.day();
+  var dayOfYear = now.dayOfYear();
   //assuming that we are now correlating days and months correctly,
   //make a list of all chores for the day based on frequency and assignedWhen
   var choresList = [];
@@ -143,7 +144,7 @@ function getChoreObjects(day) {
           }
           break;
         case "Monthly":
-          if (chore.assignedWhen.includes(dayOfMonth.toString())) {
+          if (chore.assignedWhen.includes(day.toString())) {
             choresList.push(chore);
           }
           break;
@@ -158,6 +159,7 @@ function getChoreObjects(day) {
 }
 
 $("#daily-icon").on("click", function() {
+  console.log("daily-icon");
   //get the chores from the database
   let queryURL = "/api/chores/" + session.name.replace(/%20/g, " ");
   $.get(queryURL).then(response => {
@@ -166,7 +168,8 @@ $("#daily-icon").on("click", function() {
     }
     //update the cached chores
     Household.Chores = response.data;
-    var today = getChoreObjects(moment().date());
+    var now = moment();
+    var today = getChoreObjects(now.day(), now.date(), now.month());
     console.log(today);
     var list = $("<div>").addClass("to-do table-responsive");
     var table = $("<table>")
