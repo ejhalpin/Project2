@@ -22,6 +22,7 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/global.css" />
     <title>Household</title>
   </head>
   <body>
@@ -43,8 +44,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarContent">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                  <a class="nav-link" href="/">User</a>
+                <li class="nav-item" id="userLink">
                 </li>
                 <li class="nav-item active">
                   <a class="nav-link" href="/household">Home</a>
@@ -55,47 +55,57 @@
               </ul>
             </div>
           </nav>
-    <!--Too lazy to dynamically create modals.-->
-<div class="jumbotron special-container">
-      <!--Menu Bar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <label for="test">Filter By:</label>
-    <select id="frequencyFilter">
-      <option value="All">All</option>
-      <option value="Daily">Daily</option>
-      <option value="Weekly">Weekly</option>
-      <option value="Monthly">Monthly</option>
-      <option value="Yearly">Yearly</option>
-    </select>
-    <button id="frequencyFilterButton">Submit</button>
-    <button id="hideComplete" class="btn btn-primary">Show Completed Chores</button>
-    <button
-    type="button"
-    class="btn btn-primary"
-    id="create-family"
-    data-toggle="modal"
-    data-target="#createFamilyModal"
-  >
-    Create Family</button>
-    <button
-    type="button"
-    class="btn btn-primary"
-    id="chore-modalBtn"
-    data-toggle="modal"
-    data-target="#chore-modal"
-  >
-    Add Chores</button>
-    <button
-    type="button"
-    class="btn btn-primary"
-    id="create-family"
-    data-toggle="modal"
-    data-target="#updateChoresModal"
-  >
-    Edit Modal</button>
-
-    <a class="btn" data-target="#myModel" role="button" data-toggle="modal">Launch demo modal</a>
-</nav>
+<br>
+<br>
+<div class="nav-bar row" id="household-nav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <!--
+        <label for="test">Filter By:</label>
+        <select id="frequencyFilter">
+          <option value="All">All</option>
+          <option value="Daily">Daily</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Yearly">Yearly</option>
+        </select>
+        <button class="btn btn-warning m-1" id="frequencyFilterButton">Submit</button>
+      -->
+        <button id="hideComplete" class="btn btn-warning">Show Completed Chores</button>
+        <button
+        type="button"
+        class="btn btn-warning m-1"
+        id="create-family"
+        data-toggle="modal"
+        data-target="#createFamilyModal"
+      >
+        Create Family</button>
+        <button
+        type="button"
+        class="btn btn-warning m-1"
+        id="chore-add-btn"
+        data-toggle="modal"
+        data-target="#chore-modal"
+      >
+        Add Chores</button>
+        <button
+        type="button"
+        class="btn btn-warning m-1"
+        id="edit-chores-btn"
+        data-toggle="modal"
+        data-target="#updateChoresModal"
+      >
+        Edit Chores</button>
+        <button
+        type="button"
+        class="btn btn-warning m-2"
+        id="delete-chores-btn"
+        data-toggle="modal"
+        data-target="#delete-chore-modal"
+      >
+        Delete Chore</button>
+    </nav>
+</div>
+    <div class="special-container row"></div>
     <div
       class="modal fade"
       id="createFamilyModal"
@@ -117,7 +127,7 @@
           <div class="modal-body householdBody">
             <label for="family-name">New Household Name</label><br />
             <input id="family-name" placeholder="Desired Family Name" /> <br />
-            <button id="submitFamilyGroup" class="btn btn-primary">
+            <button id="submitFamilyGroup" class="btn btn-warning">
               Create New Group
             </button>
           </div>
@@ -190,6 +200,34 @@
         </div>
       </div>
     </div>
+<!--Delete Chore Modal-->
+<div class="modal fade"
+id="delete-chore-modal"
+tabindex="-1"
+role="dialog"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Chore</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="old-chore">Old Chore</label>
+                <select id="chore-selector3"></select>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-warning" id="delete-chore">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <!--New Add Chore Modal-->
   <div
     class="modal fade"
@@ -245,7 +283,7 @@
           </button>
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-warning"
             data-type="create"
             data-dbID=""
             id="chore-submit"

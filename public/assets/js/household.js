@@ -1,7 +1,7 @@
-console.log(session.id);
-//SAMPLE HOUSEHOLD
+console.log(session);
 //Big Display Function(Probably need to break it down into seperate functions???)
 function houseDisplay() {
+  $("#userLink").append(`<a class="nav-link" href="/">${session.name}</a>`);
   let queryURL = "/api/household/" + session.HouseholdId;
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
@@ -14,7 +14,7 @@ function houseDisplay() {
       console.log("No Househould!");
     } else {
       for (var j = 0; j < rez.Users.length; j++) {
-        var cardDiv = $("<div class='card cardUser bg-light mb-3 col-4'>");
+        var cardDiv = $("<div class='card cardUser bg-light col-3'>");
         cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
         var cardBody = $("<div class='card-body'>");
         var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -326,40 +326,7 @@ $("#submitChore").on("click", function() {
   });
 });
 
-$("#renameChore").on("click", function() {
-  $("#modal-body3").hide();
-  $("#modal-body2").show();
-  $("#modal-body1").hide();
-  let queryURL = "/api/household/" + session.HouseholdId;
-  console.log(queryURL);
-  $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-    var rez = response.data;
-    for (var z = 0; z < rez.Chores.length; z++) {
-      var intermediate = $(`<option value='${rez.Chores[z].id}'> ${rez.Chores[z].name}</option>`);
-      $("#oldChoreName").append(intermediate);
-    }
-  });
-});
-
-$("#backEdit").on("click", function() {
-  $("#modal-body1").show();
-  $("#modal-body2").hide();
-  $("#modal-body3").hide();
-});
-
-$("#deleteChore").on("click", function() {
-  $("#modal-body1").hide();
-  $("#modal-body2").hide();
-  $("#modal-body3").show();
-});
-
-$("#updateChoresBtn").on("click", function() {
-  $("#modal-body3").hide();
-  $("#modal-body1").hide();
-  $("#modal-body2").hide();
-});
-
-$("#deleteChoreButton").on("click", function() {
+$("#delete-chore").on("click", function() {
   var choreId = $("#chore-selector2").val();
   var queryURL = "/api/chores/" + choreId;
   $.ajax({
@@ -436,5 +403,17 @@ $("#submitFamilyGroup").on("click", function() {
   //test2();
   test();
 });
-houseDisplay();
-choreEdit();
+
+function buttonHider() {
+  $("#household-nav").hide();
+}
+if (session === undefined) {
+  buttonHider();
+  console.log("Please Log In");
+  var login = $("<div class='jumbotron container'>");
+  login.append("<p>It appears that you are not logged in! Please log in.");
+  $(".special-container").append(login);
+} else {
+  houseDisplay();
+  choreEdit();
+}

@@ -11,9 +11,12 @@
 }
 
 body {
-  background-color: yellow;
+  background-image: url("../img/pencils.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-.btn-primary {
-  margin: 2px;
+div {
+  overflow-x: hidden;
 }
