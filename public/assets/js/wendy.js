@@ -39,11 +39,34 @@ function pullChores(userName) {
     $("#cardContainer").addClass("animate fadeInUp slow");
   });
 }
+
 // Edit chore button
+function fetchChore(id) {
+  for (var i = 0; i < Household.Chores.length; i++) {
+    var chore = Household.Chores[i];
+    if (parseInt(chore.id) === id) {
+      return chore;
+    }
+  }
+}
 
 $(document).on("click", "#edit_button", function() {
-  $("#editChoreModal").modal("show");
-  $("#updateChore").attr("data-dbid", $(this).attr("data-dbid"));
+  //grab everything we know about the chore before we edit it and prepopulate the modal
+  var id = parseInt($(this).attr("data-dbID"));
+  //pull the chore from the household object
+  var chore = fetchChore(id);
+  //prepopulate the modal
+  $("#chore-title").val(chore.name);
+  $("#chore-details").val(chore.details);
+  $("#chore-frequency").val(chore.frequency);
+  $("#chore-assigned-to")
+    .empty()
+    .append("<option>" + chore.assignedTo + "</option>");
+  $("#chore-submit")
+    .attr("data-type", "update")
+    .attr("data-dbID", id);
+  $("#chore-modal-title").text("Update Chore");
+  $("#chore-modal").modal("show");
 });
 
 $(document).on("click", "#updateChore", function(event) {
@@ -77,6 +100,7 @@ $(document).on("click", "#delete_button", function() {
   let dbID = $(this).attr("data-dbid");
   deleteChore(dbID);
 });
+
 function deleteChore(dbID) {
   let queryURL = "/api/chores/" + dbID;
   console.log(queryURL);
@@ -88,7 +112,6 @@ function deleteChore(dbID) {
     $("#all-icon").trigger("click");
   });
 }
-// req.params.id;
 
 $(document).ready(function() {
   if (session) {
@@ -107,6 +130,7 @@ $("#all-icon").on("click", function() {
   <div id="cardContainer" class="row animated fadeInUp"></div>`);
   pullChores(session.name);
 });
+
 function getChoreObjects(day) {
   //get a list of all chores for today
   //let's make sure that we have all of the necessary info to parse thorough the chores data
@@ -144,7 +168,7 @@ function getChoreObjects(day) {
   });
   return choresList;
 }
-//todays chores
+
 $("#daily-icon").on("click", function() {
   //get the chores from the database
   let queryURL = "/api/chores/" + session.name.replace(/%20/g, " ");
