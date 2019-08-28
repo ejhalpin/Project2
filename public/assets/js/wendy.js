@@ -18,14 +18,20 @@ function pullChores(userName) {
     for (var i = 0; i < sortedChores.length; i++) {
       let col = $("<div class='col-6'></div>");
       let card = $("<div class='card mb-3'></div>");
+
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
-      cardHeaderRow.append(`<div class='col-12 text-right'>
+
+      cardHeaderRow.append(
+        `<div class='col-9 text-left'><strong>Chore Name:</strong> ${sortedChores[i].name}</div>`
+      );
+      cardHeaderRow.append(`<div class='col-3 text-right'>
       <i id='edit_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-edit fa-lg"></i>&nbsp;
       <i id='delete_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" class="far fa-trash-alt fa-lg"></i></div>`);
       console.log(response);
+
       cardHeader.append(cardHeaderRow);
-      cardHeader.append(`<p><strong>Chore Name:</strong> ${sortedChores[i].name}</p>`);
+
       let cardBody = $("<div class='card-body'></div>");
       cardBody.append(`<p><strong>Created:</strong> ${new Date(sortedChores[i].createdAt)}</p>`);
       cardBody.append(`<p><strong>Frequency:</strong> ${sortedChores[i].frequency}</p>`);
@@ -199,4 +205,10 @@ $(document).on("change", ".checkmark", function() {
       .prependTo("#today-table");
   }
   //update the database and the chached chores object
+});
+
+$(document).on("click", ".input-group", function() {
+  $(this)
+    .children()
+    .slideToggle();
 });
