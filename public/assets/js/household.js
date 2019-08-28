@@ -286,7 +286,14 @@ $("#chore-edit").on("click", function() {
         frequency: frequency
       }
     }).then(function(response) {
-      console.log(response);
+      console.log(response.status);
+      if (response.status === 200) {
+        var intermediate = $("<p>Your chore has been edited! Reloading the page to update...");
+        $(".modal-body2").append(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      }
     });
   } else {
     $.ajax({
@@ -299,7 +306,13 @@ $("#chore-edit").on("click", function() {
         assignedTo: assignee
       }
     }).then(function(resp) {
-      console.log(resp.data);
+      if (resp.status === 200) {
+        var intermediate = $("<p>Your chore has been edited! Reloading the page to update...");
+        $(".modal-body2").append(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      }
     });
   }
 });
@@ -338,7 +351,7 @@ $("#submitChore").on("click", function() {
   });
 });
 
-$("#delete-chore").on("click", function() {
+$(".trashcan").on("click", function() {
   var choreId = $("#chore-selector2").val();
   var queryURL = "/api/chores/" + choreId;
   $.ajax({
@@ -347,14 +360,14 @@ $("#delete-chore").on("click", function() {
   }).then(function(response) {
     console.log(response);
     if (response === 1) {
-      var intermediate = $("<p>Your chore deletion was successful. Reload the page.</p>");
-      $("#modal-body3").prepend(intermediate);
+      var intermediate = $("<p>Your chore deletion was successful. Reloading the page...</p>");
+      $("#modal-body2").prepend(intermediate);
       setTimeout(function() {
         intermediate.remove();
+        location.reload();
       }, 3000);
     } else {
-      var intermediate = $("<p>An error has occurred.</p>");
-      $("#modal-body3").prepend(intermediate);
+      $("#modal-body2").prepend(intermediate);
       setTimeout(function() {
         intermediate.remove();
       }, 3000);
@@ -414,6 +427,11 @@ $("#submitFamilyGroup").on("click", function() {
   }
   //test2();
   test();
+});
+
+$(document).on("click", ".chore-close", function() {
+  $("#chore-modal").hide();
+  location.reload();
 });
 
 $(document).on("click", "#login-submit", function() {
