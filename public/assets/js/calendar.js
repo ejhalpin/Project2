@@ -490,6 +490,7 @@ $("#chore-submit").on("click", function(event) {
     assignedTo: $("#chore-assigned-to").val(),
     HouseholdId: session.HouseholdId
   };
+
   if ($(this).attr("data-type") === "create") {
     //call the api to create the chore
     $.post("/api/chore", choreObj, response => {
@@ -502,6 +503,7 @@ $("#chore-submit").on("click", function(event) {
   } else {
     editChore($(this).attr("data-dbID"), choreObj);
   }
+
 });
 
 $("#chore-frequency").change(function() {
