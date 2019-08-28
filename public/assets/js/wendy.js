@@ -172,14 +172,18 @@ $("#daily-icon").on("click", function() {
       var col1 = $(`
       <td>
       <div class="input-group">
+
       <div class="input-group-prepend">
         <div class="input-group-text">
           <input type="checkbox" class="checkmark" data-id="${chore.id}" aria-label="Checkbox for marking chore complete" aria-describedby="choreDetail${chore.id}" >
-          
         </div>
       </div>
+      
+      <div class='slidy'>
       <input type="text" id="chore-${chore.id}" class="form-control to-do-item" aria-label="Chore" placeholder ="${chore.name}"  readonly>
-    </div><small id="choreDetail${chore.id}" class="form-text text-muted">${chore.details}</small></td>
+      <div><small id="choreDetail${chore.id}" class="form-text text-muted">${chore.details}</small></div></div></td>
+      </div>
+
       `);
       row.append(col1);
       table.append(row);
@@ -207,7 +211,7 @@ $(document).on("change", ".checkmark", function() {
   //update the database and the chached chores object
 });
 
-$(document).on("click", ".input-group", function() {
+$(document).on("click", ".slidy", function() {
   $(this)
     .children()
     .slideToggle();
