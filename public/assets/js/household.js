@@ -26,7 +26,6 @@ function houseDisplay() {
       cardBody.append(cardTitle);
       for (var z = 0; z < rez.Chores.length; z++) {
         var special = rez.Chores[z];
-
         if (rez.Users[j].name === special.assignedTo) {
           console.log("special = " + special.name);
           var intermediate2 = $(`<li class='chore${z}'>${special.name}(${special.frequency})</p>`);
@@ -79,12 +78,12 @@ function houseDisplay() {
         }
       }
       cardBody.append(cardListDailyComplete);
-      cardBody.append(cardListWeeklyComplete);
-      cardBody.append(cardListMonthlyComplete);
-      cardBody.append(cardListYearlyComplete);
       cardBody.append(cardListDaily);
+      cardBody.append(cardListWeeklyComplete);
       cardBody.append(cardListWeekly);
+      cardBody.append(cardListMonthlyComplete);
       cardBody.append(cardListMonthly);
+      cardBody.append(cardListYearlyComplete);
       cardBody.append(cardListYearly);
       cardDiv.append(cardBody);
       superCard.append(cardDiv);
@@ -372,6 +371,13 @@ $("#submitFamilyGroup").on("click", function() {
       }
     }).then(function(rezponz) {
       console.log(rezponz);
+      if (rezponz.status === 200) {
+        console.log(rezponz.data[0].id);
+        var intermediate = $(
+          `<p>Your new household has been created. Your new Household ID is ${rezponz.data[0].id}.</p>`
+        );
+        $(".householdBody").prepend(intermediate);
+      }
     });
   }
   //test2();
