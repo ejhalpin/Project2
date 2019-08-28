@@ -4,27 +4,39 @@ function pullChores(userName) {
   let queryURL = "/api/chores/" + userName.replace(/%20/g, " ");
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-    //update the cached chores
     Household.Chores = response.data;
-    for (var i = 0; i < response.data.length; i++) {
+    console.log(response.data);
+    console.log(response.data.length);
+
+    // Daily view first
+    let daily = response.data.filter(element => element.frequency === "Daily");
+    let weekly = response.data.filter(element => element.frequency === "Weekly");
+    let monthly = response.data.filter(element => element.frequency === "Monthly");
+    let yearly = response.data.filter(element => element.frequency === "Yearly");
+    let sortedChores = daily.concat(weekly.concat(monthly.concat(yearly)));
+    console.log(sortedChores);
+    for (var i = 0; i < sortedChores.length; i++) {
       let col = $("<div class='col-6'></div>");
       let card = $("<div class='card mb-3'></div>");
       let cardHeader = $("<div class='card-header'></div>");
       let cardHeaderRow = $("<div class='row'></div>");
       cardHeaderRow.append(`<div class='col-12 text-right'>
-      <i id='edit_button' data-dbID="${response.data[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-check-circle"></i>
-      <i id='delete_button' data-dbID="${response.data[i].id}" class="fas fa-ban"></i></div>`);
+      <i id='edit_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" data-toggle="modal" data-target="editChoreModal" class="far fa-edit fa-lg"></i>&nbsp;
+      <i id='delete_button' style="cursor: pointer" data-dbID="${sortedChores[i].id}" class="far fa-trash-alt fa-lg"></i></div>`);
       console.log(response);
       cardHeader.append(cardHeaderRow);
-      cardHeader.append(`<p><strong>Chore Name:</strong> ${response.data[i].name}</p>`);
+      cardHeader.append(`<p><strong>Chore Name:</strong> ${sortedChores[i].name}</p>`);
       let cardBody = $("<div class='card-body'></div>");
-      cardBody.append(`<p><strong>Created:</strong> ${new Date(response.data[i].createdAt)}</p>`);
-      cardBody.append(`<p><strong>Frequency:</strong> ${response.data[i].frequency}</p>`);
+      cardBody.append(`<p><strong>Created:</strong> ${new Date(sortedChores[i].createdAt)}</p>`);
+      cardBody.append(`<p><strong>Frequency:</strong> ${sortedChores[i].frequency}</p>`);
       card.append(cardHeader);
       card.append(cardBody);
       col.append(card);
       $("#cardContainer").append(col);
+      // $("#cardContainer").append(response.data.filter(element => element.frequency === "daily"));
     }
+    $("#cardContainer").removeClass("animate fadeInUp slow");
+    $("#cardContainer").addClass("animate fadeInUp slow");
   });
 }
 
@@ -114,8 +126,8 @@ $(document).ready(function() {
 $("#all-icon").on("click", function() {
   $(
     "#parent"
-  ).empty().append(`<div class="title-row"><button type="button" class="btn btn-dark" id="chore-modal-show">create a chore</button><div>All Chores</div></div>
-  <div id="cardContainer" class="row"></div>`);
+  ).empty().append(`<div class="title-row"><h2>All Chores</h2><button type="button" class="btn btn-dark" id="chore-modal-show">Create a New Chore</button></div>
+  <div id="cardContainer" class="row animated fadeInUp"></div>`);
   pullChores(session.name);
 });
 
