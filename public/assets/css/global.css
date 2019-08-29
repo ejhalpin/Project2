@@ -75,6 +75,10 @@ body {
   flex: 1 0 auto;
 }
 
+.nav-item {
+  padding: 0 10px;
+}
+
 .to-do {
   background-color: #0a0a0a;
   width: 100%;

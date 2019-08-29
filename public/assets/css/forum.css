@@ -45,10 +45,6 @@ body {
   cursor: pointer;
 }
 
-.nav-item {
-  padding: 0 10px;
-}
-
 .forum-view-nav {
   display: flex;
   flex-direction: row;
