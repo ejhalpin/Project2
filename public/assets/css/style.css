@@ -10,8 +10,12 @@
   background-color: black;
 }
 
-div {
-  overflow-x: hidden;
+
+body {
+  background-image: url("../img/pencils.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .nav-item {
@@ -19,10 +23,20 @@ div {
 }
 
 .house-head {
-  color: #f7d00e;
+  color: #fafafa;
+  text-shadow: 1px 1px 1px #f7d00e, -1px 1px 1px #f7d00e, 1px -1px 1px #f7d00e,
+    -1px -1px 1px #f7d00e;
 }
 
 .house-header {
   background-color: black;
   text-align: center;
+}
+
+#navbarButtons button {
+  margin: auto;
+}
+
+#house-nav {
+  margin: auto;
 }
