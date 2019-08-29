@@ -170,7 +170,7 @@ $(document).on("click", "#rules-link", () => {
     $("#rules-alert").remove();
   } else {
     $(`
-  <div id="rules-alert" class="alert alert-dark" role="alert">
+  <div id="rules-alert" class="alert alert-dark animated fadeInUp" role="alert">
     <h4>Forum Rules</h4>
     <ul>
       <li>Don't be a Jerk.</li>

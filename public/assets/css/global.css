@@ -5,14 +5,14 @@
 
 .brand {
   font-family: "Handlee", cursive;
-  color: #f7d00e;
+  color: #febc14;
   font-size: 2rem;
 }
 
 .brand-text {
   color: #fafafa;
-  text-shadow: 1px 1px 1px #f7d00e, -1px 1px 1px #f7d00e, 1px -1px 1px #f7d00e,
-    -1px -1px 1px #f7d00e;
+  text-shadow: 1px 1px 1px #febc14, -1px 1px 1px #febc14, 1px -1px 1px #febc14,
+    -1px -1px 1px #febc14;
   font-size: 2rem;
 }
 

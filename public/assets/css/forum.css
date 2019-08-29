@@ -35,6 +35,10 @@ a.reply-to-post:hover {
 
 body {
   background-color: #febc14;
+  background-image: url("../img/pencils.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .nav-item:hover {
