@@ -20,7 +20,6 @@ $(document).on("click", "#chore-modal-show", function() {
 
 $("#chore-submit").on("click", function(event) {
   event.preventDefault();
-
   var tableCols = $(".tiny-cal-td").toArray();
   //assign the days to an array
   var days = [];
@@ -56,14 +55,16 @@ $("#chore-submit").on("click", function(event) {
     assignedTo: $("#chore-assigned-to").val(),
     HouseholdId: session.HouseholdId
   };
+
   console.log(choreObj.assignedWhen);
-  if ($(this).attr("data-type") === "create") {
+  if ($(this).attr("data-type") === "create" && choreObj.name !== "") {
     $.post("/api/chore", choreObj, response => {
       if (response.status !== 200) {
         console.log(response.reason);
       } else {
         var intermediate = $("<p>Your chore creation was successful.</p>");
-        $("#modal-body2").prepend(intermediate);
+        $(".chore-mode").prepend(intermediate);
+        location.reload();
         setTimeout(function() {
           intermediate.remove();
         }, 3000);
@@ -71,14 +72,25 @@ $("#chore-submit").on("click", function(event) {
       $("#all-icon").trigger("click");
     });
   } else {
-    //editChore($(this).attr("data-dbID"), choreObj);
+    if (choreObj.name === "") {
+      choreObj = {
+        details: $("#chore-details")
+          .val()
+          .trim(),
+        frequency: $("#chore-frequency").val(),
+        assignedWhen: days.join(","),
+        assignedTo: $("#chore-assigned-to").val(),
+        HouseholdId: session.HouseholdId
+      };
+    }
     $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
       console.log("test response:" + response);
       if (response.status !== 200) {
         console.log(response.reason);
       } else {
-        var intermediate = $("<p>Your chore reassignment was successful.");
-        $("#modal-body1").prepend(intermediate);
+        var intermediate = $("<p>Your chore edit was successful.</p>");
+        $(".chore-mode").prepend(intermediate);
+        location.reload();
         setTimeout(function() {
           intermediate.remove();
         }, 3000);
@@ -282,7 +294,14 @@ function buildTinyWeekView(now) {
 }
 
 $(document).on("click", ".chore-close", function() {
-  //empty out the chore modal values
+  $(".special-container").empty();
+  houseDisplay();
+  choreListDelete();
+  choreEdit();
+  editMode = undefined;
+  $("#editor").html("Edit Chore");
+  $("#edit-group").hide();
+  $("#chore-modal-title").html("Create New Chore");
   $("#chore-title").val("");
   $("#chore-details").val("");
   $("#chore-frequency").val("Daily");

@@ -71,46 +71,51 @@
                 </li>
               </ul>
               <ul class="nav justify-content-end">
-                  <li class="nav-item"><i class="far fa-calendar-alt fa-2x" ></i></li>
                   <li id="user-icon" data-state="0" class="nav-item">
                     <i class="far fa-user fa-2x"></i>
                   </li>
                 </ul>
             </div>
           </nav>
+        </div>
 <br>
 <br>
-<div class="nav-bar row" id="household-nav">
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <!--
-        <label for="test">Filter By:</label>
-        <select id="frequencyFilter">
-          <option value="All">All</option>
-          <option value="Daily">Daily</option>
-          <option value="Weekly">Weekly</option>
-          <option value="Monthly">Monthly</option>
-          <option value="Yearly">Yearly</option>
-        </select>
-        <button class="btn btn-warning m-1" id="frequencyFilterButton">Submit</button>
-      -->
-        <button id="hideComplete" class="btn btn-warning">Show Completed Chores</button>
-        <button
-        type="button"
-        class="btn btn-warning m-1"
-        id="create-family"
-        data-toggle="modal"
-        data-target="#createFamilyModal"
-      >
-        Create Family</button>
-        <button
-        type="button"
-        class="btn btn-warning m-1"
-        id="chore-add-btn"
-        data-toggle="modal"
-        data-target="#chore-modal"
-      >
-        Add/Edit Chores</button>
+<div class="row house-holder">
+  <div class="col-sm-5"></div>
+  <div class="col-sm-2 house-header"></div>
+  <div class="col-sm-5"></div>
+</div>
+<br>
 
+</div>
+<div class="nav-bar row" id="household-nav">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+      <nav class="navbar navbar-main navbar-expand-md">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarButtons"
+            aria-controls="navbarButtons"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="brand"><i class="fas fa-bars"></i></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarButtons">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item"><button id="hideComplete" class="btn btn-warning">Show Completed Chores</button>
+              </li>
+              <li class="nav-item"><button
+                type="button"
+                class="btn btn-warning m-1"
+                id="chore-add-btn"
+                data-toggle="modal"
+                data-target="#chore-modal"
+              >Add/Edit Chores</button>
+              </li>
+              <li class="nav-item">    
         <button
         type="button"
         class="btn btn-warning m-2"
@@ -119,9 +124,31 @@
         data-target="#invite-modal"
       >
         Invite User</button>
-    </nav>
+              </li>
+              <li class="nav-item">
+                  <button
+                  type="button"
+                  class="btn btn-warning m-1"
+                  id="create-family"
+                  data-toggle="modal"
+                  data-target="#createFamilyModal"
+                >
+                  Create Family</button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+  </div>
 </div>
-    <div class="special-container container row"></div>
+<br>
+<br>
+    <div class="row jumbo-container">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8 jumbo"></div>
+    </div>
+    <div class="special-container container row">
+
+    </div>
     <div
       class="modal fade"
       id="createFamilyModal"
@@ -204,7 +231,7 @@
               Edit Chores
             </h5>
           </div>
-          <div class="modal-body" id="modal-body2">
+          <div class="modal-body">
             <div class="form-group">
               <label for="old-chore">Chore</label><br>
             <i class="far fa-trash-alt fa-lg trashcan"></i>
@@ -289,7 +316,7 @@ aria-hidden="true">
         <div class="modal-header">
           <h5 class="modal-title" id="chore-modal-title">Create A New Chore</h5>
         </div>
-        <div class="modal-body">
+        <div class="modal-body chore-mode">
           <form>
               <div class="form-group" id="button-holder">
                   <button

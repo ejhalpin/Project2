@@ -24,3 +24,12 @@ div {
 .nav-item {
   padding: 0 10px;
 }
+
+.house-head {
+  color: #f7d00e;
+}
+
+.house-header {
+  background-color: black;
+  text-align: center;
+}
