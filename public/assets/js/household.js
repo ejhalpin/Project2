@@ -8,7 +8,6 @@ function houseDisplay() {
     console.log(response.data);
     console.log(response.data.name);
     var rez = response.data;
-    var superCard = $("<div class='row cardContainer'>");
     console.log(rez.Users);
     if (rez.Users === undefined) {
       console.log("No Househould!");
@@ -36,15 +35,14 @@ function houseDisplay() {
           cardBody.append(cardListDaily);
           cardBody.append(cardListMonthly);
           cardDiv.append(cardBody);
-          superCard.append(cardDiv);
-          $(".special-container").append(superCard);
+          $(".special-container").append(cardDiv);
         }
         for (var z = 0; z < rez.Chores.length; z++) {
           var special = rez.Chores[z];
           if (rez.Users[j].name === special.assignedTo) {
             console.log("special = " + special.name);
             var intermediate2 = $(
-              `<li class='chore${z}'>${special.name}(${special.frequency})</p>`
+              `<li class='chore-${z}'>${special.name}(${special.frequency})</p>`
             );
             if (rez.Chores[z].isComplete === true) {
               intermediate2.addClass("complete");
@@ -103,14 +101,8 @@ function houseDisplay() {
         cardBody.append(cardListYearlyComplete);
         cardBody.append(cardListYearly);
         cardDiv.append(cardBody);
-        superCard.append(cardDiv);
-        $(".special-container").append(superCard);
+        $(".special-container").append(cardDiv);
       }
-      // houseHolder.append("</ul>");
-      // householdDiv.append(houseHolder);
-      // householdDiv.append("<h4> Unassigned Chores </h4>");
-      // householdDiv.append(unAssigned);
-      // $(".container").append(householdDiv);
       var hide = true;
       $(".complete").hide();
       $("#hideComplete").on("click", function() {
@@ -164,43 +156,29 @@ $("#frequencyFilterButton").on("click", function() {
   }
 });
 
-// function modalChecks() {
-//   let queryURL = "/api/household/" + houseID;
-//   console.log(queryURL);
-//   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-//     console.log(response.data);
-//     console.log(response.data.name);
-//     var rez = response.data;
-//     for (var j = 0; j < rez.Users.length; j++) {
-//       var special = rez.Users[j];
-//       specialCheck = $(
-//         `<input type="checkbox" name="assigned" value="${special.name}">${special.name}</input><br>`
-//       );
-//       $("#formCheck").append(specialCheck);
-//     }
-//   });
-// }
-// function inviteMember() {
-//   $.ajax({ url: "api/users", method: "GET" }).then(function(response) {
-//     console.log(response.data);
-//     var rez = response.data;
-//     $.ajax({
-//       type: "PUT",
-//       url: "api/users/11",
-//       data: {
-//         HouseholdId: 1
-//       }
-//     }).then(function(res) {
-//       console.log(res.data);
-//     });
-//     $.ajax({
-//       type: "GET",
-//       url: "api/users/11"
-//     }).then(function(resp) {
-//       console.log(resp.data);
-//     });
-//   });
-// }
+$("#invite-btn").on("click", function() {
+  var friendEmail = $("#email-field")
+    .val()
+    .trim();
+  $.ajax({
+    url: "auth/invite",
+    method: "POST",
+    data: {
+      name: session.name,
+      email: friendEmail,
+      HouseholdId: session.HouseholdId
+    }
+  }).then(function(response) {
+    console.log(response.stats);
+    if (response.status === 200) {
+      var intermediate = "<p>We've sent them an email!</p>";
+      $(".invite-body").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    }
+  });
+});
 
 function choreEdit() {
   let queryURL = "/api/household/" + session.HouseholdId;
@@ -240,30 +218,30 @@ function choreEdit() {
   });
 }
 
-$("#chore-submit").on("click", function() {
-  var queryURL = "/api/chore/";
-  var newChore = $("#chore-title")
-    .val()
-    .trim();
-  var desc = $("#chore-details")
-    .val()
-    .trim();
-  var frequency = $("#chore-frequency").val();
-  var assignee = $("#chore-assigned-to").val();
-  $.ajax({
-    url: queryURL,
-    method: "POST",
-    data: {
-      name: newChore,
-      details: desc,
-      frequency: frequency,
-      assignedTo: assignee,
-      HouseholdId: session.HouseholdId
-    }
-  }).then(function(resp) {
-    console.log(resp.data);
-  });
-});
+// $("#chore-submit").on("click", function() {
+//   var queryURL = "/api/chore/";
+//   var newChore = $("#chore-title")
+//     .val()
+//     .trim();
+//   var desc = $("#chore-details")
+//     .val()
+//     .trim();
+//   var frequency = $("#chore-frequency").val();
+//   var assignee = $("#chore-assigned-to").val();
+//   $.ajax({
+//     url: queryURL,
+//     method: "POST",
+//     data: {
+//       name: newChore,
+//       details: desc,
+//       frequency: frequency,
+//       assignedTo: assignee,
+//       HouseholdId: session.HouseholdId
+//     }
+//   }).then(function(resp) {
+//     console.log(resp.data);
+//   });
+// });
 
 $("#chore-edit").on("click", function() {
   var choreID = $(".chore-selector3").val();
@@ -286,7 +264,14 @@ $("#chore-edit").on("click", function() {
         frequency: frequency
       }
     }).then(function(response) {
-      console.log(response);
+      console.log(response.status);
+      if (response.status === 200) {
+        var intermediate = $("<p>Your chore has been edited! Reloading the page to update...");
+        $(".modal-body2").append(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      }
     });
   } else {
     $.ajax({
@@ -299,10 +284,18 @@ $("#chore-edit").on("click", function() {
         assignedTo: assignee
       }
     }).then(function(resp) {
-      console.log(resp.data);
+      if (resp.status === 200) {
+        var intermediate = $("<p>Your chore has been edited! Reloading the page to update...");
+        $(".modal-body2").append(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      }
     });
   }
 });
+
+$("#");
 
 $("#submitChore").on("click", function() {
   var choreId = $("#chore-selector").val();
@@ -338,7 +331,7 @@ $("#submitChore").on("click", function() {
   });
 });
 
-$("#delete-chore").on("click", function() {
+$(".trashcan").on("click", function() {
   var choreId = $("#chore-selector2").val();
   var queryURL = "/api/chores/" + choreId;
   $.ajax({
@@ -347,14 +340,14 @@ $("#delete-chore").on("click", function() {
   }).then(function(response) {
     console.log(response);
     if (response === 1) {
-      var intermediate = $("<p>Your chore deletion was successful. Reload the page.</p>");
-      $("#modal-body3").prepend(intermediate);
+      var intermediate = $("<p>Your chore deletion was successful. Reloading the page...</p>");
+      $("#modal-body2").prepend(intermediate);
       setTimeout(function() {
         intermediate.remove();
+        location.reload();
       }, 3000);
     } else {
-      var intermediate = $("<p>An error has occurred.</p>");
-      $("#modal-body3").prepend(intermediate);
+      $("#modal-body2").prepend(intermediate);
       setTimeout(function() {
         intermediate.remove();
       }, 3000);
@@ -367,23 +360,7 @@ $("#submitFamilyGroup").on("click", function() {
   var newFamilyName = $("#family-name")
     .val()
     .trim();
-  //Once I figure how the website figures out who's logged in, we can probably change userId to the current logged in User's ID
-  //For now it's Hello aka Me
-  // var userId = 11;
-  //var userData stores the full data of the user
-  //var userData;
   console.log(queryURL);
-  // function test2() {
-  //   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-  //     var rez = response.data;
-  //     for (var i = 0; i < rez.Users.length; i++) {
-  //       if (rez.Users[i].id === userId) {
-  //         userData = rez.Users[i];
-  //         console.log(rez.Users[i]);
-  //       }
-  //     }
-  //   });
-  // }
   function test() {
     $.ajax({
       url: "api/household",
@@ -412,8 +389,39 @@ $("#submitFamilyGroup").on("click", function() {
       });
     });
   }
-  //test2();
   test();
+});
+
+$("#edit-group").hide();
+var editMode;
+$("#editor").on("click", function() {
+  switch (editMode) {
+    case undefined:
+      console.log(editMode);
+      $("#chore-modal-title").html("Edit Existing Chore");
+      $("#editor").html("Add Chore");
+      $("#edit-group").show();
+      editMode = true;
+      break;
+    case false:
+      $("#chore-modal-title").html("Edit Existing Chore");
+      $("#editor").html("Edit Chores");
+      $("#edit-group").show();
+      editMode = true;
+      break;
+    case true:
+      console.log(editMode);
+      $("#editor").html("Add Chore");
+      $("#chore-modal-title").html("Create A New Chore");
+      $("#edit-group").hide();
+      editMode = false;
+      break;
+  }
+});
+
+$(document).on("click", ".chore-close", function() {
+  $("#chore-modal").hide();
+  location.reload();
 });
 
 $(document).on("click", "#login-submit", function() {
