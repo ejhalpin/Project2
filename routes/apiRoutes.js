@@ -38,6 +38,17 @@ module.exports = function(app) {
       include: [db.User, db.Chore]
     })
       .then(data => {
+        //clone the chores array
+        var chores = [...data.Chores];
+        chores.forEach(chore => {
+          if (chore.frequency === "Daily") {
+            if (moment(chore.updatedAt).isBefore(moment(), "day")) {
+              chore.isComplete = false;
+              db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+            }
+          }
+        });
+        data.Chores = [...chores];
         response.data = data;
         res.json(response);
       })
@@ -61,6 +72,14 @@ module.exports = function(app) {
       //query the db for all chores where assignedTo = uname
       db.Chore.findAll({ where: { assignedTo: req.params.uname.replace(/%20/g, " ") } })
         .then(data => {
+          data.forEach(chore => {
+            if (chore.frequency === "Daily") {
+              if (moment(chore.updatedAt).isBefore(moment(), "day")) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
+            }
+          });
           response.data = data;
           res.json(response);
         })
