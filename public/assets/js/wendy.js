@@ -81,7 +81,10 @@ $(document).on("click", "#updateChore", function(event) {
   let dbID = $(this).attr("data-dbid");
   // let dbType = $(this).attr("data-dbType");
 
-  var choreObj = { frequency: $("#editFrequency").val(), name: $("#editChoreName").val() };
+  var choreObj = {
+    frequency: $("#editFrequency").val(),
+    name: $("#editChoreName").val()
+  };
   console.log(dbID, choreObj);
   //get all form data and put it inside that object
   editChore(dbID, choreObj);
@@ -94,7 +97,7 @@ function editChore(dbID, choreObj) {
   console.log(queryURL);
   $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
     console.log("modal success: ", response);
-    $("#chore-modal").modal("hide");
+    $("#editChoreModal").modal("hide");
     $("#all-icon").trigger("click");
   });
 }
@@ -132,21 +135,20 @@ $(document).ready(function() {
 $("#all-icon").on("click", function() {
   $(
     "#parent"
-  ).empty().append(`<div class="title-row"><h2>All Chores</h2><button type="button" class="btn btn-dark" id="chore-modal-show">Create a New Chore</button></div>
+  ).empty().append(`<div class="title-row"><h2 class="allChoresTitle" style="font-family:Handlee, cursive">All Chores</h2><button type="button" class="btn btn-dark" id="chore-modal-show">Create a New Chore</button></div>
   <div id="cardContainer" class="row animated fadeInUp"></div>`);
   pullChores(session.name);
 });
 
-function getChoreObjects(day, date, month) {
-  var now = moment()
-    .month(month)
-    .date(date)
-    .day(day);
-  console.log(now);
+function getChoreObjects(day) {
   //get a list of all chores for today
   //let's make sure that we have all of the necessary info to parse thorough the chores data
-  var dayOfWeek = now.day();
-  var dayOfYear = now.dayOfYear();
+  var dayOfWeek = moment()
+    .date(day)
+    .day();
+  var dayOfYear = moment()
+    .date(day)
+    .dayOfYear();
   //assuming that we are now correlating days and months correctly,
   //make a list of all chores for the day based on frequency and assignedWhen
   var choresList = [];
@@ -162,7 +164,7 @@ function getChoreObjects(day, date, month) {
           }
           break;
         case "Monthly":
-          if (chore.assignedWhen.includes(day.toString())) {
+          if (chore.assignedWhen.includes(dayOfMonth.toString())) {
             choresList.push(chore);
           }
           break;
@@ -177,8 +179,15 @@ function getChoreObjects(day, date, month) {
 }
 
 $("#daily-icon").on("click", function() {
-  console.log("daily-icon");
-  //get the chores from the database
+  $("#parent")
+    .empty()
+    .append(
+      `<div class="title-row">
+      <h2 class="dailyToDo" style="font-family:Handlee, cursive">Daily To-Do List</h2>
+      </div>
+      <div id="cardContainer" class="row animated fadeInUp"></div>`
+    );
+  // $("#parent").append("<div id='cardContainer' class='row p-5'></div>");
   let queryURL = "/api/chores/" + session.name.replace(/%20/g, " ");
   $.get(queryURL).then(response => {
     if (response.status !== 200) {
@@ -186,39 +195,28 @@ $("#daily-icon").on("click", function() {
     }
     //update the cached chores
     Household.Chores = response.data;
-    var now = moment();
-    var today = getChoreObjects(now.day(), now.date(), now.month());
-    console.log(today);
-    var list = $("<div>").addClass("to-do table-responsive");
-    var table = $("<table>")
-      .addClass("table table-borderless")
-      .attr("id", "today-table");
-    today.forEach(chore => {
-      //redo this to handle completed chores
-      var row = $("<tr>").attr("id", "row-" + chore.id);
-      var col1 = $(`
-      <td>
-      <div class="input-group">
-
-      <div class="input-group-prepend">
-        <div class="input-group-text">
-          <input type="checkbox" class="checkmark" data-id="${chore.id}" aria-label="Checkbox for marking chore complete" aria-describedby="choreDetail${chore.id}" >
+    var today = getChoreObjects(moment().date());
+    today.forEach(function(chore) {
+      $("#cardContainer").append(
+        `
+      <div class="col-6">
+        <div class="card choreCard mb-4">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-2">
+                <input class="checkbox" type="checkbox" />
+              </div>
+              <div class="col-10">${chore.name}</div>
+            </div>
+          </div>
+          <div class="card-body choreDescription" style="display:none">
+          ${chore.details}
+          </div>
         </div>
       </div>
-      
-      <div class='slidy'>
-      <input type="text" id="chore-${chore.id}" class="form-control to-do-item" aria-label="Chore" placeholder ="${chore.name}"  readonly>
-      <div><small id="choreDetail${chore.id}" class="form-text text-muted">${chore.details}</small></div></div></td>
-      </div>
-
-      `);
-      row.append(col1);
-      table.append(row);
+    `
+      );
     });
-    list.append(table);
-    $("#parent")
-      .empty()
-      .append(list);
   });
 });
 
@@ -238,8 +236,14 @@ $(document).on("change", ".checkmark", function() {
   //update the database and the chached chores object
 });
 
-$(document).on("click", ".slidy", function() {
-  $(this)
-    .children()
-    .slideToggle();
+$(document).on("click", ".choreCard", function(e) {
+  if (!$(e.target).closest(".checkbox").length) {
+    $(this)
+      .children(".choreDescription")
+      .slideToggle();
+  }
+});
+
+$(document).ready(function() {
+  $(".choreDescription").slideUp();
 });
