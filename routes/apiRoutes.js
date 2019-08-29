@@ -38,6 +38,53 @@ module.exports = function(app) {
       include: [db.User, db.Chore]
     })
       .then(data => {
+        //clone the chores array
+        var chores = [...data.Chores];
+        chores.forEach(chore => {
+          switch (chore.frequency) {
+            case "Daily":
+              span = "day";
+              if (moment(chore.updatedAt).isBefore(moment(), "day")) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
+              break;
+            case "Weekly":
+              var assignedDays = chore.assignedWhen.split(",");
+              var today = moment().day();
+              if (
+                assignedDays.includes(today) &&
+                moment(chore.updatedAt).isBefore(moment(), "day")
+              ) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
+              break;
+            case "Monthly":
+              var assignedDays = chore.assignedWhen.split(",");
+              var today = moment().date();
+              if (
+                assignedDays.includes(today) &&
+                moment(chore.updatedAt).isBefore(moment(), "day")
+              ) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
+              break;
+            case "Yearly":
+              var assignedDays = chore.assignedWhen.split(",");
+              var today = moment().dayOfYear();
+              if (
+                assignedDays.includes(today) &&
+                moment(chore.updatedAt).isBefore(moment(), "day")
+              ) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
+              break;
+          }
+        });
+        data.Chores = [...chores];
         response.data = data;
         res.json(response);
       })
@@ -61,6 +108,50 @@ module.exports = function(app) {
       //query the db for all chores where assignedTo = uname
       db.Chore.findAll({ where: { assignedTo: req.params.uname.replace(/%20/g, " ") } })
         .then(data => {
+          data.forEach(chore => {
+            switch (chore.frequency) {
+              case "Daily":
+                span = "day";
+                if (moment(chore.updatedAt).isBefore(moment(), "day")) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+              case "Weekly":
+                var assignedDays = chore.assignedWhen.split(",");
+                var today = moment().day();
+                if (
+                  assignedDays.includes(today) &&
+                  moment(chore.updatedAt).isBefore(moment(), "day")
+                ) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+              case "Monthly":
+                var assignedDays = chore.assignedWhen.split(",");
+                var today = moment().date();
+                if (
+                  assignedDays.includes(today) &&
+                  moment(chore.updatedAt).isBefore(moment(), "day")
+                ) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+              case "Yearly":
+                var assignedDays = chore.assignedWhen.split(",");
+                var today = moment().dayOfYear();
+                if (
+                  assignedDays.includes(today) &&
+                  moment(chore.updatedAt).isBefore(moment(), "day")
+                ) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+            }
+          });
           response.data = data;
           res.json(response);
         })

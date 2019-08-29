@@ -60,6 +60,9 @@ body {
 #title-input {
   max-width: 150px;
 }
+.fixed-width {
+  width: 260px;
+}
 #title-search {
   margin: 0 10px;
   border-color: #0a0a0a;

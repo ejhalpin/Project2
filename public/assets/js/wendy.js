@@ -197,6 +197,13 @@ $("#daily-icon").on("click", function() {
     Household.Chores = response.data;
     var today = getChoreObjects(moment().date());
     today.forEach(function(chore) {
+      var checked = "";
+      var strikethrough = "";
+      if (chore.isComplete) {
+        checked = "checked";
+        strikethrough = "strikethrough";
+      }
+      console.log(checked);
       $("#cardContainer").append(
         `
       <div class="col-6">
@@ -204,9 +211,9 @@ $("#daily-icon").on("click", function() {
           <div class="card-header">
             <div class="row">
               <div class="col-2">
-                <input class="checkbox" type="checkbox" />
+                <input class="checkbox" data-id="${chore.id}" type="checkbox" ${checked}/>
               </div>
-              <div class="col-10">${chore.name}</div>
+              <div class="col-10 ${strikethrough}" id="chore-${chore.id}">${chore.name}</div>
             </div>
           </div>
           <div class="card-body choreDescription" style="display:none">
@@ -220,20 +227,30 @@ $("#daily-icon").on("click", function() {
   });
 });
 
-$(document).on("change", ".checkmark", function() {
+$(document).on("change", ".checkbox", function() {
   var checked = $(this).prop("checked");
+  console.log(checked);
   var id = parseInt($(this).attr("data-id"));
-  var row = "#row-" + id;
-  if (checked) {
-    $(row)
-      .detach()
-      .appendTo("#today-table");
-  } else {
-    $(row)
-      .detach()
-      .prependTo("#today-table");
-  }
+
+  $("#chore-" + id).toggleClass("strikethrough");
+
   //update the database and the chached chores object
+  $.ajax({ url: "/api/chores/" + id, method: "PUT", data: { isComplete: checked } }).then(
+    response => {
+      if (response.status !== 200) {
+        console.log(response.reason);
+        return;
+      }
+      console.log("chore uppadted");
+      $.get("/api/chores/" + session.name.replace(/%20/g, " ")).then(res => {
+        if (res.data !== 200) {
+          console.log(res.reason);
+          return;
+        }
+        Household.Chores = res.data;
+      });
+    }
+  );
 });
 
 $(document).on("click", ".choreCard", function(e) {

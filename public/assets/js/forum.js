@@ -181,12 +181,12 @@ $(document).on("click", "#rules-link", () => {
   //define an alert modal, and prepend it to target
 });
 
-$(document).on("click", ".dropdown-item", function() {
-  var category = $(this).text();
+$("#forum-select").change(function() {
+  console.log("change");
+  var category = $(this).val();
   if (category === "all") {
     getAllPosts();
   }
-  $("#selected-category").text(category);
   getPostsByCategory(category);
 });
 
