@@ -41,24 +41,47 @@ module.exports = function(app) {
         //clone the chores array
         var chores = [...data.Chores];
         chores.forEach(chore => {
-          var span = "";
           switch (chore.frequency) {
             case "Daily":
               span = "day";
+              if (moment(chore.updatedAt).isBefore(moment(), "day")) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
               break;
             case "Weekly":
-              span = "week";
+              var assignedDays = chore.assignedWhen.split(",");
+              var today = moment().day();
+              if (
+                assignedDays.includes(today) &&
+                moment(chore.updatedAt).isBefore(moment(), "day")
+              ) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
               break;
             case "Monthly":
-              span = "month";
+              var assignedDays = chore.assignedWhen.split(",");
+              var today = moment().date();
+              if (
+                assignedDays.includes(today) &&
+                moment(chore.updatedAt).isBefore(moment(), "day")
+              ) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
               break;
             case "Yearly":
-              span = "year";
+              var assignedDays = chore.assignedWhen.split(",");
+              var today = moment().dayOfYear();
+              if (
+                assignedDays.includes(today) &&
+                moment(chore.updatedAt).isBefore(moment(), "day")
+              ) {
+                chore.isComplete = false;
+                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+              }
               break;
-          }
-          if (moment(chore.updatedAt).isBefore(moment(), span)) {
-            chore.isComplete = false;
-            db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
           }
         });
         data.Chores = [...chores];
@@ -86,11 +109,47 @@ module.exports = function(app) {
       db.Chore.findAll({ where: { assignedTo: req.params.uname.replace(/%20/g, " ") } })
         .then(data => {
           data.forEach(chore => {
-            if (chore.frequency === "Daily") {
-              if (moment(chore.updatedAt).isBefore(moment(), "day")) {
-                chore.isComplete = false;
-                db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
-              }
+            switch (chore.frequency) {
+              case "Daily":
+                span = "day";
+                if (moment(chore.updatedAt).isBefore(moment(), "day")) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+              case "Weekly":
+                var assignedDays = chore.assignedWhen.split(",");
+                var today = moment().day();
+                if (
+                  assignedDays.includes(today) &&
+                  moment(chore.updatedAt).isBefore(moment(), "day")
+                ) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+              case "Monthly":
+                var assignedDays = chore.assignedWhen.split(",");
+                var today = moment().date();
+                if (
+                  assignedDays.includes(today) &&
+                  moment(chore.updatedAt).isBefore(moment(), "day")
+                ) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
+              case "Yearly":
+                var assignedDays = chore.assignedWhen.split(",");
+                var today = moment().dayOfYear();
+                if (
+                  assignedDays.includes(today) &&
+                  moment(chore.updatedAt).isBefore(moment(), "day")
+                ) {
+                  chore.isComplete = false;
+                  db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
+                }
+                break;
             }
           });
           response.data = data;
