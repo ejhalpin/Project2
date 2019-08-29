@@ -103,3 +103,7 @@ body {
   max-width: 90%;
   padding: 10px;
 }
+
+.strikethrough {
+  text-decoration: line-through;
+}
