@@ -7,22 +7,24 @@ function houseDisplay() {
   $("#userLink").empty();
   $("#userLink").append(`<a class="nav-link" href="/">${session.name}</a>`);
   let queryURL = "/api/household/" + session.HouseholdId;
-  console.log(queryURL);
+  //console.log(queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-    console.log(response.data);
-    console.log(response.data.name);
+    //console.log(response.data);
+    //console.log(response.data.name);
     $(".house-header").append(
       "<span class='brand-text house-head'>" + response.data.name + "</span>"
     );
 
     var rez = response.data;
-    console.log(rez.Users);
     if (rez.Users === undefined) {
       console.log("No Househould!");
     } else {
       for (var j = 0; j < rez.Users.length; j++) {
-        console.log(rez.Users.length);
-        var cardDiv = $("<div class='card cardUser bg-light m-1 col-5>");
+        if (!rez.Users[j].name) {
+          continue;
+        }
+        //console.log("ITERATION " + j);
+        var cardDiv = $("<div class='card cardUser bg-light m-1 col-5'>");
         cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
         var cardBody = $("<div class='card-body'>");
         var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -35,17 +37,19 @@ function houseDisplay() {
         var cardListMonthlyComplete = $("<ul>");
         var cardListWeeklyComplete = $("<ul>");
         var cardListYearlyComplete = $("<ul>");
-
+        console.log(cardBody);
         cardBody.append(cardTitle);
+        console.log(cardBody);
         console.log(rez.Chores.length);
         if (rez.Chores.length === 0) {
-          console.log(rez.Chores.length);
+          console.log("NO CHORES");
           cardListAnnounce.append("<li>No Chores</li>");
           cardBody.append(cardListAnnounce);
           cardBody.append(cardListMonthly);
           cardDiv.append(cardBody);
           $(".special-container").append(cardDiv);
         }
+        console.log(cardBody);
         for (var z = 0; z < rez.Chores.length; z++) {
           var special = rez.Chores[z];
           var counter = 0;
@@ -53,7 +57,7 @@ function houseDisplay() {
           if (rez.Users[j].name === special.assignedTo) {
             console.log("special = " + special.name);
             var intermediate2 = $(
-              `<li class='chore-${z}'>${special.name}(${special.frequency})</li><p>Details: ${special.details}</p>`
+              `<li class='chore-${z}'>${special.name} (${special.frequency})<p>Details: ${special.details}</p></li>`
             );
             if (rez.Chores[z].isComplete === true) {
               intermediate2.addClass("complete");
@@ -102,6 +106,7 @@ function houseDisplay() {
             }
           }
         }
+        console.log(cardBody);
         console.log(rez.Users[j].name + " counter: " + counter);
         cardBody.append(cardListDailyComplete);
         cardBody.append(cardListDaily);
@@ -111,10 +116,12 @@ function houseDisplay() {
         cardBody.append(cardListMonthly);
         cardBody.append(cardListYearlyComplete);
         cardBody.append(cardListYearly);
+        console.log(cardBody);
         cardDiv.append(cardBody);
-        $(".special-container").append(cardDiv);
+        console.log(cardDiv);
+        $("#special-container").append(cardDiv);
       }
-      var hide = true;
+
       $(".complete").hide();
       $("#hideComplete").on("click", function() {
         if (hide === false) {
@@ -130,6 +137,7 @@ function houseDisplay() {
     }
   });
 }
+var hide = true;
 $("#frequencyFilterButton").on("click", function() {
   var test = $("#frequencyFilter").val();
   console.log(test);

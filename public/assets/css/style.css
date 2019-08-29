@@ -10,7 +10,6 @@
   background-color: black;
 }
 
-
 body {
   background-image: url("../img/pencils.jpg");
   background-size: cover;
@@ -39,4 +38,8 @@ body {
 
 #house-nav {
   margin: auto;
+}
+
+.special-container {
+  flex: 1 0 auto;
 }

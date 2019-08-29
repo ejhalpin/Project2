@@ -107,3 +107,7 @@ body {
 .strikethrough {
   text-decoration: line-through;
 }
+
+.nav-item {
+  padding: 0 10px;
+}
