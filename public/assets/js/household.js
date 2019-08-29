@@ -22,7 +22,7 @@ function houseDisplay() {
     } else {
       for (var j = 0; j < rez.Users.length; j++) {
         console.log(rez.Users.length);
-        var cardDiv = $("<div class='card cardUser bg-light m-1>");
+        var cardDiv = $("<div class='card cardUser bg-light m-1 col-5>");
         cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
         var cardBody = $("<div class='card-body'>");
         var cardTitle = $("<h5 class='card-title>Chores</h5>");
