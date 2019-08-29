@@ -22,7 +22,7 @@ function houseDisplay() {
     } else {
       for (var j = 0; j < rez.Users.length; j++) {
         console.log(rez.Users.length);
-        var cardDiv = $("<div class='card cardUser bg-light m-1 col-5>");
+        var cardDiv = $("<div class='card cardUser bg-light m-2 col-sm-5'>");
         cardDiv.append(`<div class="card-header">${rez.Users[j].name}</div>`);
         var cardBody = $("<div class='card-body'>");
         var cardTitle = $("<h5 class='card-title>Chores</h5>");
@@ -53,7 +53,7 @@ function houseDisplay() {
           if (rez.Users[j].name === special.assignedTo) {
             console.log("special = " + special.name);
             var intermediate2 = $(
-              `<li class='chore-${z}'>${special.name}(${special.frequency})</li><p>Details: ${special.details}</p>`
+              `<li class='chore-${z}'>${special.name}(${special.frequency})</p>`
             );
             if (rez.Chores[z].isComplete === true) {
               intermediate2.addClass("complete");
