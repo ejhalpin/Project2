@@ -41,7 +41,12 @@ $("#chore-submit").on("click", function(event) {
   days.sort(function(a, b) {
     return a - b;
   });
+
   var choreId = $("#chore-selector2").val();
+  console.log(choreId);
+  if (!choreId) {
+    choreId = $(this).attr("data-dbID");
+  }
   var queryURL = "/api/chores/" + choreId;
   var choreObj = {
     name: $("#chore-title")

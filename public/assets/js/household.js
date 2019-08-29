@@ -375,16 +375,16 @@ $("#editor").on("click", function() {
   }
 });
 
-$(document).on("click", "#login-submit", function() {
-  console.log(session);
-  if (session === undefined) {
-    location.reload();
-  }
-});
+// $(document).on("click", "#login-submit", function() {
+//   console.log(session);
+//   if (session === undefined) {
+//     location.reload();
+//   }
+// });
 
-$(document).on("click", ".fa-sign-out-alt", function() {
-  location.reload();
-});
+// $(document).on("click", ".fa-sign-out-alt", function() {
+//   location.reload();
+// });
 
 function buttonHider() {
   $("#household-nav").hide();

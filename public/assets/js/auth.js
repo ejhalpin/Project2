@@ -64,12 +64,13 @@ $(document).on("click", "#user-icon", function() {
     sessionStorage.clear();
     session = undefined;
     //swap the icon
-    $("#user-icon")
-      .empty()
-      .append(signInIcon)
-      .attr("title", "Login")
-      .attr("data-original-title", "Login")
-      .attr("data-state", "0");
+    // $("#user-icon")
+    //   .empty()
+    //   .append(signInIcon)
+    //   .attr("title", "Login")
+    //   .attr("data-original-title", "Login")
+    //   .attr("data-state", "0");
+    location.reload(true);
   } else {
     // show the login/signup modal
     $("#auth-modal").modal("show");
@@ -153,13 +154,14 @@ $(document).on("click", "#login-submit", event => {
       //use the login route
       authenticateUser("/auth/login", credentials)
         .then(() => {
-          $("#auth-modal").modal("hide");
-          $("#user-icon")
-            .empty()
-            .append(signOutIcon)
-            .attr("data-state", "1")
-            .attr("title", "Logout")
-            .attr("data-original-title", "Logout");
+          // $("#auth-modal").modal("hide");
+          // $("#user-icon")
+          //   .empty()
+          //   .append(signOutIcon)
+          //   .attr("data-state", "1")
+          //   .attr("title", "Logout")
+          //   .attr("data-original-title", "Logout");
+          location.reload(true);
         })
         .catch(err => {
           console.log(err);
