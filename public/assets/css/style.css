@@ -17,19 +17,25 @@ body {
   background-attachment: fixed;
 }
 
-div {
-  overflow-x: hidden;
-}
-
 .nav-item {
   padding: 0 10px;
 }
 
 .house-head {
-  color: #f7d00e;
+  color: #fafafa;
+  text-shadow: 1px 1px 1px #f7d00e, -1px 1px 1px #f7d00e, 1px -1px 1px #f7d00e,
+    -1px -1px 1px #f7d00e;
 }
 
 .house-header {
   background-color: black;
   text-align: center;
+}
+
+#navbarButtons button {
+  margin: auto;
+}
+
+#house-nav {
+  margin: auto;
 }
