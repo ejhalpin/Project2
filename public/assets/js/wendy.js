@@ -33,7 +33,7 @@ function pullChores(userName) {
       cardHeader.append(cardHeaderRow);
 
       let cardBody = $("<div class='card-body'></div>");
-      cardBody.append(`<p><strong>Created:</strong> ${new Date(sortedChores[i].createdAt)}</p>`);
+      cardBody.append(`<p><strong>Details:</strong> ${sortedChores[i].details}</p>`);
       cardBody.append(`<p><strong>Frequency:</strong> ${sortedChores[i].frequency}</p>`);
       card.append(cardHeader);
       card.append(cardBody);
