@@ -42,7 +42,8 @@ $("#chore-submit").on("click", function(event) {
   days.sort(function(a, b) {
     return a - b;
   });
-
+  var choreId = $("#chore-selector2").val();
+  var queryURL = "/api/chores/" + choreId;
   var choreObj = {
     name: $("#chore-title")
       .val()
@@ -57,16 +58,32 @@ $("#chore-submit").on("click", function(event) {
   };
   console.log(choreObj.assignedWhen);
   if ($(this).attr("data-type") === "create") {
-    //call the api to create the chore
     $.post("/api/chore", choreObj, response => {
       if (response.status !== 200) {
         console.log(response.reason);
+      } else {
+        var intermediate = $("<p>Your chore creation was successful.</p>");
+        $("#modal-body2").prepend(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
       }
-      //TODO change this to a reload of the scene, not the page
       $("#all-icon").trigger("click");
     });
   } else {
-    editChore($(this).attr("data-dbID"), choreObj);
+    //editChore($(this).attr("data-dbID"), choreObj);
+    $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
+      console.log("test response:" + response);
+      if (response.status !== 200) {
+        console.log(response.reason);
+      } else {
+        var intermediate = $("<p>Your chore reassignment was successful.");
+        $("#modal-body1").prepend(intermediate);
+        setTimeout(function() {
+          intermediate.remove();
+        }, 3000);
+      }
+    });
   }
   $(".chore-close").trigger("click");
 });
@@ -270,8 +287,6 @@ $(document).on("click", ".chore-close", function() {
   $("#chore-details").val("");
   $("#chore-frequency").val("Daily");
   $("#chore-assigned-to").empty();
-  $("#chore-submit")
-    .attr("data-type", "create")
-    .attr("data-dbID", "0");
+  $("#chore-submit").attr("data-dbID", "0");
   $(".tiny-cal").empty();
 });

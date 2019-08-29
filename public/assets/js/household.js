@@ -373,8 +373,10 @@ $("#submitFamilyGroup").on("click", function() {
       if (rezponz.status === 200) {
         console.log(rezponz.data[0].id);
         var intermediate = $(
-          `<p>Your new household ${newFamilyName}has been created. Your new Household ID is ${rezponz.data[0].id}.</p>`
+          `<p>Your new household ${newFamilyName}has been created. Your new Household ID is ${rezponz.data[0].id}. Please relog into your account.</p>
+          <i class='fa-sign-out-alt'></i>`
         );
+
         $(".householdBody").prepend(intermediate);
       }
       $.ajax({
@@ -402,11 +404,13 @@ $("#editor").on("click", function() {
       $("#editor").html("Add Chore");
       $("#edit-group").show();
       editMode = true;
+      $("#chore-submit").attr("data-type", "edit");
       break;
     case false:
       $("#chore-modal-title").html("Edit Existing Chore");
       $("#editor").html("Edit Chores");
       $("#edit-group").show();
+      $("#chore-submit").attr("data-type", "edit");
       editMode = true;
       break;
     case true:
@@ -415,6 +419,7 @@ $("#editor").on("click", function() {
       $("#chore-modal-title").html("Create A New Chore");
       $("#edit-group").hide();
       editMode = false;
+      $("#chore-submit").attr("data-type", "create");
       break;
   }
 });
