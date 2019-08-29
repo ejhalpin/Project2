@@ -35,20 +35,3 @@ body {
 input[type="text"]:focus {
   width: 50%;
 } */
-<<<<<<< HEAD
-
-.nav-item:hover {
-  cursor: pointer;
-}
-
-.nav-item {
-  padding: 0 10px;
-}
-
-li a,
-li a:hover {
-  color: inherit;
-  text-decoration: inherit;
-}
-=======
->>>>>>> origin

@@ -45,7 +45,7 @@
     <div class="container-fluid full-width">
       <nav class="navbar navbar-main navbar-expand-md">
         <div class="brand">
-          <i class="fab fa-forumbee"></i><span class="brand-text">Busy Bee</span>
+          <i class="fab fa-forumbee"></i>&nbsp;<span class="brand-text">Busy Bee</span>
         </div>
         <button
           class="navbar-toggler"
@@ -88,9 +88,14 @@
       </nav>
     </div>
     <div class="forum-view-nav">
-        <a id="forum-link" class="navbar-brand" href="#">Forum</a>
+        
         <a class="nav-link" id="rules-link" href="#">Rules</a>
-        <select class="form-control" id="forum-select"></select>
+        <div class="input-group fixed-width">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="forum-select">Categories</label>
+          </div>
+          <select class="custom-select" id="forum-select"> </select>
+        </div>
         <form class="form-inline my-2 my-lg-0">
             <input
               class="form-control mr-sm-2"

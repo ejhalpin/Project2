@@ -96,7 +96,7 @@ module.exports = function(app) {
                   value:
                     "<h3>Please Confirm Your Email Address</h3>" +
                     "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
-                    "<p><a href=' http://localhost:8080/confirm/" +
+                    "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
                     userObject.tempToken +
                     "'>click here to confirm your email</a>"
                 }
@@ -195,7 +195,7 @@ module.exports = function(app) {
                     value:
                       "<h3>Please Confirm Your Email Address</h3>" +
                       "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
-                      "<p><a href=' http://localhost:8080/confirm/" +
+                      "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
                       userObject.tempToken +
                       "'>click here to confirm your email</a>"
                   }
@@ -396,7 +396,7 @@ function sendInvitation(data) {
           {
             type: "text/html",
             value: `<h3>${data.name} has sent you an invitation to join their hive on BusyBee</h3>
-              <p><a href='http://localhost:8080/respond/${data.id}/${data.HouseholdId}'>Click here to accept the invitation!</a></p>`
+              <p><a href='https://enigmatic-coast-50344.herokuapp.com/respond/${data.id}/${data.HouseholdId}'>Click here to accept the invitation!</a></p>`
           }
         ]
       }

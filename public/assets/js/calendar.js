@@ -66,7 +66,7 @@ $(document).on("change", "#cal-scope", function() {
 
 $(document).on("click", "#cal-icon", function() {
   $("#parent").empty().append(`
-    <div class="cal-nav">
+    <div class="cal-nav animated fadeInUp slow">
       <div class="cal-select">
         <select class="form-control" id="cal-scope">
           <option>Today</option>
@@ -77,7 +77,7 @@ $(document).on("click", "#cal-icon", function() {
       </div>
       <div id="cal-view"></div>
     </div>
-    <div id="cal-view-target" class="table-responsive"></div>
+    <div id="cal-view-target" class="table-responsive animated fadeInUp slow"></div>
   `);
 
   $("#cal-scope").trigger("change");

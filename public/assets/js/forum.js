@@ -170,7 +170,7 @@ $(document).on("click", "#rules-link", () => {
     $("#rules-alert").remove();
   } else {
     $(`
-  <div id="rules-alert" class="alert alert-dark" role="alert">
+  <div id="rules-alert" class="alert alert-dark animated fadeInUp" role="alert">
     <h4>Forum Rules</h4>
     <ul>
       <li>Don't be a Jerk.</li>
@@ -181,12 +181,12 @@ $(document).on("click", "#rules-link", () => {
   //define an alert modal, and prepend it to target
 });
 
-$(document).on("click", ".dropdown-item", function() {
-  var category = $(this).text();
+$("#forum-select").change(function() {
+  console.log("change");
+  var category = $(this).val();
   if (category === "all") {
     getAllPosts();
   }
-  $("#selected-category").text(category);
   getPostsByCategory(category);
 });
 
