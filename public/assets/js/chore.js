@@ -273,4 +273,5 @@ $(document).on("click", ".chore-close", function() {
   $("#chore-submit")
     .attr("data-type", "create")
     .attr("data-dbID", "0");
+  $(".tiny-cal").empty();
 });

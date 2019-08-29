@@ -68,6 +68,7 @@ $(document).on("click", "#user-icon", function() {
       .empty()
       .append(signInIcon)
       .attr("title", "Login")
+      .attr("data-original-title", "Login")
       .attr("data-state", "0");
   } else {
     // show the login/signup modal
@@ -140,7 +141,9 @@ $(document).on("click", "#login-submit", event => {
           $("#user-icon")
             .empty()
             .append(signOutIcon)
-            .attr("data-state", "1");
+            .attr("data-state", "1")
+            .attr("title", "Logout")
+            .attr("data-original-title", "Logout");
         })
         .catch(err => {
           console.log(err);
@@ -154,7 +157,9 @@ $(document).on("click", "#login-submit", event => {
           $("#user-icon")
             .empty()
             .append(signOutIcon)
-            .attr("data-state", "1");
+            .attr("data-state", "1")
+            .attr("title", "Logout")
+            .attr("data-original-title", "Logout");
         })
         .catch(err => {
           console.log(err);
@@ -227,6 +232,7 @@ $(document).ready(function() {
       .empty()
       .append(signOutIcon)
       .attr("title", "Logout")
+      .attr("data-original-title", "Logout")
       .attr("data-state", "1");
   }
 });
