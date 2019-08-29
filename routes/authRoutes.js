@@ -4,7 +4,6 @@ var db = require("../models");
 var crypto = require("crypto");
 var sg = require("sendgrid")(process.env.SG_MAIL_KEY);
 var moment = require("moment");
-var path = require("path");
 require("dotenv").config();
 //==============================================================
 
