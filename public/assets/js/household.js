@@ -164,43 +164,29 @@ $("#frequencyFilterButton").on("click", function() {
   }
 });
 
-// function modalChecks() {
-//   let queryURL = "/api/household/" + houseID;
-//   console.log(queryURL);
-//   $.ajax({ url: queryURL, method: "GET" }).then(function(response) {
-//     console.log(response.data);
-//     console.log(response.data.name);
-//     var rez = response.data;
-//     for (var j = 0; j < rez.Users.length; j++) {
-//       var special = rez.Users[j];
-//       specialCheck = $(
-//         `<input type="checkbox" name="assigned" value="${special.name}">${special.name}</input><br>`
-//       );
-//       $("#formCheck").append(specialCheck);
-//     }
-//   });
-// }
-// function inviteMember() {
-//   $.ajax({ url: "api/users", method: "GET" }).then(function(response) {
-//     console.log(response.data);
-//     var rez = response.data;
-//     $.ajax({
-//       type: "PUT",
-//       url: "api/users/11",
-//       data: {
-//         HouseholdId: 1
-//       }
-//     }).then(function(res) {
-//       console.log(res.data);
-//     });
-//     $.ajax({
-//       type: "GET",
-//       url: "api/users/11"
-//     }).then(function(resp) {
-//       console.log(resp.data);
-//     });
-//   });
-// }
+$("#invite-btn").on("click", function() {
+  var friendEmail = $("#email-field")
+    .val()
+    .trim();
+  $.ajax({
+    url: "auth/invite",
+    method: "POST",
+    data: {
+      name: session.name,
+      email: friendEmail,
+      HouseholdId: session.HouseholdId
+    }
+  }).then(function(response) {
+    console.log(response.stats);
+    if (response.status === 200) {
+      var intermediate = "<p>We've sent them an email!</p>";
+      $(".invite-body").prepend(intermediate);
+      setTimeout(function() {
+        intermediate.remove();
+      }, 3000);
+    }
+  });
+});
 
 function choreEdit() {
   let queryURL = "/api/household/" + session.HouseholdId;
