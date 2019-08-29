@@ -109,15 +109,8 @@
         data-toggle="modal"
         data-target="#chore-modal"
       >
-        Add Chores</button>
-        <button
-        type="button"
-        class="btn btn-warning m-1"
-        id="edit-chores-btn"
-        data-toggle="modal"
-        data-target="#updateChoresModal"
-      >
-        Edit Chores</button>
+        Add/Edit Chores</button>
+
         <button
         type="button"
         class="btn btn-warning m-2"
@@ -214,7 +207,7 @@
           <div class="modal-body" id="modal-body2">
             <div class="form-group">
               <label for="old-chore">Chore</label><br>
-              <select id="chore-selector2"></select><i class="far fa-trash-alt fa-lg trashcan"></i>
+            <i class="far fa-trash-alt fa-lg trashcan"></i>
 
             </div>
             <div class="form-group">
@@ -298,8 +291,21 @@ aria-hidden="true">
         </div>
         <div class="modal-body">
           <form>
+              <div class="form-group" id="button-holder">
+                  <button
+                  type="button"
+                  class="btn btn-secondary"
+                  id="editor"
+                >
+                  Edit Chores
+                </button>
+              </div>
+              <div class="form-group" id="edit-group">
+                  <label for='chore-selector2'>Existing Chore</label><br>
+                  <select id='chore-selector2'></select><i class='far fa-trash-alt fa-lg trashcan'></i>
+              </div>
               <div class="form-group">
-                  <label for="chore-title">Chore Name</label>
+                  <label for="chore-title" id="chore-label">New Chore Name</label>
                   <input
                     type="text"
                     class="form-control"
