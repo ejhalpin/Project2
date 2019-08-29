@@ -114,63 +114,12 @@ async function layOutForum(posts) {
 
 //a function to lay out the page structure
 function loadStructure() {
-  $("#target").empty();
-  //define the global container
-  var global = $("<div>").addClass("container");
-  global.append(` <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a id="forum-link" class="navbar-brand" href="#">Forum</a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" id="rules-link" href="#">Rules</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Category: <span id="selected-category">all</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          
-        </div>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input
-        class="form-control mr-sm-2"
-        type="search"
-        placeholder="Search by title"
-        aria-label="Search"
-        id="title-input"
-      />
-      <button
-        id="title-search"
-        class="btn btn-outline-success my-2 my-sm-0"
-        type="button"
-      >
-        Search
-      </button>
-      <button type="button" id="create-post" class="btn btn-info">&plus;</button>
-    </form>
-  </div>
-</nav>`);
-  var target = $("<div>").attr("id", "target");
-  global.append(target);
-  //add all of the categories from the array to the dropdown
-
-  global.appendTo($(".container"));
   categories.forEach(item => {
-    $("<a class='dropdown-item' href='#'>" + item + "</a>").appendTo(".dropdown-menu");
+    var option = $("<option>" + item + "</option>");
+    if (item === "all") {
+      option.prop("selected", true);
+    }
+    option.appendTo("#forum-select");
   });
 }
 
@@ -331,6 +280,11 @@ $(document).ready(() => {
   loadStructure();
   getAllPosts();
   $("#category-select").append(getCategoryOptions());
+  if (session) {
+    $("#user-link").text(session.name);
+  } else {
+    $("#user-link").text("Welcome");
+  }
 });
 
 //TODO - use flagged data to change color of post or reply and disable the flag post / flag reply link

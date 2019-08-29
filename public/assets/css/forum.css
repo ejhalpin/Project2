@@ -44,3 +44,39 @@ body {
 .nav-item {
   padding: 0 10px;
 }
+
+.forum-view-nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 5px;
+}
+
+#forum-select {
+  width: min-content;
+}
+#title-input {
+  max-width: 150px;
+}
+#title-search {
+  margin: 0 10px;
+  border-color: #0a0a0a;
+  color: #0a0a0a;
+}
+#title-search:hover {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}
+
+#create-post {
+  color: #0a0a0a;
+  background-color: transparent;
+  border-color: #0a0a0a;
+}
+
+#create-post:hover {
+  background-color: #0a0a0a;
+  color: #fafafa;
+}

@@ -22,45 +22,42 @@ var monthOffset = 0;
 //******************************* THE CALENDAR DISPLAY LOGIC **************************************
 //=================================================================================================
 
-$(document).on("click", "#cal-close", function() {
-  $("#parent").empty();
-});
-
 $(document).on("change", "#cal-scope", function() {
   var scope = $(this).val();
-  $("#cal-view").remove();
-  $("#parent").append("<div id='cal-view'>");
+  $("#cal-view").empty();
   switch (scope) {
     case "Today":
-      console.log("today");
-      //this is Wendy's view
+      $("#daily-icon").trigger("click");
       break;
     case "This Week":
       weekOffset = 0;
       $("#cal-view").append(`
       <div class="tiny-cal-shifter">
-        <button type="button" class="btn btn-info" id="prev-week">&lt;</button>
+        <button type="button" class="btn btn-warning" id="prev-week">&lt;</button>
           <div id="week-label">This Week</div>
-        <button type="button" class="btn btn-info" id="next-week">&gt;</button>
-      </div>
-      <div id="cal-view-target" class="table-responsive"></div>`);
-      $("#cal-view-target").append(buildWeekView(moment()));
+        <button type="button" class="btn btn-warning" id="next-week">&gt;</button>
+      </div>`);
+      $("#cal-view-target")
+        .empty()
+        .append(buildWeekView(moment()));
       break;
     case "This Month":
       monthOffset = 0;
       $("#cal-view").append(`
       <div class="tiny-cal-shifter">
-        <button type="button" class="btn btn-info" id="prev-month">&lt;</button>
+        <button type="button" class="btn btn-warning" id="prev-month">&lt;</button>
           <div id="month-label">This Month</div>
-        <button type="button" class="btn btn-info" id="next-month">&gt;</button>
+        <button type="button" class="btn btn-warning" id="next-month">&gt;</button>
       </div>
-      <div id="cal-view-target" class="table-responsive"></div>`);
-      $("#cal-view-target").append(buildMonthView(moment()));
+      `);
+      $("#cal-view-target")
+        .empty()
+        .append(buildMonthView(moment()));
       break;
     case "This Year":
-      $("#cal-view").append(`
-        <div id="cal-view-target" class="table-responsive"></div>`);
-      $("#cal-view-target").append(buildYearView(moment()));
+      $("#cal-view-target")
+        .empty()
+        .append(buildYearView(moment()));
       console.log("this year");
       //lay out the calendar year and put click events on the days and months. On click, the user should snap to those views.
       break;
@@ -69,30 +66,19 @@ $(document).on("change", "#cal-scope", function() {
 
 $(document).on("click", "#cal-icon", function() {
   $("#parent").empty().append(`
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Content" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="Content">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link close" id="cal-close" href="#"><span class="v-fix" aria-hidden="true">&times;</span></span></a>
-          </li>
-          <li class="nav-item">
-            <select class="form-control" id="cal-scope">
-              <option>Today</option>
-              <option selected>This Week</option>
-              <option>This Month</option>
-              <option>This Year</option>
-            </select>
-          </li>
-        </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>`);
+    <div class="cal-nav">
+      <div class="cal-select">
+        <select class="form-control" id="cal-scope">
+          <option>Today</option>
+          <option selected>This Week</option>
+          <option>This Month</option>
+          <option>This Year</option>
+        </select>
+      </div>
+      <div id="cal-view"></div>
+    </div>
+    <div id="cal-view-target" class="table-responsive"></div>
+  `);
 
   $("#cal-scope").trigger("change");
 });
@@ -140,9 +126,9 @@ $(document).on("click", ".year-view-cell", function() {
   weekOffset = targetWeek - thisWeek;
   $("#cal-view").empty().append(`
   <div class="tiny-cal-shifter">
-    <button type="button" class="btn btn-info" id="prev-week">&lt;</button>
+    <button type="button" class="btn" id="prev-week">&lt;</button>
       <div id="week-label">This Week</div>
-    <button type="button" class="btn btn-info" id="next-week">&gt;</button>
+    <button type="button" class="btn" id="next-week">&gt;</button>
   </div>
   <div id="cal-view-target" class="table-responsive"></div>`);
   $("#cal-view-target").append(buildWeekView(moment().add(weekOffset, "week")));

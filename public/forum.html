@@ -4,11 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery.js"></script>
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
+
     <link
       href="https://fonts.googleapis.com/css?family=Handlee|Pontano+Sans&display=swap"
       rel="stylesheet"
@@ -20,32 +22,96 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <!-- bootstrap js -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Animate.css -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css"
+      rel="stylesheet"
+    />
 
+    <!-- bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
     <!-- Moment -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
       integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs="
       crossorigin="anonymous"
     ></script>
-    <!-- Local Stylesheet -->
+    <!-- local stylesheet -->
     <link rel="stylesheet" href="assets/css/global.css" />
     <link rel="stylesheet" href="assets/css/forum.css" />
     <title>Busy Bee Forum</title>
   </head>
   <body>
-    <div class="container" id="parent">
-      <nav class="navbar navbar-dark" style="background-color: #ffffff; margin-top:10px;">
-        <span class="fab fa-forumbee" style='font-family: "Handlee", cursive;'>&ensp;Busy Bee</span>
-        <ul class="nav justify-content-end">
-          <li class="nav-item"><i class="far fa-calendar-alt fa-2x"></i></li>
-          <li id="user-icon" data-state="0" class="nav-item">
-            <i class="far fa-user fa-2x"></i>
-          </li>
-        </ul>
+    <div class="container-fluid full-width">
+      <nav class="navbar navbar-main navbar-expand-md">
+        <div class="brand">
+          <i class="fab fa-forumbee"></i><span class="brand-text">Busy Bee</span>
+        </div>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="brand"><i class="fas fa-bars"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/" id="user-link"></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/household">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/forum">Forum</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+                <span
+                id="user-icon"
+                class="icon"
+                data-state="0"
+                data-toggle="tooltip"
+                data-placement="bottom"
+                data-state="0"
+                title="Login"
+                ><i class="far fa-user"></i
+              ></span>
+            </li>
+          </ul>
+        </div>
       </nav>
-
+    </div>
+    <div class="forum-view-nav">
+        <a id="forum-link" class="navbar-brand" href="#">Forum</a>
+        <a class="nav-link" id="rules-link" href="#">Rules</a>
+        <select class="form-control" id="forum-select"></select>
+        <form class="form-inline my-2 my-lg-0">
+            <input
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="Search by title"
+              aria-label="Search"
+              id="title-input"
+            />
+            <button
+              id="title-search"
+              class="btn btn-outline-success my-2 my-sm-0"
+              type="button"
+            >
+              Search
+            </button>
+            <button type="button" id="create-post" class="btn btn-info">&plus;</button>
+          </form>
+        
+      </div>
+    <div class="container" id="parent">
+      <div id="target" class="container"></div>
       <div id="post-modal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
