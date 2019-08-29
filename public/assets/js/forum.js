@@ -1,13 +1,14 @@
 //global variables
 //an array of forum categories - const
 const categories = [
-  "all",
-  "cleaning",
-  "diy",
-  "laundry",
-  "appliance repair",
-  "landscaping",
-  "other"
+  "All",
+  "Food",
+  "Cleaning",
+  "DIY",
+  "Laundry",
+  "Appliance Repair",
+  "Landscaping",
+  "Other"
 ];
 categories.sort();
 //a variable to hold the html for the post-modal
@@ -174,7 +175,7 @@ $(document).on("click", "#rules-link", () => {
     <h4>Forum Rules</h4>
     <ul>
       <li>Don't be a Jerk.</li>
-      <li>Keep it family friendly.</li>
+      <li>Keep it Family Friendly.</li>
     </ul>
   </div>`).prependTo($("#target"));
   }
