@@ -120,11 +120,11 @@ function deleteChore(dbID) {
 }
 
 $(document).ready(function() {
+  $("[data-toggle='tooltip']").tooltip();
   if (session) {
-    $("#user-link").prepend(session.name);
-    $("[data-toggle='tooltip']").tooltip();
+    $("#user-link").text(session.name);
   } else {
-    location.href = "/forum";
+    $("#user-link").text("Welcome");
   }
 });
 

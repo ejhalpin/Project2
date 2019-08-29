@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Handlee|Pontano+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- Animate.css -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css"
+      rel="stylesheet"
+    />
+
+    <!-- bootstrap js -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Moment -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"
+      integrity="sha256-H9jAz//QLkDOy/nzE9G4aYijQtkLt9FvGmdUTwBk6gs="
+      crossorigin="anonymous"
+    ></script>
+    <!-- local stylesheet -->
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body class="body-center">
+    <div class="card signup-card">
+      <form id="auth-form">
+        <div class="form-group">
+          <label for="signup-name">name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="signup-name"
+            aria-describedby="nameHelp"
+            placeholder="arya stark"
+          />
+          <small id="nameHelp" class="form-text text-muted"
+            >Your name needs to be unique. Go ahead and use spaces and special characters.</small
+          >
+        </div>
+        `
+        <div class="form-group">
+          <label for="login-email">email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="login-email"
+            aria-describedby="emailHelp"
+            placeholder="arya.stark@winterfell.com"
+          />
+          <small id="emailHelp" class="form-text text-muted"
+            >Use the email account in which you received the invitation</small
+          >
+        </div>
+        <div class="form-group">
+          <label for="login-password">password</label>
+          <input type="password" class="form-control" id="login-password" placeholder="password" />
+        </div>
+        <div class="text-right">
+          <button type="button" id="signup-submit" class="btn btn-primary">create account</button>
+        </div>
+      </form>
+    </div>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/signup.js"></script>
+  </body>
+</html>

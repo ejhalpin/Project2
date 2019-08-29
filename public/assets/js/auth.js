@@ -229,4 +229,8 @@ $(document).ready(function() {
       .attr("title", "Logout")
       .attr("data-state", "1");
   }
+  if (location.href.split("/").includes("signup")) {
+    $("#auth-modal").modal("show");
+    $("#auth-swap").trigger("click");
+  }
 });

@@ -17,18 +17,7 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/forum.html"));
   });
 
-  app.get("/cal", (req, res) => {
-    db.Household.findOne({ where: { id: 1 } }).then(data => {
-      if (!data) {
-        db.Household.create({
-          name: "Busy Bee"
-        }).then(createData => {
-          console.log(createData);
-          return;
-        });
-      }
-      console.log(data);
-    });
-    res.sendFile(path.join(__dirname, "../public/calendar-views.html"));
+  app.get("/signup", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/signup.html"));
   });
 };
