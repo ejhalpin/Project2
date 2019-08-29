@@ -41,11 +41,24 @@ module.exports = function(app) {
         //clone the chores array
         var chores = [...data.Chores];
         chores.forEach(chore => {
-          if (chore.frequency === "Daily") {
-            if (moment(chore.updatedAt).isBefore(moment(), "day")) {
-              chore.isComplete = false;
-              db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
-            }
+          var span = "";
+          switch (chore.frequency) {
+            case "Daily":
+              span = "day";
+              break;
+            case "Weekly":
+              span = "week";
+              break;
+            case "Monthly":
+              span = "month";
+              break;
+            case "Yearly":
+              span = "year";
+              break;
+          }
+          if (moment(chore.updatedAt).isBefore(moment(), span)) {
+            chore.isComplete = false;
+            db.Chore.update({ isComplete: false }, { where: { id: chore.id } });
           }
         });
         data.Chores = [...chores];
