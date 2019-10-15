@@ -396,7 +396,7 @@ function sendInvitation(data) {
           {
             type: "text/html",
             value: `<h3>${data.name} has sent you an invitation to join their hive on BusyBee</h3>
-              <p><a href='https://enigmatic-coast-50344.herokuapp.com/respond/${data.id}/${data.HouseholdId}'>Click here to accept the invitation!</a></p>`
+              <p><a href='https://busy-bee-home.herokuapp.com/respond/${data.id}/${data.HouseholdId}'>Click here to accept the invitation!</a></p>`
           }
         ]
       }
