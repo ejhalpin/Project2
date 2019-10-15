@@ -195,7 +195,7 @@ module.exports = function(app) {
                     value:
                       "<h3>Please Confirm Your Email Address</h3>" +
                       "<p>Follow the link below to confirm your email address and finish creating your account</p>" +
-                      "<p><a href=' https://enigmatic-coast-50344.herokuapp.com/confirm/" +
+                      "<p><a href=' https://busy-bee-home.herokuapp.com/confirm/" +
                       userObject.tempToken +
                       "'>click here to confirm your email</a>"
                   }
