@@ -1,6 +1,4 @@
 var path = require("path");
-var moment = require("moment");
-const cookieparser = require("cookie-parser");
 
 module.exports = {
   //load the index page

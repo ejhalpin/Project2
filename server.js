@@ -44,7 +44,7 @@ db.sequelize.sync(syncOptions).then(function() {
           name: "Busy-Bee",
           queen: "Busy-Bee-Queen"
         })
-          .then(hiveData => {
+          .then(() => {
             console.log("Busy Bee Hive Created");
           })
           .catch(err => {

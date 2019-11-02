@@ -4,15 +4,8 @@ const parentDiv = $("#parent");
 const tray = $("#tray");
 const signupForm = $("#signup-form");
 const loginForm = $("#login-form");
-const hiveCreateForm = $("#hive-create-form");
-const hiveView = $("#hive-view");
-const profileView = $("#profile-view");
-const communityView = $("#community-view");
-const aboutView = $("#about-view");
-const contactView = $("#contact-view");
-const taskView = $("#task-view");
 const navLogout = $("#nav-logout");
-const choreModal = $("#chore-modal");
+
 var user;
 var hive;
 
@@ -68,7 +61,7 @@ $(document).on("click", ".rem-user", function() {
       buildHive();
     })
     .catch(err => {
-      console.log(error);
+      console.log(err);
     });
 });
 
@@ -78,7 +71,7 @@ $(document).on("click", ".rem-chore", function() {
     method: "DELETE",
     data: {}
   })
-    .then(res => {
+    .then(() => {
       $.get("/api/hive/" + hive.id).then(updatedHive => {
         hive = updatedHive;
         sessionStorage.setItem("hive", JSON.stringify(hive));
@@ -86,6 +79,6 @@ $(document).on("click", ".rem-chore", function() {
       });
     })
     .catch(err => {
-      console.log(error);
+      console.log(err);
     });
 });

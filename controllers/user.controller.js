@@ -48,7 +48,7 @@ module.exports = {
             res.json(user);
           })
           .catch(err => {
-            res.json(err);
+            res.json(err, update);
           });
       })
       .catch(err => res.json(err));

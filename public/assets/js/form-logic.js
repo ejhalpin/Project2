@@ -20,6 +20,8 @@ let contactAlert = $("#contact-alert");
 let contactEmail = $("#contact-email");
 let contactName = $("#contact-name");
 let contactMessage = $("#contact-message");
+const choreModal = $("#chore-modal");
+const hiveCreateForm = $("#hive-create-form");
 
 //change listeners for clearing alerts
 contactName.on("input", function() {
@@ -578,22 +580,6 @@ $("#new-queen-submit").on("click", async function(event) {
   $("#queen-modal").modal("hide");
 });
 
-//chore-item listeners
-// $(document).on("click", ".form-check-label", function() {
-//   var id = $(this).attr("for");
-//   var checkbox = $("#" + id);
-//   var checked = checkbox.prop("checked");
-//   var choreId = id.split("-").pop();
-
-//   if (checked && !$(this).hasClass("completed")) {
-//     $(this).toggleClass("completed");
-//   }
-//   if (!checked && $(this).hasClass("completed")) {
-//     $(this).toggleClass("completed");
-//   }
-//   updateChore(choreId, checked);
-// });
-
 $(document).on("click", ".form-check-input", function() {
   var labelId = $(this)
     .attr("id")
@@ -635,11 +621,11 @@ $(".toggle-show-completed").on("click", function() {
   switch ($(this).attr("data-target")) {
     case "to-do":
       showCompletedToDo = !showCompletedToDo;
-      
+
       break;
     case "tasks":
       showCompletedTasks = !showCompletedTasks;
-      
+
       break;
   }
   if ($(this).text() === "Hide Completed") {

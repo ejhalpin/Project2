@@ -1,3 +1,7 @@
+const hiveView = $("#hive-view");
+const profileView = $("#profile-view");
+const communityView = $("#community-view");
+const taskView = $("#task-view");
 let buildHive = () => {
   if (!user) {
     console.log("no user");
@@ -29,7 +33,7 @@ let buildHive = () => {
       );
     } else {
       row.append(
-        `<td><div class="table-actions"><button class="btn btn-custom-red p-0" disabled><i class="fas fa-minus"></i></button></div></td>`
+        "<td><div class='table-actions'><button class='btn btn-custom-red p-0' disabled><i class='fas fa-minus'></i></button></div></td>"
       );
     }
     row.appendTo(userTable);
@@ -73,6 +77,7 @@ let buildTask = () => {
   var todayChores = chores.filter(chore => chore.frequency !== "Once");
   var todoTasks = chores.filter(chore => chore.frequency === "Once");
   var now = moment();
+  console.log(now.toString());
 
   todayChores.forEach(chore => {
     if (chore.isComplete && !showCompletedTasks) {
@@ -107,3 +112,13 @@ let buildTask = () => {
   });
   taskView.detach().appendTo(parentDiv);
 };
+
+const never = false;
+
+if (never) {
+  buildHive();
+  buildProfile();
+  buildCommunity();
+  buildTask();
+  //fuck you linter. All of these functions are called in another file.
+}

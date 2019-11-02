@@ -3,10 +3,14 @@ var isMenuShowing = true;
 
 //==================== Global Containers ====================
 var hidden = $("#tray");
-var mainDisplay = $(".container");
+//var mainDisplay = $(".container");
 var navScene = $("#nav-scene");
 var transitionScene = $("#transition-scene");
 var mainScene = $("#main-scene");
+
+const aboutView = $("#about-view");
+const contactView = $("#contact-view");
+
 //==================== Window/Screen Listeners ====================
 $(window).on("resize", function() {
   if (!isMenuShowing) {
@@ -19,7 +23,7 @@ $(document).on("click", ".hex", function() {
   var desc = $(this).attr("data-desc");
   loadContent(desc);
   if (isMenuShowing) {
-    explode().then(function() {});
+    explode();
   }
 });
 $(document).on("click", "#nav-toggle", function() {
@@ -27,11 +31,6 @@ $(document).on("click", "#nav-toggle", function() {
 });
 
 $(document).on("mouseover", ".hex", function() {
-  var ident = $(this)
-    .attr("id")
-    .split("-")
-    .pop();
-
   $("#view-nav-center").text($(this).attr("data-desc"));
 });
 
@@ -218,14 +217,4 @@ function loadContent(desc) {
       buildTask();
       break;
   }
-}
-//==================== Authentication Logic ====================
-function doLogin() {
-  explode();
-  setTimeout(function() {
-    $("#signup-form")
-      .detach()
-      .appendTo(mainDisplay);
-    mainDisplay.toggleClass("flex-center");
-  }, 1100);
 }

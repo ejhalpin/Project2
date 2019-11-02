@@ -61,7 +61,7 @@ module.exports = {
             res.json(hive);
           })
           .catch(err => {
-            res.json(err);
+            res.json(err, update);
           });
       })
       .catch(err => res.json(err));

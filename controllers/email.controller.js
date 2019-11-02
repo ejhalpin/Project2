@@ -88,7 +88,7 @@ module.exports = {
             ]
           }
         });
-        sg.API(replay)
+        sg.API(relay)
           .then(conf => {
             res.json({ info, conf });
           })

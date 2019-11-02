@@ -6,7 +6,7 @@
  * $("#auth-modal").modal("show")
  */
 var signOutIcon = "<i class='fas fa-sign-out-alt'></i>";
-var signInIcon = "<i class='far fa-user'></i>";
+//var signInIcon = "<i class='far fa-user'></i>";
 
 //warm-up routines
 var Household;
