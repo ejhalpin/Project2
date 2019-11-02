@@ -1,37 +1,58 @@
-require("dotenv").config();
-var express = require("express");
+//EXPRESS SERVER//
 
-var db = require("./models");
+//package dependencies
+let express = require("express");
+let cookieparser = require("cookie-parser");
+let routes = require("./routes");
 
+//express
 var app = express();
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static("public/assets"));
+app.use(cookieparser());
+
+var db = require("./models");
 
 // Routes
+app.use(routes);
 
-require("./routes/apiRoutes")(app);
-require("./routes/htmlRoutes")(app);
-
+//data persistence
 var syncOptions = { force: false };
 
-// If running a test, set syncOptions.force to true
-// clearing the `testdb`
+//if testing, clear the testDb
 if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
 }
 
-// Starting the server, syncing our models ------------------------------------/
+// Starting the server, syncing our models
 db.sequelize.sync(syncOptions).then(function() {
-  require("./routes/authRoutes")(app);
   app.listen(PORT, function() {
-    console.log(
-      "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
-      PORT,
-      PORT
-    );
+    console.log("==>Listening on port %s.", PORT);
   });
+  db.Hive.findOne({
+    where: {
+      id: 1
+    }
+  })
+    .then(hive => {
+      if (!hive) {
+        db.Hive.create({
+          name: "Busy-Bee",
+          queen: "Busy-Bee-Queen"
+        })
+          .then(hiveData => {
+            console.log("Busy Bee Hive Created");
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });

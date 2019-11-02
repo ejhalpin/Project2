@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "root",
-    "password": "Happyhobo1!",
-    "database": "exampleDB",
+    "username": "node",
+    "password": "creedo",
+    "database": "busybee",
     "host": "localhost",
     "dialect": "mysql"
   },

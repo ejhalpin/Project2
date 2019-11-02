@@ -1,31 +1,39 @@
-//The Chores module connects to the chores table.
-//This module has no validation on columns at this point.
-//For each chore, we collect name, frequency, asignedTo
-//sequelize will generate a primary key automatically
-
 module.exports = function(sequelize, DataTypes) {
   var Chore = sequelize.define("Chore", {
     name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    details: DataTypes.STRING,
-    frequency: DataTypes.STRING, //"daily", "weekly", "monthly", "yearly"
-    assignedTo: DataTypes.STRING,
-    assignedWhen: DataTypes.STRING, //a sting of comma separated numbers corresponding to the days in the frequency scope
+    assignedTo: {
+      type: DataTypes.STRING
+    },
     isComplete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    markedCompleteAt: {
+      type: DataTypes.STRING
+    },
+    frequency: {
+      type: DataTypes.STRING,
+      defaultValue: "daily"
+    },
+    scheduledOn: {
+      type: DataTypes.STRING
+    },
+    description: {
+      type: DataTypes.STRING
     }
   });
 
   Chore.associate = function(models) {
-    //Chores belong to a Household and cannot be created without a household defined.
-    Chore.belongsTo(models.Household, {
+    Chore.belongsTo(models.Hive, {
       foreignKey: {
         allowNull: false
-      }
+      },
+      onDelete: "cascade"
     });
   };
+
   return Chore;
 };

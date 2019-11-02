@@ -6,7 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <!-- jquery -->
-    <script src="https://code.jquery.com/jquery.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
 
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/c45ea1cb4d.js"></script>
@@ -37,98 +41,314 @@
       crossorigin="anonymous"
     ></script>
     <!-- local stylesheet -->
-    <link rel="stylesheet" href="assets/css/global.css" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-    <link rel="stylesheet" href="assets/css/calendar-views.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+    <link rel="stylesheet" href="css/forms.css" />
+    <link rel="stylesheet" href="css/calendar-views.css" />
+
     <title>Busy Bee</title>
   </head>
   <body>
     <!-- The navbar for view navigation -->
-    <div class="container-fluid full-width">
-      <nav class="navbar navbar-main navbar-expand-md">
-        <div class="brand">
-          <i class="fab fa-forumbee"></i>&nbsp;<span class="brand-text">Busy Bee</span>
+    <div class="root">
+      <div id="nav-scene" class="nav back">
+        <div id="view-nav-1" class="hex" data-desc="Profile"></div>
+        <div id="view-nav-2" class="hex" data-desc="Tasks"></div>
+        <div id="view-nav-3" class="hex" data-desc="Community"></div>
+        <div id="view-nav-4" class="hex" data-desc="About"></div>
+        <div id="view-nav-5" class="hex" data-desc="Contact Us"></div>
+        <div id="view-nav-6" class="hex" data-desc="Hive"></div>
+        <div id="view-nav-center"></div>
+      </div>
+      <div id="transition-scene"></div>
+      <div id="main-scene" class="front">
+        <header>
+          <div class="brand-box">
+            <div class="logo"></div>
+            <span class="brand-text">Busy Bee</span>
+          </div>
+          <div class="nav-links">
+            <div id="logout-link"><a href="#" id="nav-logout">login</a></div>
+            <div id="nav-toggle"></div>
+          </div>
+        </header>
+        <div id="parent" class="flex-col align-center">
+          <div id="welcome" class="jumbotron text-center bg-custom-dark">
+            <h1 class="display-4 shadow p-3">Welcome to Busy Bee</h1>
+            <p class="lead">
+              Finally, a flexible and powerful work management system for your home!
+            </p>
+            <div class="hr-yellow my-3"></div>
+            <p>
+              Create a hive, invite your family members, and begin assigning chores. It's that easy.
+              With our Advanced scheduling system you can create and schedule single time or
+              recurring chores and maintenance for your home.
+            </p>
+            <p class="lead">
+              <a id="sign-up-button" class="btn btn-lg btn-custom-light" href="#" role="button"
+                >Sign Up</a
+              >
+            </p>
+          </div>
         </div>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="brand"><i class="fas fa-bars"></i></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/" id="user-link"></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/household">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/forum">Forum</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <span
-                id="user-icon"
-                class="icon"
-                data-state="0"
-                data-toggle="tooltip"
-                data-placement="bottom"
-                data-state="0"
-                title="Login"
-                ><i class="far fa-user"></i
-              ></span>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <div class="view-nav">
-        <!-- fa-2x -->
-        <span
-          id="daily-icon"
-          class="icon"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Today's Chores"
-          ><i class="fas fa-clipboard-list"></i
-        ></span>
-        <span
-          id="all-icon"
-          class="icon"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="View All Chores"
-          ><i class="fas fa-th"></i
-        ></span>
-        <span
-          id="cal-icon"
-          class="icon"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          title="Calendars"
-          ><i class="far fa-calendar-alt"></i
-        ></span>
-        <!-- <span
-          id="user-icon"
-          class="icon"
-          data-state="0"
-          data-toggle="tooltip"
-          data-placement="bottom"
-          data-state="0"
-          title="Login"
-          ><i class="far fa-user"></i
-        ></span> -->
+        <footer>
+          <div class="contributors">
+            <a href="https://github.com/babivokalz">Wendy</a> |
+            <a href="https://github.com/katran0079">Kelvin</a> |
+            <a href="https://github.com/ejhalpin">Eugene</a>
+          </div>
+          <div class="attribution">
+            Many of the icons on this page were provided by
+            <a href="https://www.fontawesome.com">Font Awesome</a> under some
+            <a href="https://fontawesome.com/license">license</a>. <br />
+            The colors of the icons were modified to fit our brand.
+          </div>
+        </footer>
       </div>
     </div>
+    <div id="tray">
+      <div id="signup-form" class="container bg-custom-dark p-4 ">
+        <div class="form-heading">Sign Up</div>
+        <div class="alert custom-alert animated my-0 p-1" id="signup-alert" role="alert"></div>
+        <div class="form-group">
+          <label for="signup-name">Name</label>
+          <input
+            type="text"
+            class="form-control animated"
+            id="signup-name"
+            aria-describedby="nameHelp"
+          />
+          <small id="nameHelp" class="form-text text-muted"
+            >Your user name must be unique, between 4 and 16 characters, and awesome.</small
+          >
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <input type="email" class="form-control animated" id="signup-email" />
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <input
+            type="password"
+            class="form-control animated"
+            id="signup-password"
+            aria-describedby="passwordHelp"
+          />
+          <small id="nameHelp" class="form-text text-muted"
+            >Passwords must be at least 6 characters long</small
+          >
+        </div>
+        <button id="signup-submit" type="submit" class="btn btn-custom-light">Submit</button>
+      </div>
+      <div id="login-form" class="container bg-custom-dark p-4 ">
+        <div class="form-heading">Login</div>
+        <div class="alert custom-alert animated my-0 p-1" id="login-alert" role="alert"></div>
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" class="form-control animated" id="login-email" />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" class="form-control animated" id="login-password" />
+        </div>
+        <button id="login-submit" type="submit" class="btn btn-custom-light">Submit</button>
+      </div>
+      <div id="hive-create-form" class="container bg-custom-dark p-4 ">
+        <p>
+          Thanks for signing up! Now it's time to make a hive. Your hive is your central hub where
+          you can manage other members of your household, make and manage chores, and check in on
+          your hive members' progress throughout the day. To create a hive, enter a name in the
+          field below.
+        </p>
+        <p>
+          Joining an exisiting hive? Just enter the hive name in the field below and we'll take care
+          of the rest.
+        </p>
+        <div class="form-heading">Make or Join a Hive</div>
+        <div class="alert custom-alert animated my-0 p1" id="hive-signup-alert" role="alert"></div>
+        <div class="form-group">
+          <label for="hive-create-name">Hive Name</label>
+          <input type="text" class="form-control animated" id="hive-create-name" />
+        </div>
+        <button id="hive-create-submit" type="submit" class="btn btn-custom-light">Submit</button>
+      </div>
+      <div id="hive-view" class="container-fluid">
+        <div id="hive-name" class="view-title"></div>
+        <div class="top-nav bg-custom-dark my-2 p-1">
+          <div class="top-nav-link">Invite</div>
+          <div class="top-nav-link">New Chore</div>
+          <div class="top-nav-link">Notify Hive</div>
+        </div>
+        <div class="table-title">Hive Members</div>
+        <table class="table bg-custom-dark my-1">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Role</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="user-table-body"></tbody>
+        </table>
+        <div class="table-title">Hive Chores</div>
+        <table class="table bg-custom-dark my-1">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Assigned To</th>
+              <th scope="col">Description</th>
+              <th scope="col">Frequency</th>
+              <th scope="col">Scheduled On</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="chore-table-body"></tbody>
+        </table>
+      </div>
+      <div id="profile-view" class="container-fluid">
+        <div class="view-title">Profile</div>
+        <div class="alert custom-alert animated my-0 p-1" id="update-alert" role="alert"></div>
+        <div class="form-container">
+          <form class="form-check-inline">
+            <div class="form-group mb-2">
+              <label for="profile-name" class="sr-only">Name</label>
+              <input type="text" readonly class="form-control-plaintext" id="profile-name" value="" />
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="update-profile-name" class="sr-only">Update Name</label>
+              <input type="text" class="form-control" id="update-profile-name" placeholder="New Name"/>
+            </div>
+            <button id="update-profile-name-submit" type="submit" class="btn btn-custom-dark mb-2">Update Name</button>
+          </form> 
+          <div class="hr-yellow my-2"></div>
+          <form class="form-check-inline">
+            <div class="form-group mb-2">
+              <label for="profile-email" class="sr-only">Email</label>
+              <input type="text" readonly class="form-control-plaintext" id="profile-email" value="" />
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="update-profile-email" class="sr-only">Update Email</label>
+              <input type="email" class="form-control" id="update-profile-email"  placeholder="New Email"/>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="enter-profile-password" class="sr-only">Enter Password</label>
+              <input type="password" class="form-control" id="enter-profile-password" placeholder="Password"/>
+            </div>
+            <button id="update-profile-email-submit" type="submit" class="btn btn-custom-dark mb-2">Update Email</button>
+          </form>
+          <div class="hr-yellow my-2"></div>
+          <form class="form-check-inline">
+            <div class="form-group mb-2">
+              <label for="profile-password" class="sr-only">Password</label>
+              <input type="text" readonly class="form-control-plaintext" id="profile-password" value="Password" />
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="update-profile-password" class="sr-only">Update Password</label>
+              <input type="password" class="form-control" id="update-profile-password" placeholder="New Password"/>
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="confirm-profile-password" class="sr-only">Confirm Password</label>
+              <input type="password" class="form-control" id="confirm-profile-password" placeholder="Confirm Password"/>
+            </div>
+            <button id="update-profile-password-submit" type="submit" class="btn btn-custom-dark mb-2">Update Password</button>
+          </form>
+          <div class="hr-yellow my-2"></div>
+          <form class="form-check-inline">
+            <div class="form-group mb-2">
+              <label for="profile-hive" class="sr-only">Hive</label>
+              <input type="text" readonly class="form-control-plaintext" id="profile-hive" value="" />
 
-    <div id="parent" class="container"></div>
-
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="update-profile-hive" class="sr-only">Update Hive</label>
+              <input type="hive" class="form-control" id="update-profile-hive" aria-describedby="hiveHelp" placeholder="New Hive Name"/>
+              <small id="hiveHelp" class="form-text text-muted">You will lose all of your chores when you make a new hive.</small>
+            </div>
+            <button id="update-profile-hive-submit" type="submit" class="btn btn-custom-dark mb-2">Update Hive</button>
+          </form>
+        </div>
+      </div>
+      <div id="about-view" class="container-fluid bg-custom-dark p-2">
+        <div class="view-title">About the Busy Bee Team</div>
+        <div class="container blurb">
+          
+          <p class="lead">We developed this site to address a gap in the to-do list market. 
+            Our site combines the essential properties of existing to-do list apps with the 
+            connectivity of social media platforms and the power of business work management 
+            systems. Our application is designed with the user experience in mind. With minimal 
+            setup time (less than 5 minutes) and responsive design, users can bring their hive 
+            with them wherever they go and focus on getting things done.</p>
+          
+          <p>
+            Check out our documention on <a href="https://www.github.com/ejhalpin/Project2" target="_blank">GitHub</a>
+          </p>
+          <p>Out team came together in a coding bootcamp sponsored by UNC Chapel Hill. This 
+              site was developed to appease the coding gods and to fulfill coursework requirements.</p>
+        </div>
+      </div>
+      <div id="contact-view" class="container-fluid bg-custom-dark p-4">
+          <div class="form-heading">Contact Us</div>
+          <div class="alert custom-alert animated my-0 p-1" id="contact-alert" role="alert"></div>
+          <div class="form-group">
+            <label for="contact-name">Name</label>
+            <input
+              type="text"
+              class="form-control animated"
+              id="contact-name"
+              aria-describedby="nameHelp"
+            />
+          </div>
+          <div class="form-group">
+            <label for="contact-email">Email</label>
+            <input type="email" class="form-control animated" id="contact-email" />
+          </div>
+          <div class="form-group">
+            <label for="contact-message">Message</label>
+            <textarea class="message animated" id="contact-message"></textarea>
+          </div>
+          <button id="contact-submit" type="submit" class="btn btn-custom-light">Submit</button>
+      </div>
+      <div id="community-view" class="container-fluid bg-custom-dark p4">
+        <div class="view-title">Busy Bee Community</div>
+        <p class="lead">Our community forum will allow users to generate posts and 
+          replies for nearly any subject related to home maintenance and repair. 
+          We will have functionality to filter posts by city, author, and subject 
+          matter as well as a site-level search bar.</p>
+        <img src="/img/beehive.gif" class="rounded img-thumbnail mx-auto d-block" alt="beehive gif" >
+        <p class="lead">Our community section is still in the making. We'll notify our users when this 
+          portion of the site is released. In the meantime, please enjoy the site!</p>
+      </div>
+    </div>
+    <div id="task-view" >
+      <div class="view-title">Your Tasks</div>
+      <div class="row wrap">
+      <div class="card set-width">
+        <div class="card-body">
+          <h5 class="card-title">
+            <span>Today's Tasks</span>
+            <button class="btn btn-custom-dark btn-small toggle-show-completed" data-target="tasks">Hide Completed</button>
+          </h5>
+          <ul id="today-chores" class="list-group list-group-flush">
+          </ul>
+        </div>
+      </div>
+      <div class="card set-width">
+          <div class="card-body">
+            <h5 class="card-title">
+              <span>To-Do</span>
+              <button class="btn btn-custom-dark btn-small toggle-show-completed" data-target="to-do">Hide Completed</button>
+            </h5>
+            <ul id="to-do" class="list-group list-group-flush">
+            </ul>
+          </div>
+        </div> 
+      </div> 
+    </div>
     <!-- New Chore / Update Chore Modal -->
     <div
       class="modal fade"
@@ -164,6 +384,7 @@
               <div class="form-group">
                 <label for="chore-frequency">Frequency</label>
                 <select class="form-control" id="chore-frequency">
+                  <option>Once</option>
                   <option selected>Daily</option>
                   <option>Weekly</option>
                   <option>Monthly</option>
@@ -196,16 +417,55 @@
         </div>
       </div>
     </div>
-    <div class="footer-margin">
-      <footer class="bottom text-center">
-        <p id="teamName" style="text-align: center; margin-top: 20px">
-          &copy; Eugene Halpin &ensp;| &ensp; Wendy Chen &ensp;| &ensp; Kelvin Tran
-        </p>
-      </footer>
+    <!-- Assign Hive Queen Modal -->
+    <div
+      class="modal fade"
+      id="queen-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="chore-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="chore-modal-title">Name A New Queen</h5>
+            <button type="button" class="close chore-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="new-queen">New Queen</label>
+                <select class="form-control" id="new-queen-name">
+                  
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary new-queen-close" data-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-type="create"
+              data-dbID=""
+              id="new-queen-submit"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
-  <script src="assets/js/auth.js"></script>
-  <script src="assets/js/calendar.js"></script>
-  <script src="assets/js/chore.js"></script>
-  <script src="assets/js/wendy.js"></script>
+  <script src="js/nav-logic.js"></script>
+  <script src="js/root-logic.js"></script>
+  <script src="js/form-logic.js"></script>
+  <script src="js/view-logic.js"></script>
+  <script src="js/chore.js"></script>
+  <script src="js/calendar.js"></script>
 </html>

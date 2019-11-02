@@ -42,66 +42,24 @@ $("#chore-submit").on("click", function(event) {
     return a - b;
   });
 
-  var choreId = $("#chore-selector2").val();
-  console.log(choreId);
-  if (!choreId) {
-    choreId = $(this).attr("data-dbID");
-  }
-  var queryURL = "/api/chores/" + choreId;
   var choreObj = {
     name: $("#chore-title")
       .val()
       .trim(),
-    details: $("#chore-details")
+    description: $("#chore-details")
       .val()
       .trim(),
     frequency: $("#chore-frequency").val(),
-    assignedWhen: days.join(","),
+    scheduledOn: days.join(","),
     assignedTo: $("#chore-assigned-to").val(),
-    HouseholdId: session.HouseholdId
+    HiveId: hive.id
   };
 
-  console.log(choreObj.assignedWhen);
-  if ($(this).attr("data-type") === "create" && choreObj.name !== "") {
-    $.post("/api/chore", choreObj, response => {
-      if (response.status !== 200) {
-        console.log(response.reason);
-      } else {
-        var intermediate = $("<p>Your chore creation was successful.</p>");
-        $(".chore-mode").prepend(intermediate);
-        location.reload();
-        setTimeout(function() {
-          intermediate.remove();
-        }, 3000);
-      }
-      $("#all-icon").trigger("click");
-    });
-  } else {
-    if (choreObj.name === "") {
-      choreObj = {
-        details: $("#chore-details")
-          .val()
-          .trim(),
-        frequency: $("#chore-frequency").val(),
-        assignedWhen: days.join(","),
-        assignedTo: $("#chore-assigned-to").val(),
-        HouseholdId: session.HouseholdId
-      };
-    }
-    $.ajax({ url: queryURL, method: "PUT", data: choreObj }).then(function(response) {
-      console.log("test response:" + response);
-      if (response.status !== 200) {
-        console.log(response.reason);
-      } else {
-        var intermediate = $("<p>Your chore edit was successful.</p>");
-        $(".chore-mode").prepend(intermediate);
-        location.reload();
-        setTimeout(function() {
-          intermediate.remove();
-        }, 3000);
-      }
-    });
-  }
+  $.post("/api/chore", choreObj, res => {
+    hive = res;
+    buildHive();
+  });
+
   $(".chore-close").trigger("click");
 });
 
@@ -299,18 +257,5 @@ function buildTinyWeekView(now) {
 }
 
 $(document).on("click", ".chore-close", function() {
-  $(".special-container").empty();
-  houseDisplay();
-  choreListDelete();
-  choreEdit();
-  editMode = undefined;
-  $("#editor").html("Edit Chore");
-  $("#edit-group").hide();
-  $("#chore-modal-title").html("Create New Chore");
-  $("#chore-title").val("");
-  $("#chore-details").val("");
-  $("#chore-frequency").val("Daily");
-  $("#chore-assigned-to").empty();
-  $("#chore-submit").attr("data-dbID", "0");
-  $(".tiny-cal").empty();
+  buildHive();
 });

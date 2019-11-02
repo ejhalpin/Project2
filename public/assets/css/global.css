@@ -1,117 +1,132 @@
-.navbar-main {
-  background-color: #0a0a0a;
-  color: #f8f9fa;
-}
-
-.brand {
-  font-family: "Handlee", cursive;
-  color: #febc14;
-  font-size: 2rem;
-}
-
-.brand-text {
-  color: #fafafa;
-  text-shadow: 1px 1px 1px #febc14, -1px 1px 1px #febc14, 1px -1px 1px #febc14,
-    -1px -1px 1px #febc14;
-  font-size: 2rem;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  color: inherit;
-  opacity: 0.8;
-}
-
-.view-nav {
-  width: 100%;
-  /* background-color: #f7d00e; */
-  color: #0a0a0a;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.icon {
-  font-size: 1.5rem;
-}
-
-.full-width {
-  width: 100%;
-  padding: 0;
-}
-
-.title-row {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 5px 10px;
-  font-size: 1.5rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
 html,
 body {
   height: 100%;
 }
 
 body {
-  background-image: url("../img/pencils.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   display: flex;
   flex-direction: column;
+}
+
+.root {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+#transition-scene {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 20;
+  background-color: white;
+  opacity: 0.8;
+}
+
+#main-scene {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  background-color: transparent;
 }
 
 #parent {
   flex: 1 0 auto;
+  background-color: #f0efd1;
+  margin-top: 55px;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
-.nav-item {
-  padding: 0 10px;
+.bg-custom-dark {
+  background-color: #1b1b1b;
+  color: #f0efd1;
 }
 
-.to-do {
-  background-color: #0a0a0a;
-  width: 100%;
+.bg-custom-light {
+  background-color: #f0efd1;
+  color: #1b1b1b;
+}
+
+.shadow {
+  text-shadow: 0px 2px #000;
+}
+
+.flex-col {
   display: flex;
   flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.align-center {
   align-items: center;
 }
 
-.to-do-item {
-  width: 75%;
-  border-radius: 0 5px 5px 0;
-}
-
-.btn-dark {
-  background-color: #0a0a0a;
-  color: #f8f9fa;
-}
-
-.body-center {
-  align-items: center;
+.justify-center {
   justify-content: center;
 }
 
-.signup-card {
-  width: content;
-  max-width: 90%;
-  padding: 10px;
+.wrap {
+  flex-wrap: wrap;
 }
 
-.strikethrough {
-  text-decoration: line-through;
+.hr-yellow {
+  width: 100%;
+  height: 2px;
+  background-image: linear-gradient(
+    to left,
+    rgba(0, 0, 0, 0),
+    10%,
+    #febc14 50%,
+    90%,
+    rgba(0, 0, 0, 0)
+  );
 }
 
-.nav-item {
-  padding: 0 10px;
+#tray {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: #f0efd1;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+  color: #febc14;
+}
+
+a:focus {
+  outline-color: #febc14;
+}
+
+.view-title {
+  width: 100%;
+  text-align: center;
+  height: max-content;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px #000;
+  color: #febc14;
+  margin-bottom: 0.625rem;
+}
+
+.table-title {
+  width: 100%;
+  text-align: center;
+  height: max-content;
+  font-size: 1rem;
+  text-shadow: 1px 1px #000;
+  color: #febc14;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }

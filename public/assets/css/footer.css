@@ -1,0 +1,21 @@
+footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1b1b1b;
+  color: #f0efd1;
+}
+
+.contributors {
+  font-size: 1.2rem;
+  padding: 10px 0;
+}
+
+.attribution {
+  font-size: 0.6rem;
+  text-align: center;
+}

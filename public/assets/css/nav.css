@@ -1,0 +1,148 @@
+.nav {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hex {
+  position: absolute;
+  background-color: black;
+  width: 85px;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  /* -webkit-clip-path: polygon(78% 0, 100% 49%, 84% 100%, 16% 100%, 0 51%, 25% 0); */
+  clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0);
+}
+
+#view-nav-1 {
+  transform: translate(0, -80px);
+  background-image: url("../img/profile-icon.png");
+  background-position: center;
+  background-size: contain;
+}
+#view-nav-2 {
+  transform: translate(70px, -40px);
+  background-image: url("../img/task-icon.png");
+  background-position: center;
+  background-size: contain;
+}
+#view-nav-3 {
+  transform: translate(70px, 40px);
+  background-image: url("../img/community-icon.png");
+  background-position: center;
+  background-size: contain;
+}
+#view-nav-4 {
+  transform: translate(0, 80px);
+  background-image: url("../img/about-icon.png");
+  background-position: center;
+  background-size: contain;
+}
+#view-nav-5 {
+  transform: translate(-70px, 40px);
+  background-image: url("../img/feedback-icon.png");
+  background-position: center;
+  background-size: contain;
+}
+#view-nav-6 {
+  transform: translate(-70px, -40px);
+  background-image: url("../img/hive-icon.png");
+  background-position: center;
+  background-size: contain;
+}
+#view-nav-center {
+  width: 100px;
+  height: 100px;
+  color: black;
+  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#nav-toggle {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  background-color: transparent;
+  margin-left: 10px;
+  background-image: url("../img/menu.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.animate-rotate {
+  transition: transform 1s;
+}
+.rotate {
+  transform: rotate(360deg);
+}
+
+.nav-animate {
+  transition: transform 1s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.back {
+  z-index: 10;
+}
+
+.front {
+  z-index: 30;
+}
+
+#loading {
+  width: 300px;
+  height: 300px;
+  background-image: url("../img/timer.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.top-nav {
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+
+.top-nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: 0.2rem;
+  background-color: transparent;
+  text-shadow: 1px 1px #000;
+  transition: background-color, 0.5s;
+}
+
+.top-nav-link:hover {
+  background-color: #febc14;
+}
