@@ -182,6 +182,7 @@
           <div class="top-nav-link">Notify Hive</div>
         </div>
         <div class="table-title">Hive Members</div>
+        <div class="table-responsive">
         <table class="table bg-custom-dark my-1">
           <thead>
             <tr>
@@ -194,7 +195,9 @@
           </thead>
           <tbody id="user-table-body"></tbody>
         </table>
+      </div>
         <div class="table-title">Hive Chores</div>
+        <div class="table-responsive">
         <table class="table bg-custom-dark my-1">
           <thead>
             <tr>
@@ -209,6 +212,7 @@
           </thead>
           <tbody id="chore-table-body"></tbody>
         </table>
+      </div>
       </div>
       <div id="profile-view" class="container-fluid">
         <div class="view-title">Profile</div>
@@ -456,6 +460,88 @@
               id="new-queen-submit"
             >
               Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- invite modal -->
+    <div
+      class="modal fade"
+      id="invite-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="chore-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="invite-modal-title">Invite</h5>
+            <button type="button" class="close chore-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="invite-form">
+              <div class="form-group">
+                <label for="invite-email">Send An Email Invitiation To:</label>
+                <input type="email" class="form-control" id="invite-email"/>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary new-queen-close" data-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-type="create"
+              id="submit-invitation"
+            >
+              Send Invitation
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- notify modal -->
+    <div
+      class="modal fade"
+      id="notify-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="chore-modal"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notify-modal-title">Notify Your Hive</h5>
+            <button type="button" class="close chore-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="notify-form">
+              <div class="form-group">
+                <label for="notify-message">Send A Message To Your Hive</label>
+                <textarea class="message" id="notify-message"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary new-queen-close" data-dismiss="modal">
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-type="create"
+              id="submit-notify"
+            >
+              Send Invitation
             </button>
           </div>
         </div>

@@ -130,3 +130,17 @@ a:focus {
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
+
+#recovery-parent {
+  flex: 1 0 auto;
+  background-color: #f0efd1;
+  margin-top: 55px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 570px) {
+  .display-4 {
+    font-size: 2.5rem;
+  }
+}

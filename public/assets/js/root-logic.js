@@ -14,6 +14,7 @@ $(document).ready(() => {
   hive = JSON.parse(sessionStorage.getItem("hive"));
   if (user && hive) {
     loadContent("Tasks");
+    $("#nav-logout").text("logout");
   }
 });
 

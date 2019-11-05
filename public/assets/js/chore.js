@@ -57,6 +57,8 @@ $("#chore-submit").on("click", function(event) {
 
   $.post("/api/chore", choreObj, res => {
     hive = res;
+    console.log(hive);
+    sessionStorage.setItem("hive", JSON.stringify(hive));
     buildHive();
   });
 

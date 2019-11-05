@@ -25,5 +25,13 @@ module.exports = {
         }
       });
     }
+  },
+
+  confirmAccount: (req, res) => {
+    db.User.findOne({ where: { email: req.body.email } })
+      .then(account => {
+        res.json(account);
+      })
+      .catch(err => res.json(err));
   }
 };

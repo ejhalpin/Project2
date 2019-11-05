@@ -73,13 +73,56 @@ var showCompletedToDo = true;
 let buildTask = () => {
   $("#today-chores").empty();
   $("#to-do").empty();
+  console.log(hive);
   var chores = hive.Chores.filter(chore => chore.assignedTo === user.name);
-  var todayChores = chores.filter(chore => chore.frequency !== "Once");
+  var todayChores = chores.filter(chore => {
+    if (chore.frequency === "Daily") {
+      return true;
+    }
+    if (chore.frequency === "Weekly") {
+      console.log(chore);
+      var dayOfWeek = moment()
+        .day()
+        .toString();
+      var assignedDays = chore.scheduledOn.split(",");
+      if (assignedDays.includes(dayOfWeek)) {
+        return true;
+      }
+    }
+    if (chore.frequency === "Monthly") {
+      var date = moment()
+        .date()
+        .toString();
+      var assignedDates = chore.scheduledOn.split(",");
+      if (assignedDates.includes(date)) {
+        return true;
+      }
+    }
+    if (chore.frequency === "Yearly") {
+      var assignedCalendarDays = chore.scheduledOn.split(",");
+      var calendarDay = moment()
+        .dayOfYear()
+        .toString();
+      if (assignedCalendarDays.includes(calendarDay)) {
+        return true;
+      }
+    }
+  });
   var todoTasks = chores.filter(chore => chore.frequency === "Once");
-  var now = moment();
-  console.log(now.toString());
 
   todayChores.forEach(chore => {
+    var today = moment();
+    if (today.isAfter(chore.markedCompleteAt, "day")) {
+      chore.isComplete = false;
+      $.ajax({
+        url: "/api/chore/" + chore.id,
+        method: "PUT",
+        data: { isComplete: false }
+      }).then(updatedHive => {
+        hive = updatedHive;
+        sessionStorage.setItem("hive", JSON.stringify(hive));
+      });
+    }
     if (chore.isComplete && !showCompletedTasks) {
       return;
     }

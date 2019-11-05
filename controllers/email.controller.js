@@ -95,5 +95,33 @@ module.exports = {
           .catch(err => res.json(err));
       })
       .catch(err => res.json(err));
+  },
+  notifyHive: (req, res) => {
+    var request = sg.emptyRequest({
+      method: "POST",
+      path: "/v3/mail/send",
+      body: {
+        personalizations: [
+          {
+            to: req.body.hiveList,
+            subject: "A message from your Hive"
+          }
+        ],
+        from: {
+          email: "no-reply@busy-bee.com"
+        },
+        content: [
+          {
+            type: "text/html",
+            value: req.body.message
+          }
+        ]
+      }
+    });
+    sg.API(request)
+      .then(resInfo => {
+        res.json(resInfo);
+      })
+      .catch(err => res.json(err));
   }
 };

@@ -4,6 +4,7 @@ const authController = require("../../controllers/auth.contoller");
 router
   .route("/")
   .post(authController.getToken)
-  .put(authController.compareToken);
+  .put(authController.compareToken)
+  .get(authController.confirmAccount);
 
 module.exports = router;

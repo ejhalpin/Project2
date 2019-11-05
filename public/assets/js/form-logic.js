@@ -401,6 +401,12 @@ $(".top-nav-link").on("click", function() {
       $("#chore-modal-title").text("Create A New Chore");
       choreModal.modal("show");
       break;
+    case "Invite":
+      $("#invite-modal").modal("show");
+      break;
+    case "Notify Hive":
+      $("#notify-modal").modal("show");
+      break;
   }
 });
 
@@ -602,7 +608,7 @@ $(document).on("click", ".form-check-input", function() {
 function updateChore(id, state) {
   var markedCompleteAt = null;
   if (state) {
-    markedCompleteAt = moment().toString();
+    markedCompleteAt = moment().format();
     console.log(markedCompleteAt);
   }
   $.ajax({
@@ -634,4 +640,37 @@ $(".toggle-show-completed").on("click", function() {
     $(this).text("Hide Completed");
   }
   buildTask();
+});
+
+$("#submit-invitation").on("click", function() {
+  var email = $("#invite-email")
+    .val()
+    .trim();
+  $.post("/api/email", {
+    email,
+    subject: "You've been invited to join " + user.name + " 's hive at Busy Bee!",
+    message: `${user.name} has invited you to join their hive at <a href="https://busy-bee-home.herokuapp.com/>Busy Bee</a>! 
+    To join, simply visit the busy bee site and sign up. When prompted, enter <h3>${hive.name}</h3> in the hive name field.<br>
+    Already have an account at Busy Bee? You can swtich hives from your profile!`
+  }).then(res => {
+    console.log(res);
+    $("#invite-email").val("");
+    $("#invite-modal").modal("hide");
+  });
+});
+
+$("#submit-notify").on("click", function() {
+  var message = $("#notify-message")
+    .val()
+    .trim();
+  var hiveList = [];
+  hive.Users.forEach(user => {
+    hiveList.push({ email: user.email });
+  });
+
+  $.post("/api/email/notify", { message, hiveList }).then(res => {
+    console.log(res);
+    $("#notify-message").val("");
+    $("#notify-modal").modal("hide");
+  });
 });
