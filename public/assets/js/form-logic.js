@@ -649,7 +649,7 @@ $("#submit-invitation").on("click", function() {
   $.post("/api/email", {
     email,
     subject: "You've been invited to join " + user.name + " 's hive at Busy Bee!",
-    message: `${user.name} has invited you to join their hive at <a href="https://busy-bee-home.herokuapp.com/>Busy Bee</a>! 
+    message: `${user.name} has invited you to join their hive at <a href="https://busy-bee-home.herokuapp.com/">Busy Bee</a>! 
     To join, simply visit the busy bee site and sign up. When prompted, enter <h3>${hive.name}</h3> in the hive name field.<br>
     Already have an account at Busy Bee? You can swtich hives from your profile!`
   }).then(res => {
