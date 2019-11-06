@@ -54,14 +54,35 @@ $("#chore-submit").on("click", function(event) {
     assignedTo: $("#chore-assigned-to").val(),
     HiveId: hive.id
   };
-
-  $.post("/api/chore", choreObj, res => {
-    hive = res;
-    console.log(hive);
-    sessionStorage.setItem("hive", JSON.stringify(hive));
-    buildHive();
-  });
-
+  switch ($(this).attr("data-type")) {
+    case "create":
+      $.post("/api/chore", choreObj, res => {
+        hive = res;
+        console.log(hive);
+        sessionStorage.setItem("hive", JSON.stringify(hive));
+        buildHive();
+      });
+      break;
+    case "edit":
+      $.ajax({
+        url: "/api/chore/" + $(this).attr("data-dbID"),
+        method: "PUT",
+        data: choreObj
+      }).then(res => {
+        hive = res;
+        sessionStorage.setItem("hive", JSON.stringify(hive));
+        buildHive();
+      });
+      break;
+  }
+  $("#chore-modal-title").text("Create A New Chore");
+  $("#chore-title").val("");
+  $("#chore-details").val("");
+  $("#chore-frequency").val("Daily");
+  $(".tiny-cal").empty();
+  $("#chore-submit")
+    .attr("data-dbID", "")
+    .attr("data-type", "create");
   $(".chore-close").trigger("click");
 });
 
@@ -131,7 +152,10 @@ $(document).on("click", ".tiny-cal-year-td", function() {
   $(this).toggleClass("td-selected");
 });
 
-function buildTinyYearView(now) {
+function buildTinyYearView(now, selected = []) {
+  selected.forEach(day => {
+    daysInYear[day] = true;
+  });
   $(".tiny-cal").empty();
   var currentMonth = now.month();
   //build the shifters and label
@@ -143,10 +167,10 @@ function buildTinyYearView(now) {
   <button type="button" data-month="${currentMonth}" class="btn btn-info shift-month" id="right">&gt;</button>
 </div>`
     )
-    .append(buildTinyMonthView(now));
+    .append(buildTinyMonthView(now, selected));
 }
 
-function buildTinyMonthView(now) {
+function buildTinyMonthView(now, selected = []) {
   var month = now.month();
   var monthView = $("<table>").addClass("table table-bordered table-dark");
 
@@ -208,7 +232,7 @@ function buildTinyMonthView(now) {
         .attr("data-selected", 0)
         .attr("data-dayOfYear", dayOfYear)
         .append("<div class='text-center'>" + day + "</div>");
-      if (daysInYear[dayOfYear]) {
+      if (daysInYear[dayOfYear] || selected.includes(day)) {
         td.attr("data-selected", 1).toggleClass("td-selected");
       }
       weekRow.append(td);
@@ -222,7 +246,7 @@ function buildTinyMonthView(now) {
   return monthView;
 }
 
-function buildTinyWeekView(now) {
+function buildTinyWeekView(now, selected = []) {
   var weekView = $("<table>").addClass("table table-bordered table-dark");
   //add the days of the week to the header row
   var head = $("<thead>");
@@ -248,8 +272,13 @@ function buildTinyWeekView(now) {
     var td = $("<td>")
       .addClass("tiny-cal-td")
       .attr("data-day", index)
-      .attr("data-selected", 0)
       .append("<div class='day left'>" + day + "</div>");
+    if (selected.includes(index)) {
+      td.attr("data-selected", 1);
+      td.addClass("td-selected");
+    } else {
+      td.attr("data-selected", 0);
+    }
     dayRow.append(td);
   });
   tbody.append(dayRow);
@@ -257,7 +286,3 @@ function buildTinyWeekView(now) {
   weekView.append(tbody);
   return weekView;
 }
-
-$(document).on("click", ".chore-close", function() {
-  buildHive();
-});

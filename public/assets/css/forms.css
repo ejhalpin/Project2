@@ -108,3 +108,22 @@
 .row {
   justify-content: center;
 }
+
+.list-group-item {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.chore-expand {
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: rotate, 0.5s;
+}
+
+.chore-desc {
+  width: 90%;
+  font-size: 0.8rem;
+  color: #1b1b1b;
+  box-sizing: border-box;
+}

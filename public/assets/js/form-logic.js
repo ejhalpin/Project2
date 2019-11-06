@@ -616,7 +616,7 @@ function updateChore(id, state) {
     method: "PUT",
     data: { isComplete: state, markedCompleteAt }
   }).then(updatedHive => {
-    console.log(updatedHive);
+    //console.log(updatedHive);
     hive = updatedHive;
     sessionStorage.setItem("hive", JSON.stringify(hive));
     buildTask();
@@ -673,4 +673,74 @@ $("#submit-notify").on("click", function() {
     $("#notify-message").val("");
     $("#notify-modal").modal("hide");
   });
+});
+
+$(document).on("click", ".edit-chore", function() {
+  //get the chore data
+  var index = parseInt($(this).attr("data-id"));
+  var chore = hive.Chores[index];
+  $("#chore-modal-title").text("Edit Chore");
+  $("#chore-title").val(chore.name);
+  $("#chore-details").val(chore.description);
+  $("#chore-frequency").val(chore.frequency);
+  $(".tiny-cal").empty();
+  var selected = [];
+  var assignedOn = chore.scheduledOn.split(",");
+  assignedOn.forEach(val => {
+    selected.push(parseInt(val));
+  });
+  switch (chore.frequency) {
+    case "Weekly":
+      $(".tiny-cal").append(buildTinyWeekView(moment(), selected));
+      break;
+    case "Monthly":
+      $(".tiny-cal").append(buildTinyMonthView(moment(), selected));
+      break;
+    case "Yearly":
+      daysInYear.fill(false);
+      $(".tiny-cal").append(buildTinyYearView(moment(), selected));
+  }
+  $("#chore-assigned-to").empty();
+  hive.Users.forEach(user => {
+    $("#chore-assigned-to").append(
+      `<option ${user.name === chore.assignedTo ? "selected" : ""}>${user.name}</option>`
+    );
+  });
+  $("#chore-submit")
+    .attr("data-dbID", chore.id)
+    .attr("data-type", "edit");
+  $("#chore-modal").modal("show");
+});
+
+$(document).on("click", ".chore-expand", function() {
+  var state = parseInt($(this).attr("data-state"));
+  var id = parseInt($(this).attr("data-id"));
+  if (state) {
+    //get rid of the description div
+    $(this)
+      .css("transform", "rotate(0deg)")
+      .attr("data-state", "0");
+    $("#chore-desc-" + id).empty();
+  } else {
+    var chore = hive.Chores.filter(chore => chore.id === id);
+    //show the description div
+    $(this)
+      .css("transform", "rotate(180deg)")
+      .attr("data-state", "1");
+    $("#chore-desc-" + id).text(chore[0].description);
+  }
+});
+
+$("#delete-completed-tasks").on("click", async function() {
+  var toDelete = hive.Chores.filter(chore => chore.frequency === "Once" && chore.isComplete);
+  for (var i = 0; i < toDelete.length; i++) {
+    await $.ajax({
+      url: "/api/chore/" + toDelete[i].id,
+      method: "DELETE",
+      data: toDelete[i]
+    });
+  }
+  hive = await $.get("/api/hive/" + hive.id);
+  sessionStorage.setItem("hive", JSON.stringify(hive));
+  buildTask();
 });

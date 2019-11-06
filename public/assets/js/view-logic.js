@@ -38,7 +38,7 @@ let buildHive = () => {
     }
     row.appendTo(userTable);
   });
-  hive.Chores.forEach(chore => {
+  hive.Chores.forEach((chore, index) => {
     var row = $("<tr>");
     row.append(`<td>${chore.id}</td>`);
     row.append(`<td>${chore.name}</button></td>`);
@@ -49,7 +49,7 @@ let buildHive = () => {
     row.append(`<td>${chore.scheduledOn}</td>`);
 
     row.append(
-      `<td><div class="table-actions"><button class="edit-chore btn btn-custom-light p-1">Edit</button><button data-id="${chore.id}" class="rem-chore btn btn-custom-red p-1"><i class="fas fa-minus"></i></button></div></td>`
+      `<td><div class="table-actions"><button class="edit-chore btn btn-custom-light p-1" data-id="${index}">Edit</button><button data-id="${chore.id}" class="rem-chore btn btn-custom-red p-1"><i class="fas fa-minus"></i></button></div></td>`
     );
     row.appendTo(choreTable);
   });
@@ -73,14 +73,12 @@ var showCompletedToDo = true;
 let buildTask = () => {
   $("#today-chores").empty();
   $("#to-do").empty();
-  console.log(hive);
   var chores = hive.Chores.filter(chore => chore.assignedTo === user.name);
   var todayChores = chores.filter(chore => {
     if (chore.frequency === "Daily") {
       return true;
     }
     if (chore.frequency === "Weekly") {
-      console.log(chore);
       var dayOfWeek = moment()
         .day()
         .toString();
@@ -135,6 +133,12 @@ let buildTask = () => {
     }" for="chore-item-${chore.id}" id="label-item-${chore.id}">
     ${chore.name}
     </label>
+    ${
+      chore.description.length > 0
+        ? `<div class="chore-expand" data-id="${chore.id}" data-state="0"><i class="fas fa-caret-down"></i></div><div class="chore-desc" id="chore-desc-${chore.id}"></div>`
+        : ""
+    }
+    
     </li>`);
   });
 
@@ -151,6 +155,11 @@ let buildTask = () => {
     }" for="chore-item-${chore.id}" id="label-item-${chore.id}">
     ${chore.name}
     </label>
+    ${
+      chore.description.length > 0
+        ? `<div class="chore-expand" data-id="${chore.id}" data-state="0"><i class="fas fa-caret-down"></i></div><div class="chore-desc" id="chore-desc-${chore.id}"></div>`
+        : ""
+    }
     </li>`);
   });
   taskView.detach().appendTo(parentDiv);
