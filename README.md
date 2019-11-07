@@ -10,7 +10,7 @@
 
 ## About the App
 
----
+## Busy-Bee is a home work management system where users can create recurring chores, assign those chores to members of their household, and receive a task list which contains chores that need to be completed on that day.
 
 ## How it works
 
@@ -30,7 +30,7 @@
   - Associations
     - hasMany -> Post
 
-- Household
+- Hive
 
   - Columns
     - id
@@ -71,14 +71,14 @@
 
 ## User Flow and Interaction
 
-1. `Authentication` is managed as a pass-by-token model, similar to Google Authentication. In this model, the user supplies an email and password which are then used to generate a random token for the user. This token is stored in the database along with the user email. Future logins require the same email/password combination for successful login. The password that the user supplies is only visible
-   during transport from client to server in the initial exchange. The user token is visible if the user allows for session / permanent login. In such a case, the token is stored in the client browser for session or semi-permanent durations, depending on the user preference. When a user creates an account, they are emailed a verification link which contains a temporary token generated with a seed from the current date-time object. This temporary token expires after 24 hours. Following the link within the alloted timeframe will confirm the user email and allow the user access to write/edit permission on the post boards and allow the user to create/join a household. Users can also request a new verification link. Check out this nifty [flow diagram](images/auth-flow.png) to see the authentication processes.
+1. `Authentication` is managed as a pass-by-token model, similar to Google Authentication. In this model, the user supplies an email and password which are then used to generate an encryted token for the user. This token is stored in the database along with the user email. Future logins require the same email/password combination for successful login. The password that the user supplies is only visible
+   during transport from client to server in the initial exchange. Check out this nifty [flow diagram](images/auth-flow.png) to see the authentication processes.
 
 2.
 
 ## The RESTful API
 
-Our `express` server endeavors to return a status of `200 (OK)` for all CRUD operations, independent (_and in spite_) of server side errors. This places error handling firmly in the hands of the front end logic.
+Our `express` server endeavors to return a status of `200 (OK)` for all CRUD operations, independent (_and in spite_) of server side errors. This places error handling firmly in the hands of the front end logic. Any errors generated when CRUDding the database are captured and sent to the front end.
 
 ### Routes
 
@@ -88,8 +88,21 @@ Server routing is handled through three separate routing scripts, namely:
 2. apiRoutes.js
 3. authRoutes.js
 
-**htmlRoutes**
+**htmlRoutes** are used to serve up base html page, `index.html`.
 
-**apiRoutes** handle data flow to and from the linked MySQL Database. These routes accept ajax verbs (get, post, put, delete) and carry out the corresponding operation on the database. Each api route will return a standardized object with keys [status, reason, data] to the client independent of the success or failure of the CRUD operation. If the operation encountered an error, that error will be sent back to the client machine with a global status of `200`, but the object status will be either `409` for invalid data or `500` for package errors.
+**apiRoutes** handle data flow to and from the linked MySQL Database. These routes accept ajax verbs (get, post, put, delete) and carry out the corresponding operation on the database. Each api route will return a JSON object to the client independent of the success or failure of the CRUD operation. If the operation encountered an error, that error will be sent back to the client machine with a global status of `200`. Within the api routes there are routes for each of the database models (`chore`, `hive`, and `user`) as well as routes that handle outgoing `email` communication and user `auth`entication.
 
-**authRoutes** operate exactly as the apiRoutes, but are meant to handle user authentication. The routes contain operations that require the `crypto, @sendgrid/mail, and moment` packages. These routes could easily be dovetailed with the apir routes, but have been defined in their own script file to reduce clutter.
+## Developer Note
+
+Significant changes have been made to the site, including a drastic change to the database structure and accomanying associations, the server routes and logic, and the overall code sturcture. In the most recent push, Eugene mreged changes to the front end that include both style and logic that deviate significantly from the original design. In addition, the structure of the code was changed to conform more closely with ORM and MVC sturctures.
+
+## Technology
+
+This application is a Full Stack Deploy with a Node back end and a custom UI powered by jQuery. Technology in this app includes:
+
+- Sendgrid
+- MomentJS
+- Bootstrap
+- MySQL
+- Sequelize
+- Express
